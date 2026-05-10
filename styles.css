@@ -311,6 +311,7 @@ ul { list-style: none; }
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   opacity: 0.7;
+  margin-bottom: 48px;
 }
 
 .hero__title {
@@ -320,7 +321,7 @@ ul { list-style: none; }
   line-height: 0.8;
   color: var(--tierra);
   margin-bottom: 24px;
-  margin-top: 48px;
+  margin-top: 0;
 }
 .hero__title em {
   font-style: italic;
