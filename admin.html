@@ -533,17 +533,17 @@
       const fileName = `evento-${id}-${Date.now()}.${ext}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('memorias').upload(fileName, file, { upsert: true });
+        .from('Memorias').upload(fileName, file, { upsert: true });
 
       if (uploadError) {
-        mostrarToast('Error: ' + (uploadError.message || JSON.stringify(uploadError)));
+        mostrarToast('Error al subir la foto.');
         console.error('Upload error:', uploadError);
         guardarMemoriaBtn.textContent = 'Guardar foto';
         guardarMemoriaBtn.classList.remove('uploading');
         return;
       }
 
-      const { data: urlData } = supabase.storage.from('memorias').getPublicUrl(fileName);
+      const { data: urlData } = supabase.storage.from('Memorias').getPublicUrl(fileName);
       await supabase.from('eventos').update({ foto_url: urlData.publicUrl }).eq('id', id);
 
       mostrarToast('✓ Foto guardada');
