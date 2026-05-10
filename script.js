@@ -83,7 +83,8 @@ async function cargarMemorias() {
     .select('*')
     .lt('fecha', hoy)
     .not('foto_url', 'is', null)
-    .order('fecha', { ascending: false });
+    .order('fecha', { ascending: false })
+    .limit(3);
 
   if (!data || data.length === 0) {
     grid.innerHTML = `<p style="color:var(--tierra-claro);text-align:center;grid-column:1/-1;padding:40px 0">Pronto compartiremos memorias de nuestros eventos. ¡Vuelve pronto!</p>`;
