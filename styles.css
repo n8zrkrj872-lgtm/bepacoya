@@ -1357,6 +1357,7 @@ ul { list-style: none; }
   .navbar__links a { font-size: 1.2rem; }
   .navbar__hamburger { display: flex; z-index: 101; position: relative; }
 
+  .hero { padding-bottom: 120px; }
   .hero__badges { flex-direction: column; align-items: center; }
 
   .services__grid { grid-template-columns: 1fr; }
