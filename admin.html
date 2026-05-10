@@ -313,7 +313,48 @@
       <div class="tab-panel" id="tab-memorias">
         <div class="admin-top">
           <h2>Memorias</h2>
-          <p style="font-size:0.85rem;color:var(--tierra-claro)">Agrega una foto para que aparezca en el sitio</p>
+          <p style="font-size:0.85rem;color:var(--tierra-claro)">Edita los detalles o agrega una foto</p>
+        </div>
+
+        <!-- Formulario editar memoria -->
+        <div class="evento-form" id="memoria-edit-form">
+          <h3 id="memoria-edit-title">Editar memoria</h3>
+          <input type="hidden" id="me-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Título</label>
+              <input type="text" id="me-titulo" />
+            </div>
+            <div class="form-group full">
+              <label>Descripción</label>
+              <textarea id="me-descripcion" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" id="me-fecha" />
+            </div>
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="text" id="me-hora" placeholder="Ej. 10:00 AM" />
+            </div>
+            <div class="form-group">
+              <label>Lugar</label>
+              <input type="text" id="me-lugar" />
+            </div>
+            <div class="form-group">
+              <label>Tipo</label>
+              <select id="me-tipo">
+                <option value="meditacion">Meditación</option>
+                <option value="especial">Taller especial</option>
+                <option value="taller">Taller</option>
+                <option value="retiro">Retiro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-memoria-edit-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-memoria-edit-btn">Guardar cambios</button>
+          </div>
         </div>
 
         <div class="evento-form" id="memoria-form">
@@ -517,6 +558,7 @@
         const accionesHtml = esMemorias
           ? `<div class="evento-acciones">
                ${!ev.foto_url ? '<span class="sin-foto-badge">Sin foto</span>' : ''}
+               <button class="btn btn--outline btn--sm" onclick="editarMemoria(${ev.id})">Editar</button>
                <button class="btn btn--outline btn--sm" onclick="abrirFotoForm(${ev.id}, '${ev.titulo.replace(/'/g,"\\'")}')">
                  ${ev.foto_url ? 'Cambiar foto' : 'Agregar foto'}
                </button>
@@ -566,6 +608,44 @@
       cargarProximos();
       cargarMemorias();
     };
+
+    // ── EDITAR MEMORIA ──
+    const memoriaEditForm       = document.getElementById('memoria-edit-form');
+    const cancelarMemoriaEditBtn = document.getElementById('cancelar-memoria-edit-btn');
+    const guardarMemoriaEditBtn  = document.getElementById('guardar-memoria-edit-btn');
+
+    window.editarMemoria = async id => {
+      const { data } = await supabase.from('eventos').select('*').eq('id', id).single();
+      document.getElementById('me-id').value          = data.id;
+      document.getElementById('me-titulo').value      = data.titulo;
+      document.getElementById('me-descripcion').value = data.descripcion || '';
+      document.getElementById('me-fecha').value       = data.fecha;
+      document.getElementById('me-hora').value        = data.hora || '';
+      document.getElementById('me-lugar').value       = data.lugar || '';
+      document.getElementById('me-tipo').value        = data.tipo || 'taller';
+      memoriaEditForm.classList.add('open');
+      memoriaEditForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    cancelarMemoriaEditBtn.addEventListener('click', () => {
+      memoriaEditForm.classList.remove('open');
+    });
+
+    guardarMemoriaEditBtn.addEventListener('click', async () => {
+      const id = document.getElementById('me-id').value;
+      const datos = {
+        titulo:      document.getElementById('me-titulo').value.trim(),
+        descripcion: document.getElementById('me-descripcion').value.trim(),
+        fecha:       document.getElementById('me-fecha').value,
+        hora:        document.getElementById('me-hora').value.trim(),
+        lugar:       document.getElementById('me-lugar').value.trim(),
+        tipo:        document.getElementById('me-tipo').value,
+      };
+      await supabase.from('eventos').update(datos).eq('id', id);
+      mostrarToast('✓ Memoria actualizada');
+      memoriaEditForm.classList.remove('open');
+      cargarMemorias();
+    });
 
     // ── FOTO FORM ──
     window.abrirFotoForm = (id, titulo) => {
