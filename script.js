@@ -219,7 +219,7 @@ const accessCodeEl = document.getElementById('access-code');
 const accessError  = document.getElementById('access-error');
 const liveGate     = document.getElementById('live-gate');
 const livePlayer   = document.getElementById('live-player');
-const liveIframe   = document.getElementById('live-iframe');
+const liveLink     = document.getElementById('live-link');
 const exitLive     = document.getElementById('exit-live');
 
 if (accessForm) {
@@ -232,7 +232,7 @@ if (accessForm) {
 
     const { data } = await supabase
       .from('clases_en_vivo')
-      .select('stream_url, activo, codigo')
+      .select('stream_url, activo, codigo, titulo')
       .eq('id', 1)
       .single();
 
@@ -241,9 +241,10 @@ if (accessForm) {
 
     if (data && data.activo && data.codigo === code && data.stream_url) {
       accessError.textContent = '';
+      document.getElementById('live-titulo').textContent = data.titulo || 'Clase en Vivo';
+      liveLink.href = data.stream_url;
       liveGate.hidden = true;
       livePlayer.hidden = false;
-      liveIframe.src = data.stream_url;
     } else if (!data || !data.activo) {
       accessError.textContent = 'No hay ninguna clase activa en este momento.';
       accessCodeEl.style.borderColor = '#e07070';
@@ -258,7 +259,6 @@ if (accessForm) {
 
 if (exitLive) {
   exitLive.addEventListener('click', () => {
-    liveIframe.src = '';
     livePlayer.hidden = true;
     liveGate.hidden = false;
     accessCodeEl.value = '';
