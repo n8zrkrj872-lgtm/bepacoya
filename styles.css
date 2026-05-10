@@ -329,7 +329,7 @@ ul { list-style: none; }
 }
 
 .hero__subtitle {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: var(--tierra-claro);
   line-height: 1.75;
   margin-bottom: 40px;
