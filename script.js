@@ -1,3 +1,74 @@
+// Supabase — cargar eventos
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabase = createClient(
+  'https://kzqtjzzpyhmzdlczsbnz.supabase.co',
+  'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z'
+);
+
+const TIPOS = {
+  meditacion: { label: 'Meditación',     clase: 'event-tag--meditacion' },
+  especial:   { label: 'Taller especial', clase: 'event-tag--especial' },
+  taller:     { label: 'Taller',          clase: 'event-tag--taller' },
+  retiro:     { label: 'Retiro',          clase: 'event-tag--retiro' },
+};
+
+async function cargarEventos() {
+  const grid = document.getElementById('events-grid');
+  if (!grid) return;
+
+  const { data } = await supabase
+    .from('eventos')
+    .select('*')
+    .eq('activo', true)
+    .order('fecha', { ascending: true });
+
+  if (!data || data.length === 0) {
+    grid.innerHTML = `<p style="color:var(--tierra-claro);text-align:center;grid-column:1/-1;padding:40px 0">Próximamente nuevos eventos. ¡Mantente al tanto!</p>`;
+    return;
+  }
+
+  grid.innerHTML = '';
+
+  data.forEach((ev, i) => {
+    const fecha = new Date(ev.fecha + 'T12:00:00');
+    const dia   = fecha.getDate();
+    const mes   = fecha.toLocaleString('es-MX', { month: 'short' });
+    const tipo  = TIPOS[ev.tipo] || { label: ev.tipo, clase: 'event-tag--taller' };
+    const featured = i === 0 ? 'event-card--featured' : '';
+    const btnClass = i === 0 ? 'btn--primary' : 'btn--outline';
+
+    const card = document.createElement('div');
+    card.className = `event-card ${featured}`;
+    card.innerHTML = `
+      <div class="event-card__date">
+        <span class="event-day">${dia}</span>
+        <span class="event-month">${mes}</span>
+      </div>
+      <div class="event-card__content">
+        <span class="event-tag ${tipo.clase}">${tipo.label}</span>
+        <h3>${ev.titulo}</h3>
+        ${ev.descripcion ? `<p>${ev.descripcion}</p>` : ''}
+        <div class="event-meta">
+          ${ev.hora   ? `<span>🕐 ${ev.hora}</span>` : ''}
+          ${ev.lugar  ? `<span>📍 ${ev.lugar}</span>` : ''}
+        </div>
+        <button class="btn ${btnClass} btn--sm event-rsvp" data-event="${ev.titulo}">Confirmar asistencia</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // RSVP buttons
+  grid.querySelectorAll('.event-rsvp').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.textContent = '✓ ¡Confirmado!';
+      btn.classList.add('confirmed');
+    });
+  });
+}
+
+cargarEventos();
+
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {

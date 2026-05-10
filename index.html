@@ -255,71 +255,8 @@
         <h2 class="section-title">Próximos Eventos</h2>
         <p class="section-subtitle">Actividades exclusivas para nuestra comunidad — talleres, retiros y sesiones especiales.</p>
       </div>
-      <div class="events__grid">
-        <div class="event-card event-card--featured">
-          <div class="event-card__date">
-            <span class="event-day">25</span>
-            <span class="event-month">May</span>
-          </div>
-          <div class="event-card__content">
-            <span class="event-tag event-tag--especial">Taller especial</span>
-            <h3>Taller de Yoga Oncológico: El cuerpo que sana</h3>
-            <p>Una sesión especial dedicada a quienes están en proceso de tratamiento o recuperación. Espacio seguro, compasivo y transformador.</p>
-            <div class="event-meta">
-              <span>🕙 10:00 AM</span>
-              <span>📍 Estudio Pacoya</span>
-            </div>
-            <button class="btn btn--primary btn--sm event-rsvp" data-event="Taller de Yoga Oncológico">Confirmar asistencia</button>
-          </div>
-        </div>
-        <div class="event-card">
-          <div class="event-card__date">
-            <span class="event-day">18</span>
-            <span class="event-month">May</span>
-          </div>
-          <div class="event-card__content">
-            <span class="event-tag event-tag--meditacion">Meditación</span>
-            <h3>Meditación grupal del atardecer</h3>
-            <p>Una sesión colectiva de meditación guiada para cerrar la semana con calma y gratitud.</p>
-            <div class="event-meta">
-              <span>🕕 6:00 PM</span>
-              <span>📍 Estudio Pacoya</span>
-            </div>
-            <button class="btn btn--outline btn--sm event-rsvp" data-event="Meditación grupal del atardecer">Confirmar asistencia</button>
-          </div>
-        </div>
-        <div class="event-card">
-          <div class="event-card__date">
-            <span class="event-day">01</span>
-            <span class="event-month">Jun</span>
-          </div>
-          <div class="event-card__content">
-            <span class="event-tag event-tag--taller">Taller</span>
-            <h3>Taller de respiración consciente</h3>
-            <p>Aprende técnicas de pranayama y respiración para llevar la calma a cada momento de tu vida.</p>
-            <div class="event-meta">
-              <span>🕙 9:00 AM</span>
-              <span>💻 En línea</span>
-            </div>
-            <button class="btn btn--outline btn--sm event-rsvp" data-event="Taller de respiración consciente">Confirmar asistencia</button>
-          </div>
-        </div>
-        <div class="event-card">
-          <div class="event-card__date">
-            <span class="event-day">14</span>
-            <span class="event-month">Jun</span>
-          </div>
-          <div class="event-card__content">
-            <span class="event-tag event-tag--retiro">Retiro</span>
-            <h3>Retiro de bienestar — Un día para ti</h3>
-            <p>Jornada completa de yoga, meditación, alimentación consciente y conexión con la comunidad. Cupos limitados.</p>
-            <div class="event-meta">
-              <span>🕗 7:00 AM – 6:00 PM</span>
-              <span>📍 Por confirmar</span>
-            </div>
-            <button class="btn btn--outline btn--sm event-rsvp" data-event="Retiro de bienestar">Confirmar asistencia</button>
-          </div>
-        </div>
+      <div class="events__grid" id="events-grid">
+        <div class="events-loading">Cargando eventos...</div>
       </div>
     </div>
   </section>
@@ -507,6 +444,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
