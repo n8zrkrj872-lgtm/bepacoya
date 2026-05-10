@@ -536,7 +536,8 @@
         .from('memorias').upload(fileName, file, { upsert: true });
 
       if (uploadError) {
-        mostrarToast('Error al subir la foto.');
+        mostrarToast('Error: ' + (uploadError.message || JSON.stringify(uploadError)));
+        console.error('Upload error:', uploadError);
         guardarMemoriaBtn.textContent = 'Guardar foto';
         guardarMemoriaBtn.classList.remove('uploading');
         return;
