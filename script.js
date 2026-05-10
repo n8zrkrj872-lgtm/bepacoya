@@ -17,10 +17,13 @@ async function cargarEventos() {
   const grid = document.getElementById('events-grid');
   if (!grid) return;
 
+  const hoy = new Date().toISOString().split('T')[0];
+
   const { data } = await supabase
     .from('eventos')
     .select('*')
     .eq('activo', true)
+    .gte('fecha', hoy)
     .order('fecha', { ascending: true });
 
   if (!data || data.length === 0) {
@@ -68,6 +71,50 @@ async function cargarEventos() {
 }
 
 cargarEventos();
+
+async function cargarMemorias() {
+  const grid = document.getElementById('memorias-grid');
+  if (!grid) return;
+
+  const hoy = new Date().toISOString().split('T')[0];
+
+  const { data } = await supabase
+    .from('eventos')
+    .select('*')
+    .lt('fecha', hoy)
+    .not('foto_url', 'is', null)
+    .order('fecha', { ascending: false });
+
+  if (!data || data.length === 0) {
+    grid.innerHTML = `<p style="color:var(--tierra-claro);text-align:center;grid-column:1/-1;padding:40px 0">Pronto compartiremos memorias de nuestros eventos. ¡Vuelve pronto!</p>`;
+    return;
+  }
+
+  grid.innerHTML = '';
+  data.forEach(ev => {
+    const fecha = new Date(ev.fecha + 'T12:00:00');
+    const dia   = fecha.getDate();
+    const mes   = fecha.toLocaleString('es-MX', { month: 'long' });
+    const año   = fecha.getFullYear();
+    const tipo  = TIPOS[ev.tipo] || { label: ev.tipo, clase: 'event-tag--taller' };
+
+    const card = document.createElement('div');
+    card.className = 'memoria-card';
+    card.innerHTML = `
+      <div class="memoria-card__img">
+        <img src="${ev.foto_url}" alt="${ev.titulo}" loading="lazy" />
+        <span class="event-tag ${tipo.clase} memoria-card__tag">${tipo.label}</span>
+      </div>
+      <div class="memoria-card__info">
+        <span class="memoria-card__date">${dia} de ${mes}, ${año}</span>
+        <h3>${ev.titulo}</h3>
+        ${ev.descripcion ? `<p>${ev.descripcion}</p>` : ''}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+cargarMemorias();
 
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');

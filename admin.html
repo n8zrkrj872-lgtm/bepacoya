@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pacoya Admin — Eventos</title>
+  <title>Pacoya Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
@@ -23,356 +23,170 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: var(--font-body);
-      background: var(--crema);
-      color: var(--tierra);
-      min-height: 100vh;
-    }
+    body { font-family: var(--font-body); background: var(--crema); color: var(--tierra); min-height: 100vh; }
 
     /* LOGIN */
-    .login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+    .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
 
     .login-card {
-      background: var(--blanco);
-      border-radius: var(--radius);
-      padding: 48px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 30px rgba(61,47,34,0.1);
-      text-align: center;
+      background: var(--blanco); border-radius: var(--radius); padding: 48px;
+      width: 100%; max-width: 400px; box-shadow: 0 4px 30px rgba(61,47,34,0.1); text-align: center;
     }
 
-    .login-logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: var(--verde);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
-      gap: 1px;
+    .logo-circle {
+      width: 64px; height: 64px; border-radius: 50%; background: var(--verde);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto 24px; gap: 1px;
     }
+    .logo-circle span:first-child { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--blanco); }
+    .logo-circle span:last-child { font-size: 0.35rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
 
-    .login-logo span:first-child {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--blanco);
+    .login-card h1 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; margin-bottom: 8px; }
+    .login-card > p { font-size: 0.9rem; color: var(--tierra-claro); margin-bottom: 32px; }
+
+    .form-group { text-align: left; margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 6px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; font-family: var(--font-body); font-size: 0.95rem; padding: 12px 16px;
+      border: 1.5px solid rgba(61,47,34,0.15); border-radius: 8px; background: var(--crema);
+      color: var(--tierra); outline: none; transition: border-color 0.2s;
     }
-
-    .login-logo span:last-child {
-      font-size: 0.35rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.85);
-    }
-
-    .login-card h1 {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 400;
-      margin-bottom: 8px;
-    }
-
-    .login-card p {
-      font-size: 0.9rem;
-      color: var(--tierra-claro);
-      margin-bottom: 32px;
-    }
-
-    .form-group {
-      text-align: left;
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    .form-group input {
-      width: 100%;
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      padding: 12px 16px;
-      border: 1.5px solid rgba(61,47,34,0.15);
-      border-radius: 8px;
-      background: var(--crema);
-      color: var(--tierra);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus { border-color: var(--verde); }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--verde); }
+    .form-group textarea { resize: vertical; }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 12px 24px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      gap: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
+      padding: 12px 24px; border-radius: 999px; border: none; cursor: pointer;
+      transition: all 0.2s; gap: 8px;
     }
-
-    .btn--primary { background: var(--verde); color: var(--blanco); width: 100%; }
+    .btn--primary { background: var(--verde); color: var(--blanco); }
     .btn--primary:hover { background: var(--verde-dark); }
     .btn--danger { background: rgba(224,112,112,0.1); color: var(--rojo); border: 1px solid rgba(224,112,112,0.3); }
     .btn--danger:hover { background: rgba(224,112,112,0.2); }
     .btn--outline { background: transparent; color: var(--tierra); border: 1.5px solid var(--tierra); }
     .btn--outline:hover { background: var(--tierra); color: var(--crema); }
+    .btn--full { width: 100%; }
     .btn--sm { padding: 7px 16px; font-size: 0.82rem; }
 
-    .login-error {
-      font-size: 0.82rem;
-      color: var(--rojo);
-      margin-top: 12px;
-      min-height: 20px;
-    }
+    .login-error { font-size: 0.82rem; color: var(--rojo); margin-top: 12px; min-height: 20px; }
 
-    /* ADMIN PANEL */
+    /* ADMIN */
     .admin-screen { display: none; }
 
     .admin-header {
-      background: var(--blanco);
-      border-bottom: 1px solid rgba(61,47,34,0.08);
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: var(--blanco); border-bottom: 1px solid rgba(61,47,34,0.08);
+      padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
     }
-
-    .admin-header-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
+    .admin-header-left { display: flex; align-items: center; gap: 16px; }
     .admin-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--verde);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1px;
+      width: 44px; height: 44px; border-radius: 50%; background: var(--verde);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
     }
+    .admin-logo span:first-child { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--blanco); }
+    .admin-logo span:last-child { font-size: 0.28rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+    .admin-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; }
 
-    .admin-logo span:first-child {
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--blanco);
+    /* TABS */
+    .admin-tabs {
+      background: var(--blanco); border-bottom: 1px solid rgba(61,47,34,0.08);
+      display: flex; padding: 0 32px;
     }
-
-    .admin-logo span:last-child {
-      font-size: 0.28rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.85);
+    .tab-btn {
+      font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
+      padding: 16px 24px; border: none; background: none; cursor: pointer;
+      color: var(--tierra-claro); border-bottom: 2px solid transparent;
+      transition: all 0.2s;
     }
+    .tab-btn.active { color: var(--verde); border-bottom-color: var(--verde); }
 
-    .admin-title {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 400;
-    }
+    .admin-main { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
 
-    .admin-main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 24px;
-    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
-    .admin-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 32px;
-    }
+    .admin-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .admin-top h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; }
 
-    .admin-top h2 {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 400;
-    }
-
-    /* FORM EVENTO */
+    /* FORM */
     .evento-form {
-      background: var(--blanco);
-      border-radius: var(--radius);
-      padding: 32px;
-      margin-bottom: 32px;
-      border: 1px solid rgba(122,158,126,0.2);
-      display: none;
+      background: var(--blanco); border-radius: var(--radius); padding: 32px;
+      margin-bottom: 32px; border: 1px solid rgba(122,158,126,0.2); display: none;
     }
-
     .evento-form.open { display: block; }
+    .evento-form h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; margin-bottom: 24px; }
 
-    .evento-form h3 {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 400;
-      margin-bottom: 24px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-grid .full { grid-column: 1 / -1; }
+    .form-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
 
-    .form-group select {
-      width: 100%;
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      padding: 12px 16px;
-      border: 1.5px solid rgba(61,47,34,0.15);
-      border-radius: 8px;
-      background: var(--crema);
-      color: var(--tierra);
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
+    /* FOTO UPLOAD */
+    .foto-upload-area {
+      border: 2px dashed rgba(122,158,126,0.4); border-radius: var(--radius);
+      padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s;
+      background: rgba(122,158,126,0.03);
     }
-
-    .form-group select:focus { border-color: var(--verde); }
-
-    .form-group textarea {
-      width: 100%;
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      padding: 12px 16px;
-      border: 1.5px solid rgba(61,47,34,0.15);
-      border-radius: 8px;
-      background: var(--crema);
-      color: var(--tierra);
-      outline: none;
-      resize: vertical;
-      transition: border-color 0.2s;
+    .foto-upload-area:hover { border-color: var(--verde); background: rgba(122,158,126,0.06); }
+    .foto-upload-area input[type="file"] { display: none; }
+    .foto-upload-area p { font-size: 0.85rem; color: var(--tierra-claro); margin-top: 8px; }
+    .foto-preview {
+      width: 100%; max-height: 200px; object-fit: cover;
+      border-radius: 8px; margin-top: 12px; display: none;
     }
+    .upload-icon { font-size: 2rem; }
 
-    .form-group textarea:focus { border-color: var(--verde); }
-
-    .form-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-      justify-content: flex-end;
-    }
-
-    /* LISTA EVENTOS */
+    /* LISTA */
     .eventos-lista { display: flex; flex-direction: column; gap: 12px; }
 
     .evento-item {
-      background: var(--blanco);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      border: 1px solid rgba(61,47,34,0.07);
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      transition: box-shadow 0.2s;
+      background: var(--blanco); border-radius: var(--radius); padding: 20px 24px;
+      border: 1px solid rgba(61,47,34,0.07); display: flex; align-items: center;
+      gap: 20px; transition: box-shadow 0.2s;
     }
-
     .evento-item:hover { box-shadow: 0 4px 20px rgba(61,47,34,0.08); }
 
-    .evento-fecha {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 48px;
+    .evento-thumb {
+      width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0;
+    }
+    .evento-thumb-placeholder {
+      width: 56px; height: 56px; border-radius: 8px; background: rgba(122,158,126,0.1);
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;
     }
 
-    .evento-dia {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 300;
-      line-height: 1;
-      color: var(--tierra);
-    }
-
-    .evento-mes {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--verde);
-    }
+    .evento-fecha { display: flex; flex-direction: column; align-items: center; min-width: 48px; }
+    .evento-dia { font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; line-height: 1; }
+    .evento-mes { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--verde); }
 
     .evento-info { flex: 1; }
-
-    .evento-info h4 {
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    .evento-info p {
-      font-size: 0.82rem;
-      color: var(--tierra-claro);
-    }
+    .evento-info h4 { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; }
+    .evento-info p { font-size: 0.82rem; color: var(--tierra-claro); }
 
     .evento-tipo {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--verde);
-      background: rgba(122,158,126,0.1);
-      padding: 3px 10px;
-      border-radius: 999px;
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--verde); background: rgba(122,158,126,0.1); padding: 3px 10px; border-radius: 999px;
     }
-
     .evento-acciones { display: flex; gap: 8px; }
 
-    .empty-state {
-      text-align: center;
-      padding: 60px 24px;
-      color: var(--tierra-claro);
-      background: var(--blanco);
-      border-radius: var(--radius);
-      border: 1px dashed rgba(61,47,34,0.15);
+    .sin-foto-badge {
+      font-size: 0.68rem; background: rgba(181,149,106,0.15); color: var(--dorado);
+      padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(181,149,106,0.3);
     }
 
+    .empty-state {
+      text-align: center; padding: 60px 24px; color: var(--tierra-claro);
+      background: var(--blanco); border-radius: var(--radius);
+      border: 1px dashed rgba(61,47,34,0.15);
+    }
     .empty-state p { font-size: 0.9rem; margin-top: 8px; }
 
     .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--tierra);
-      color: var(--crema);
-      padding: 14px 24px;
-      border-radius: 999px;
-      font-size: 0.88rem;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s;
-      pointer-events: none;
+      position: fixed; bottom: 24px; right: 24px; background: var(--tierra);
+      color: var(--crema); padding: 14px 24px; border-radius: 999px; font-size: 0.88rem;
+      opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
     }
-
     .toast.show { opacity: 1; transform: translateY(0); }
+
+    .uploading { opacity: 0.6; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -380,10 +194,7 @@
   <!-- LOGIN -->
   <div class="login-screen" id="login-screen">
     <div class="login-card">
-      <div class="login-logo">
-        <span>Pacoya</span>
-        <span>yoga studio</span>
-      </div>
+      <div class="logo-circle"><span>Pacoya</span><span>yoga studio</span></div>
       <h1>Panel de administración</h1>
       <p>Ingresa tu contraseña para continuar</p>
       <form id="login-form">
@@ -391,74 +202,108 @@
           <label for="password">Contraseña</label>
           <input type="password" id="password" placeholder="••••••••" required />
         </div>
-        <button type="submit" class="btn btn--primary">Entrar</button>
+        <button type="submit" class="btn btn--primary btn--full">Entrar</button>
         <p class="login-error" id="login-error"></p>
       </form>
     </div>
   </div>
 
-  <!-- ADMIN PANEL -->
+  <!-- ADMIN -->
   <div class="admin-screen" id="admin-screen">
     <header class="admin-header">
       <div class="admin-header-left">
-        <div class="admin-logo">
-          <span>Pacoya</span>
-          <span>yoga studio</span>
-        </div>
+        <div class="admin-logo"><span>Pacoya</span><span>yoga studio</span></div>
         <span class="admin-title">Panel de administración</span>
       </div>
       <button class="btn btn--outline btn--sm" id="logout-btn">Cerrar sesión</button>
     </header>
 
+    <div class="admin-tabs">
+      <button class="tab-btn active" data-tab="proximos">📅 Próximos eventos</button>
+      <button class="tab-btn" data-tab="memorias">🌿 Memorias</button>
+    </div>
+
     <main class="admin-main">
-      <div class="admin-top">
-        <h2>Próximos Eventos</h2>
-        <button class="btn btn--primary btn--sm" id="toggle-form-btn">+ Nuevo evento</button>
-      </div>
 
-      <!-- FORMULARIO -->
-      <div class="evento-form" id="evento-form">
-        <h3 id="form-title">Nuevo evento</h3>
-        <input type="hidden" id="evento-id" />
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>Título del evento</label>
-            <input type="text" id="f-titulo" placeholder="Ej. Taller de Yoga Oncológico" />
+      <!-- TAB PRÓXIMOS -->
+      <div class="tab-panel active" id="tab-proximos">
+        <div class="admin-top">
+          <h2>Próximos Eventos</h2>
+          <button class="btn btn--primary btn--sm" id="toggle-form-btn">+ Nuevo evento</button>
+        </div>
+
+        <div class="evento-form" id="evento-form">
+          <h3 id="form-title">Nuevo evento</h3>
+          <input type="hidden" id="evento-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Título del evento</label>
+              <input type="text" id="f-titulo" placeholder="Ej. Taller de Yoga Oncológico" />
+            </div>
+            <div class="form-group full">
+              <label>Descripción</label>
+              <textarea id="f-descripcion" rows="3" placeholder="Describe el evento..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" id="f-fecha" />
+            </div>
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="text" id="f-hora" placeholder="Ej. 10:00 AM" />
+            </div>
+            <div class="form-group">
+              <label>Lugar</label>
+              <input type="text" id="f-lugar" placeholder="Ej. Estudio Pacoya / En línea" />
+            </div>
+            <div class="form-group">
+              <label>Tipo</label>
+              <select id="f-tipo">
+                <option value="meditacion">Meditación</option>
+                <option value="especial">Taller especial</option>
+                <option value="taller">Taller</option>
+                <option value="retiro">Retiro</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group full">
-            <label>Descripción</label>
-            <textarea id="f-descripcion" rows="3" placeholder="Describe el evento..."></textarea>
-          </div>
-          <div class="form-group">
-            <label>Fecha</label>
-            <input type="date" id="f-fecha" />
-          </div>
-          <div class="form-group">
-            <label>Hora</label>
-            <input type="text" id="f-hora" placeholder="Ej. 10:00 AM" />
-          </div>
-          <div class="form-group">
-            <label>Lugar</label>
-            <input type="text" id="f-lugar" placeholder="Ej. Estudio Pacoya / En línea" />
-          </div>
-          <div class="form-group">
-            <label>Tipo</label>
-            <select id="f-tipo">
-              <option value="meditacion">Meditación</option>
-              <option value="especial">Taller especial</option>
-              <option value="taller">Taller</option>
-              <option value="retiro">Retiro</option>
-            </select>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-btn">Guardar evento</button>
           </div>
         </div>
-        <div class="form-actions">
-          <button class="btn btn--outline btn--sm" id="cancelar-btn">Cancelar</button>
-          <button class="btn btn--primary btn--sm" id="guardar-btn">Guardar evento</button>
-        </div>
+
+        <div class="eventos-lista" id="lista-proximos"></div>
       </div>
 
-      <!-- LISTA -->
-      <div class="eventos-lista" id="eventos-lista"></div>
+      <!-- TAB MEMORIAS -->
+      <div class="tab-panel" id="tab-memorias">
+        <div class="admin-top">
+          <h2>Memorias</h2>
+          <p style="font-size:0.85rem;color:var(--tierra-claro)">Agrega una foto para que aparezca en el sitio</p>
+        </div>
+
+        <div class="evento-form" id="memoria-form">
+          <h3 id="memoria-form-title">Agregar foto</h3>
+          <input type="hidden" id="m-evento-id" />
+          <div class="form-group">
+            <label>Foto del evento</label>
+            <div class="foto-upload-area" id="foto-drop-area" onclick="document.getElementById('foto-input').click()">
+              <input type="file" id="foto-input" accept="image/*" />
+              <div class="upload-icon">🖼️</div>
+              <strong>Toca para elegir una foto</strong>
+              <p>JPG, PNG o WEBP · Máx 5MB</p>
+              <img class="foto-preview" id="foto-preview" src="" alt="Preview" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-memoria-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-memoria-btn">Guardar foto</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-memorias"></div>
+      </div>
+
     </main>
   </div>
 
@@ -467,31 +312,38 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const SUPABASE_URL = 'https://kzqtjzzpyhmzdlczsbnz.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z';
+    const SUPABASE_URL   = 'https://kzqtjzzpyhmzdlczsbnz.supabase.co';
+    const SUPABASE_KEY   = 'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z';
     const ADMIN_PASSWORD = 'pacoya2026';
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const hoy = new Date().toISOString().split('T')[0];
 
-    const loginScreen  = document.getElementById('login-screen');
-    const adminScreen  = document.getElementById('admin-screen');
-    const loginForm    = document.getElementById('login-form');
-    const loginError   = document.getElementById('login-error');
-    const logoutBtn    = document.getElementById('logout-btn');
-    const toggleBtn    = document.getElementById('toggle-form-btn');
-    const eventoForm   = document.getElementById('evento-form');
-    const cancelarBtn  = document.getElementById('cancelar-btn');
-    const guardarBtn   = document.getElementById('guardar-btn');
-    const eventosList  = document.getElementById('eventos-lista');
-    const toast        = document.getElementById('toast');
+    // ── DOM refs ──
+    const loginScreen   = document.getElementById('login-screen');
+    const adminScreen   = document.getElementById('admin-screen');
+    const loginForm     = document.getElementById('login-form');
+    const loginError    = document.getElementById('login-error');
+    const logoutBtn     = document.getElementById('logout-btn');
+    const toggleBtn     = document.getElementById('toggle-form-btn');
+    const eventoForm    = document.getElementById('evento-form');
+    const cancelarBtn   = document.getElementById('cancelar-btn');
+    const guardarBtn    = document.getElementById('guardar-btn');
+    const listaProximos = document.getElementById('lista-proximos');
+    const listasMemorias = document.getElementById('lista-memorias');
+    const memoriaForm   = document.getElementById('memoria-form');
+    const cancelarMemoriaBtn = document.getElementById('cancelar-memoria-btn');
+    const guardarMemoriaBtn  = document.getElementById('guardar-memoria-btn');
+    const fotoInput     = document.getElementById('foto-input');
+    const fotoPreview   = document.getElementById('foto-preview');
+    const toast         = document.getElementById('toast');
 
-    // LOGIN
+    // ── LOGIN ──
     if (sessionStorage.getItem('pacoya-admin')) showAdmin();
 
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', e => {
       e.preventDefault();
-      const pwd = document.getElementById('password').value;
-      if (pwd === ADMIN_PASSWORD) {
+      if (document.getElementById('password').value === ADMIN_PASSWORD) {
         sessionStorage.setItem('pacoya-admin', '1');
         showAdmin();
       } else {
@@ -508,39 +360,42 @@
     function showAdmin() {
       loginScreen.style.display = 'none';
       adminScreen.style.display = 'block';
-      cargarEventos();
+      cargarProximos();
+      cargarMemorias();
     }
 
-    // FORM TOGGLE
+    // ── TABS ──
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── FORM PRÓXIMOS ──
     toggleBtn.addEventListener('click', () => {
       limpiarForm();
       document.getElementById('form-title').textContent = 'Nuevo evento';
       eventoForm.classList.add('open');
     });
 
-    cancelarBtn.addEventListener('click', () => {
-      eventoForm.classList.remove('open');
-      limpiarForm();
-    });
+    cancelarBtn.addEventListener('click', () => { eventoForm.classList.remove('open'); limpiarForm(); });
 
-    // GUARDAR
     guardarBtn.addEventListener('click', async () => {
       const id     = document.getElementById('evento-id').value;
       const titulo = document.getElementById('f-titulo').value.trim();
       const fecha  = document.getElementById('f-fecha').value;
-
-      if (!titulo || !fecha) {
-        mostrarToast('El título y la fecha son obligatorios.');
-        return;
-      }
+      if (!titulo || !fecha) { mostrarToast('El título y la fecha son obligatorios.'); return; }
 
       const datos = {
         titulo,
         descripcion: document.getElementById('f-descripcion').value.trim(),
         fecha,
-        hora:   document.getElementById('f-hora').value.trim(),
-        lugar:  document.getElementById('f-lugar').value.trim(),
-        tipo:   document.getElementById('f-tipo').value,
+        hora:  document.getElementById('f-hora').value.trim(),
+        lugar: document.getElementById('f-lugar').value.trim(),
+        tipo:  document.getElementById('f-tipo').value,
       };
 
       if (id) {
@@ -553,35 +408,57 @@
 
       eventoForm.classList.remove('open');
       limpiarForm();
-      cargarEventos();
+      cargarProximos();
     });
 
-    // CARGAR EVENTOS
-    async function cargarEventos() {
-      const { data } = await supabase
-        .from('eventos')
-        .select('*')
-        .order('fecha', { ascending: true });
+    // ── CARGAR PRÓXIMOS ──
+    async function cargarProximos() {
+      const { data } = await supabase.from('eventos').select('*')
+        .gte('fecha', hoy).order('fecha', { ascending: true });
+      renderLista(data, listaProximos, false);
+    }
 
-      eventosList.innerHTML = '';
+    // ── CARGAR MEMORIAS ──
+    async function cargarMemorias() {
+      const { data } = await supabase.from('eventos').select('*')
+        .lt('fecha', hoy).order('fecha', { ascending: false });
+      renderLista(data, listasMemorias, true);
+    }
 
+    function renderLista(data, container, esMemorias) {
+      container.innerHTML = '';
       if (!data || data.length === 0) {
-        eventosList.innerHTML = `
-          <div class="empty-state">
-            📅
-            <p>No hay eventos aún. Crea el primero con el botón de arriba.</p>
-          </div>`;
+        container.innerHTML = `<div class="empty-state">📅<p>${esMemorias ? 'Aún no hay memorias.' : 'No hay eventos próximos.'}</p></div>`;
         return;
       }
-
       data.forEach(ev => {
         const fecha = new Date(ev.fecha + 'T12:00:00');
         const dia   = fecha.getDate();
         const mes   = fecha.toLocaleString('es-MX', { month: 'short' });
-
-        const item = document.createElement('div');
+        const item  = document.createElement('div');
         item.className = 'evento-item';
+
+        const thumbHtml = esMemorias
+          ? (ev.foto_url
+              ? `<img class="evento-thumb" src="${ev.foto_url}" alt="${ev.titulo}" />`
+              : `<div class="evento-thumb-placeholder">🌿</div>`)
+          : '';
+
+        const accionesHtml = esMemorias
+          ? `<div class="evento-acciones">
+               ${!ev.foto_url ? '<span class="sin-foto-badge">Sin foto</span>' : ''}
+               <button class="btn btn--outline btn--sm" onclick="abrirFotoForm(${ev.id}, '${ev.titulo.replace(/'/g,"\\'")}')">
+                 ${ev.foto_url ? 'Cambiar foto' : 'Agregar foto'}
+               </button>
+               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${ev.id})">Borrar</button>
+             </div>`
+          : `<div class="evento-acciones">
+               <button class="btn btn--outline btn--sm" onclick="editarEvento(${ev.id})">Editar</button>
+               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${ev.id})">Borrar</button>
+             </div>`;
+
         item.innerHTML = `
+          ${thumbHtml}
           <div class="evento-fecha">
             <span class="evento-dia">${dia}</span>
             <span class="evento-mes">${mes}</span>
@@ -591,37 +468,91 @@
             <p>${ev.hora ? ev.hora + ' · ' : ''}${ev.lugar || ''}</p>
           </div>
           <span class="evento-tipo">${ev.tipo}</span>
-          <div class="evento-acciones">
-            <button class="btn btn--outline btn--sm" onclick="editarEvento(${ev.id})">Editar</button>
-            <button class="btn btn--danger btn--sm" onclick="borrarEvento(${ev.id})">Borrar</button>
-          </div>`;
-        eventosList.appendChild(item);
+          ${accionesHtml}`;
+        container.appendChild(item);
       });
     }
 
-    // EDITAR
-    window.editarEvento = async (id) => {
+    // ── EDITAR ──
+    window.editarEvento = async id => {
       const { data } = await supabase.from('eventos').select('*').eq('id', id).single();
-      document.getElementById('evento-id').value        = data.id;
-      document.getElementById('f-titulo').value         = data.titulo;
-      document.getElementById('f-descripcion').value    = data.descripcion || '';
-      document.getElementById('f-fecha').value          = data.fecha;
-      document.getElementById('f-hora').value           = data.hora || '';
-      document.getElementById('f-lugar').value          = data.lugar || '';
-      document.getElementById('f-tipo').value           = data.tipo || 'taller';
+      document.getElementById('evento-id').value     = data.id;
+      document.getElementById('f-titulo').value      = data.titulo;
+      document.getElementById('f-descripcion').value = data.descripcion || '';
+      document.getElementById('f-fecha').value       = data.fecha;
+      document.getElementById('f-hora').value        = data.hora || '';
+      document.getElementById('f-lugar').value       = data.lugar || '';
+      document.getElementById('f-tipo').value        = data.tipo || 'taller';
       document.getElementById('form-title').textContent = 'Editar evento';
       eventoForm.classList.add('open');
       eventoForm.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // BORRAR
-    window.borrarEvento = async (id) => {
+    // ── BORRAR ──
+    window.borrarEvento = async id => {
       if (!confirm('¿Segura que quieres borrar este evento?')) return;
       await supabase.from('eventos').delete().eq('id', id);
       mostrarToast('Evento eliminado');
-      cargarEventos();
+      cargarProximos();
+      cargarMemorias();
     };
 
+    // ── FOTO FORM ──
+    window.abrirFotoForm = (id, titulo) => {
+      document.getElementById('m-evento-id').value = id;
+      document.getElementById('memoria-form-title').textContent = `Foto: ${titulo}`;
+      fotoPreview.style.display = 'none';
+      fotoPreview.src = '';
+      fotoInput.value = '';
+      memoriaForm.classList.add('open');
+      memoriaForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    cancelarMemoriaBtn.addEventListener('click', () => {
+      memoriaForm.classList.remove('open');
+      fotoInput.value = '';
+      fotoPreview.style.display = 'none';
+    });
+
+    fotoInput.addEventListener('change', () => {
+      const file = fotoInput.files[0];
+      if (!file) return;
+      fotoPreview.src = URL.createObjectURL(file);
+      fotoPreview.style.display = 'block';
+    });
+
+    guardarMemoriaBtn.addEventListener('click', async () => {
+      const id   = document.getElementById('m-evento-id').value;
+      const file = fotoInput.files[0];
+      if (!file) { mostrarToast('Elige una foto primero.'); return; }
+
+      guardarMemoriaBtn.textContent = 'Subiendo...';
+      guardarMemoriaBtn.classList.add('uploading');
+
+      const ext      = file.name.split('.').pop();
+      const fileName = `evento-${id}-${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('memorias').upload(fileName, file, { upsert: true });
+
+      if (uploadError) {
+        mostrarToast('Error al subir la foto.');
+        guardarMemoriaBtn.textContent = 'Guardar foto';
+        guardarMemoriaBtn.classList.remove('uploading');
+        return;
+      }
+
+      const { data: urlData } = supabase.storage.from('memorias').getPublicUrl(fileName);
+      await supabase.from('eventos').update({ foto_url: urlData.publicUrl }).eq('id', id);
+
+      mostrarToast('✓ Foto guardada');
+      memoriaForm.classList.remove('open');
+      guardarMemoriaBtn.textContent = 'Guardar foto';
+      guardarMemoriaBtn.classList.remove('uploading');
+      cargarMemorias();
+    });
+
+    // ── UTILS ──
     function limpiarForm() {
       ['evento-id','f-titulo','f-descripcion','f-fecha','f-hora','f-lugar'].forEach(id => {
         document.getElementById(id).value = '';
