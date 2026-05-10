@@ -213,14 +213,7 @@ contactForm.addEventListener('submit', (e) => {
   }, 3000);
 });
 
-// Live classes access code
-// Codes map to YouTube Live embed IDs — add real IDs here
-const VALID_CODES = {
-  'PACOYA2026': 'jfKfPfyJRdk', // demo YouTube video
-  'YOGA2026':   'jfKfPfyJRdk',
-  'DEMO':       'jfKfPfyJRdk',
-};
-
+// Live classes — código validado contra Supabase
 const accessForm   = document.getElementById('access-form');
 const accessCodeEl = document.getElementById('access-code');
 const accessError  = document.getElementById('access-error');
@@ -230,16 +223,31 @@ const liveIframe   = document.getElementById('live-iframe');
 const exitLive     = document.getElementById('exit-live');
 
 if (accessForm) {
-  accessForm.addEventListener('submit', (e) => {
+  accessForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const code = accessCodeEl.value.trim().toUpperCase();
-    const videoId = VALID_CODES[code];
+    const submitBtn = accessForm.querySelector('button[type="submit"]');
+    submitBtn.textContent = 'Verificando...';
+    submitBtn.disabled = true;
 
-    if (videoId) {
+    const { data } = await supabase
+      .from('clases_en_vivo')
+      .select('whereby_url, activo, codigo')
+      .eq('id', 1)
+      .single();
+
+    submitBtn.textContent = 'Entrar';
+    submitBtn.disabled = false;
+
+    if (data && data.activo && data.codigo === code && data.whereby_url) {
       accessError.textContent = '';
       liveGate.hidden = true;
       livePlayer.hidden = false;
-      liveIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      liveIframe.src = data.whereby_url;
+    } else if (!data || !data.activo) {
+      accessError.textContent = 'No hay ninguna clase activa en este momento.';
+      accessCodeEl.style.borderColor = '#e07070';
+      setTimeout(() => { accessCodeEl.style.borderColor = ''; }, 2000);
     } else {
       accessError.textContent = 'Código incorrecto. Verifica e intenta de nuevo.';
       accessCodeEl.style.borderColor = '#e07070';
