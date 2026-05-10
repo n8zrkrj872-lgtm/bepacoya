@@ -950,7 +950,7 @@
       const { data } = await supabase.from('clases_en_vivo').select('*').eq('id', 1).single();
       if (!data) return;
       document.getElementById('cl-titulo').value  = data.titulo  || '';
-      document.getElementById('cl-url').value     = data.whereby_url || '';
+      document.getElementById('cl-url').value     = data.stream_url || '';
       document.getElementById('cl-codigo').value  = data.codigo  || '';
       clActivo.checked = data.activo;
       actualizarToggle(data.activo);
@@ -969,7 +969,7 @@
 
       await supabase.from('clases_en_vivo').update({
         titulo:      document.getElementById('cl-titulo').value.trim(),
-        whereby_url: wherebyUrl,
+        stream_url: wherebyUrl,
         codigo:      document.getElementById('cl-codigo').value.trim().toUpperCase(),
         activo:      clActivo.checked,
       }).eq('id', 1);

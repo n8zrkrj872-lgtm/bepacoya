@@ -232,18 +232,18 @@ if (accessForm) {
 
     const { data } = await supabase
       .from('clases_en_vivo')
-      .select('whereby_url, activo, codigo')
+      .select('stream_url, activo, codigo')
       .eq('id', 1)
       .single();
 
     submitBtn.textContent = 'Entrar';
     submitBtn.disabled = false;
 
-    if (data && data.activo && data.codigo === code && data.whereby_url) {
+    if (data && data.activo && data.codigo === code && data.stream_url) {
       accessError.textContent = '';
       liveGate.hidden = true;
       livePlayer.hidden = false;
-      liveIframe.src = data.whereby_url;
+      liveIframe.src = data.stream_url;
     } else if (!data || !data.activo) {
       accessError.textContent = 'No hay ninguna clase activa en este momento.';
       accessCodeEl.style.borderColor = '#e07070';
