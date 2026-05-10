@@ -471,7 +471,7 @@
 
           <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px">
             <button class="btn btn--primary" id="guardar-clase-btn" style="width:100%">Guardar configuración</button>
-            <a id="abrir-whereby-btn" href="#" target="_blank" rel="noopener" class="btn btn--outline" style="display:none;width:100%;text-decoration:none;text-align:center">Abrir Google Meet</a>
+            <a id="abrir-meet-btn" href="#" target="_blank" rel="noopener" class="btn btn--outline" style="display:none;width:100%;text-decoration:none;text-align:center">Abrir Google Meet</a>
           </div>
         </div>
       </div>
@@ -958,9 +958,9 @@
       document.getElementById('cl-codigo').value  = data.codigo  || '';
       clActivo.checked = data.activo;
       actualizarToggle(data.activo);
-      const abrirBtn = document.getElementById('abrir-whereby-btn');
+      const abrirBtn = document.getElementById('abrir-meet-btn');
       if (data.stream_url) {
-        abrirBtn.href = data.stream_url.replace('?embed', '').replace('&embed', '');
+        abrirBtn.href = data.stream_url;
         abrirBtn.style.display = 'inline-flex';
       }
     }
@@ -971,14 +971,9 @@
       btn.disabled = true;
 
       const url = document.getElementById('cl-url').value.trim();
-      let wherebyUrl = url;
-      if (url && !url.includes('?embed')) {
-        wherebyUrl = url.includes('?') ? url + '&embed' : url + '?embed';
-      }
-
       await supabase.from('clases_en_vivo').update({
         titulo:      document.getElementById('cl-titulo').value.trim(),
-        stream_url: wherebyUrl,
+        stream_url: url,
         codigo:      document.getElementById('cl-codigo').value.trim().toUpperCase(),
         activo:      clActivo.checked,
       }).eq('id', 1);
@@ -986,10 +981,10 @@
       mostrarToast('✓ Clase actualizada');
       btn.textContent = 'Guardar configuración';
       btn.disabled = false;
-      const abrirBtn = document.getElementById('abrir-whereby-btn');
+      const abrirBtn = document.getElementById('abrir-meet-btn');
       const urlGuardada = document.getElementById('cl-url').value.trim();
       if (urlGuardada) {
-        abrirBtn.href = urlGuardada.replace('?embed', '').replace('&embed', '');
+        abrirBtn.href = urlGuardada;
         abrirBtn.style.display = 'inline-flex';
       }
     });
