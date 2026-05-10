@@ -254,6 +254,7 @@
     <div class="admin-tabs">
       <button class="tab-btn active" data-tab="proximos">📅 Próximos eventos</button>
       <button class="tab-btn" data-tab="memorias">🌿 Memorias</button>
+      <button class="tab-btn" data-tab="pensamientos">✍️ Pensamientos</button>
     </div>
 
     <main class="admin-main">
@@ -337,6 +338,41 @@
         <div class="eventos-lista" id="lista-memorias"></div>
       </div>
 
+      <!-- TAB PENSAMIENTOS -->
+      <div class="tab-panel" id="tab-pensamientos">
+        <div class="admin-top">
+          <h2>Pensamientos</h2>
+          <button class="btn btn--primary btn--sm" id="toggle-pensamiento-btn">+ Nuevo pensamiento</button>
+        </div>
+
+        <div class="evento-form" id="pensamiento-form">
+          <h3 id="pensamiento-form-title">Nuevo pensamiento</h3>
+          <input type="hidden" id="p-id" />
+          <div class="form-group">
+            <label>Título</label>
+            <input type="text" id="p-titulo" placeholder="Ej. El cuerpo sabe lo que necesita" />
+          </div>
+          <div class="form-group">
+            <label>Pensamiento</label>
+            <textarea id="p-contenido" rows="6" placeholder="Escribe aquí tu reflexión..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="p-tipo">
+              <option value="reflexion">Reflexión</option>
+              <option value="inspiracion">Inspiración</option>
+              <option value="oncologico">Yoga Oncológico</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-pensamiento-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-pensamiento-btn">Guardar</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-pensamientos"></div>
+      </div>
+
     </main>
   </div>
 
@@ -395,6 +431,7 @@
       adminScreen.style.display = 'block';
       cargarProximos();
       cargarMemorias();
+      cargarPensamientos();
     }
 
     // ── TABS ──
@@ -584,6 +621,107 @@
       guardarMemoriaBtn.classList.remove('uploading');
       cargarMemorias();
     });
+
+    // ── PENSAMIENTOS ──
+    const togglePensamientoBtn  = document.getElementById('toggle-pensamiento-btn');
+    const pensamientoForm       = document.getElementById('pensamiento-form');
+    const cancelarPensamientoBtn = document.getElementById('cancelar-pensamiento-btn');
+    const guardarPensamientoBtn  = document.getElementById('guardar-pensamiento-btn');
+    const listaPensamientos      = document.getElementById('lista-pensamientos');
+
+    togglePensamientoBtn.addEventListener('click', () => {
+      limpiarPensamientoForm();
+      document.getElementById('pensamiento-form-title').textContent = 'Nuevo pensamiento';
+      pensamientoForm.classList.add('open');
+    });
+
+    cancelarPensamientoBtn.addEventListener('click', () => {
+      pensamientoForm.classList.remove('open');
+      limpiarPensamientoForm();
+    });
+
+    guardarPensamientoBtn.addEventListener('click', async () => {
+      const id       = document.getElementById('p-id').value;
+      const titulo   = document.getElementById('p-titulo').value.trim();
+      const contenido = document.getElementById('p-contenido').value.trim();
+      if (!titulo || !contenido) { mostrarToast('El título y el pensamiento son obligatorios.'); return; }
+
+      const datos = {
+        titulo,
+        contenido,
+        tipo: document.getElementById('p-tipo').value,
+      };
+
+      if (id) {
+        await supabase.from('pensamientos').update(datos).eq('id', id);
+        mostrarToast('✓ Pensamiento actualizado');
+      } else {
+        await supabase.from('pensamientos').insert({ ...datos, fecha: hoy });
+        mostrarToast('✓ Pensamiento publicado');
+      }
+
+      pensamientoForm.classList.remove('open');
+      limpiarPensamientoForm();
+      cargarPensamientos();
+    });
+
+    async function cargarPensamientos() {
+      const { data } = await supabase.from('pensamientos').select('*')
+        .eq('activo', true).order('fecha', { ascending: false });
+
+      listaPensamientos.innerHTML = '';
+      if (!data || data.length === 0) {
+        listaPensamientos.innerHTML = `<div class="empty-state">✍️<p>Aún no hay pensamientos publicados.</p></div>`;
+        return;
+      }
+
+      const TIPOS_P = { reflexion: 'Reflexión', inspiracion: 'Inspiración', oncologico: 'Yoga Oncológico' };
+
+      data.forEach(p => {
+        const fecha = new Date(p.fecha + 'T12:00:00');
+        const dia   = fecha.getDate();
+        const mes   = fecha.toLocaleString('es-MX', { month: 'short' });
+        const item  = document.createElement('div');
+        item.className = 'evento-item';
+        item.innerHTML = `
+          <div class="evento-fecha">
+            <span class="evento-dia">${dia}</span>
+            <span class="evento-mes">${mes}</span>
+          </div>
+          <div class="evento-info">
+            <h4>${p.titulo}</h4>
+            <p>${TIPOS_P[p.tipo] || p.tipo} · ${p.contenido.substring(0, 80)}${p.contenido.length > 80 ? '...' : ''}</p>
+          </div>
+          <div class="evento-acciones">
+            <button class="btn btn--outline btn--sm" onclick="editarPensamiento(${p.id})">Editar</button>
+            <button class="btn btn--danger btn--sm" onclick="borrarPensamiento(${p.id})">Borrar</button>
+          </div>`;
+        listaPensamientos.appendChild(item);
+      });
+    }
+
+    window.editarPensamiento = async id => {
+      const { data } = await supabase.from('pensamientos').select('*').eq('id', id).single();
+      document.getElementById('p-id').value       = data.id;
+      document.getElementById('p-titulo').value   = data.titulo;
+      document.getElementById('p-contenido').value = data.contenido;
+      document.getElementById('p-tipo').value     = data.tipo;
+      document.getElementById('pensamiento-form-title').textContent = 'Editar pensamiento';
+      pensamientoForm.classList.add('open');
+      pensamientoForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.borrarPensamiento = async id => {
+      if (!confirm('¿Segura que quieres borrar este pensamiento?')) return;
+      await supabase.from('pensamientos').delete().eq('id', id);
+      mostrarToast('Pensamiento eliminado');
+      cargarPensamientos();
+    };
+
+    function limpiarPensamientoForm() {
+      ['p-id', 'p-titulo', 'p-contenido'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('p-tipo').value = 'reflexion';
+    }
 
     // ── UTILS ──
     function limpiarForm() {

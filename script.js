@@ -116,6 +116,55 @@ async function cargarMemorias() {
 
 cargarMemorias();
 
+const TIPOS_PENSAMIENTO = {
+  reflexion:   'Reflexión',
+  inspiracion: 'Inspiración',
+  oncologico:  'Yoga Oncológico',
+};
+
+async function cargarPensamientos() {
+  const grid = document.getElementById('blog-grid');
+  if (!grid) return;
+
+  const { data } = await supabase
+    .from('pensamientos')
+    .select('*')
+    .eq('activo', true)
+    .order('fecha', { ascending: false })
+    .limit(4);
+
+  if (!data || data.length === 0) {
+    grid.innerHTML = `<p style="color:var(--tierra-claro);text-align:center;grid-column:1/-1;padding:40px 0">Próximamente nuevos pensamientos. ¡Mantente al tanto!</p>`;
+    return;
+  }
+
+  grid.innerHTML = '';
+  data.forEach((p, i) => {
+    const fecha    = new Date(p.fecha + 'T12:00:00');
+    const dia      = fecha.getDate();
+    const mes      = fecha.toLocaleString('es-MX', { month: 'long' });
+    const año      = fecha.getFullYear();
+    const fechaStr = `${dia} de ${mes}, ${año}`;
+    const tipo     = TIPOS_PENSAMIENTO[p.tipo] || p.tipo;
+    const featured = i === 0 ? 'blog-card--featured' : '';
+    const preview  = p.contenido.length > 220 ? p.contenido.substring(0, 220) + '...' : p.contenido;
+
+    const article = document.createElement('article');
+    article.className = `blog-card ${featured}`;
+    article.innerHTML = `
+      <div class="blog-card__meta">
+        <span class="blog-date">${fechaStr}</span>
+        <span class="blog-tag">${tipo}</span>
+      </div>
+      <h3>${p.titulo}</h3>
+      <p>${preview}</p>
+      <a href="#" class="blog-card__link">Seguir leyendo →</a>`;
+    grid.appendChild(article);
+  });
+}
+
+cargarPensamientos();
+
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
