@@ -41,6 +41,11 @@
       font-weight: 500;
       margin-bottom: 48px;
       transition: color var(--transition);
+      position: sticky;
+      top: 80px;
+      z-index: 10;
+      background: var(--verde-palido);
+      padding: 6px 12px 6px 0;
     }
     .back-link:hover { color: var(--tierra); }
     .memorias-empty {
@@ -88,9 +93,6 @@
     <div class="container">
       <a href="index.html#memorias" class="back-link">← Volver al inicio</a>
       <div class="memorias__grid" id="memorias-grid"></div>
-      <div style="margin-top:48px">
-        <a href="index.html#memorias" class="back-link">← Volver al inicio</a>
-      </div>
     </div>
   </section>
 
