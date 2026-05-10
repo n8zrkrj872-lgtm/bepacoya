@@ -1210,7 +1210,7 @@ ul { list-style: none; }
    FOOTER
 =========================== */
 .footer {
-  background: var(--tierra);
+  background: #2c3e2d;
   color: var(--crema);
   padding: 60px 0 0;
 }
