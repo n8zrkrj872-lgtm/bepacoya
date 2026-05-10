@@ -1406,3 +1406,33 @@ ul { list-style: none; }
   .footer__brand { grid-column: span 1; }
   .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
 }
+
+/* WhatsApp flotante — solo móvil */
+.whatsapp-float {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    z-index: 999;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .whatsapp-float:hover,
+  .whatsapp-float:active {
+    background: rgba(37, 211, 102, 1);
+    transform: scale(1.08);
+  }
+}
