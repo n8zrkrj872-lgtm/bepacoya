@@ -131,7 +131,7 @@ async function cargarPensamientos() {
     .select('*')
     .eq('activo', true)
     .order('fecha', { ascending: false })
-    .limit(4);
+    .limit(3);
 
   if (!data || data.length === 0) {
     grid.innerHTML = `<p style="color:var(--tierra-claro);text-align:center;grid-column:1/-1;padding:40px 0">Próximamente nuevos pensamientos. ¡Mantente al tanto!</p>`;
@@ -158,7 +158,7 @@ async function cargarPensamientos() {
       </div>
       <h3>${p.titulo}</h3>
       <p>${preview}</p>
-      <a href="#" class="blog-card__link">Seguir leyendo →</a>`;
+      <a href="pensamientos.html#p-${p.id}" class="blog-card__link">Seguir leyendo →</a>`;
     grid.appendChild(article);
   });
 }

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pensamientos — Pacoya Yoga</title>
+  <meta name="description" content="Reflexiones, inspiración y pensamientos de Pacoya Yoga para acompañarte en tu práctica." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .pensamientos-hero {
+      padding: 140px 0 60px;
+      text-align: center;
+      background: var(--crema);
+    }
+    .pensamientos-hero .section-eyebrow { margin-bottom: 16px; }
+    .pensamientos-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 400;
+      color: var(--tierra);
+      margin-bottom: 16px;
+    }
+    .pensamientos-hero p {
+      font-size: 1rem;
+      color: var(--tierra-claro);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .pensamientos-lista {
+      padding: 60px 0 100px;
+      background: var(--crema);
+    }
+
+    .pensamiento-card {
+      background: var(--blanco);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      border: 1px solid rgba(61, 47, 34, 0.07);
+      margin-bottom: 24px;
+      transition: box-shadow var(--transition);
+    }
+    .pensamiento-card:hover {
+      box-shadow: 0 8px 32px var(--sombra-md);
+    }
+
+    .pensamiento-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .pensamiento-card__date {
+      font-size: 0.78rem;
+      color: var(--tierra-claro);
+    }
+
+    .pensamiento-card__tipo {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--verde-salvia);
+      background: rgba(122, 158, 126, 0.1);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .pensamiento-card h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 400;
+      color: var(--tierra);
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+
+    .pensamiento-card p {
+      font-size: 1rem;
+      color: var(--tierra-claro);
+      line-height: 1.85;
+      white-space: pre-wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--verde-salvia);
+      font-weight: 500;
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--tierra); }
+
+    .pensamientos-empty {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--tierra-claro);
+    }
+
+    @media (max-width: 640px) {
+      .pensamiento-card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html#inicio" class="navbar__circle-badge">
+        <span>Pacoya</span>
+        <span>yoga studio</span>
+      </a>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="navbar__links" id="nav-links" aria-label="Menú principal">
+        <a href="index.html#nosotros">Nosotros</a>
+        <a href="index.html#servicios">Servicios</a>
+        <a href="index.html#eventos">Eventos</a>
+        <a href="index.html#memorias">Memorias</a>
+        <a href="pensamientos.html" class="active">Pensamientos</a>
+        <a href="index.html#clases" class="btn btn--outline">Clases en Vivo</a>
+        <a href="index.html#contacto" class="btn btn--primary">Contáctanos</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="pensamientos-hero">
+    <div class="container">
+      <p class="section-eyebrow">Pacoya Yoga</p>
+      <h1>Pensamientos para el camino</h1>
+      <p>Reflexiones escritas desde el corazón para acompañarte en tu práctica y en tu vida.</p>
+    </div>
+  </div>
+
+  <!-- LISTA -->
+  <section class="pensamientos-lista">
+    <div class="container">
+      <a href="index.html#blog" class="back-link">← Volver al inicio</a>
+      <div id="pensamientos-lista"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <span class="logo-text">Pacoya Yoga</span>
+          </div>
+          <p class="footer__tagline">"Vivir es urgente."</p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/pacoyayoga/" target="_blank" aria-label="Facebook" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/pacoyayoga/" target="_blank" aria-label="Instagram" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@pacoyayoga" target="_blank" aria-label="TikTok" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer__contact">
+          <h4>Contacto</h4>
+          <p>contacto@bepacoya.com</p>
+          <p><a href="tel:6861875393" style="color:inherit">686 187 5393</a></p>
+          <a href="index.html#contacto" class="btn btn--outline btn--sm">Escribir mensaje</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 Pacoya Yoga · Todos los derechos reservados</p>
+        <p>Hecho con 💛 para nuestra comunidad</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+      'https://kzqtjzzpyhmzdlczsbnz.supabase.co',
+      'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z'
+    );
+
+    const TIPOS = {
+      reflexion:   'Reflexión',
+      inspiracion: 'Inspiración',
+      oncologico:  'Yoga Oncológico',
+    };
+
+    const lista = document.getElementById('pensamientos-lista');
+
+    const { data } = await supabase
+      .from('pensamientos')
+      .select('*')
+      .eq('activo', true)
+      .order('fecha', { ascending: false });
+
+    if (!data || data.length === 0) {
+      lista.innerHTML = `<div class="pensamientos-empty"><p>Próximamente nuevos pensamientos.</p></div>`;
+    } else {
+      data.forEach(p => {
+        const fecha    = new Date(p.fecha + 'T12:00:00');
+        const dia      = fecha.getDate();
+        const mes      = fecha.toLocaleString('es-MX', { month: 'long' });
+        const año      = fecha.getFullYear();
+        const fechaStr = `${dia} de ${mes}, ${año}`;
+        const tipo     = TIPOS[p.tipo] || p.tipo;
+
+        const card = document.createElement('div');
+        card.className = 'pensamiento-card';
+        card.id = `p-${p.id}`;
+        card.innerHTML = `
+          <div class="pensamiento-card__meta">
+            <span class="pensamiento-card__date">${fechaStr}</span>
+            <span class="pensamiento-card__tipo">${tipo}</span>
+          </div>
+          <h2>${p.titulo}</h2>
+          <p>${p.contenido}</p>`;
+        lista.appendChild(card);
+      });
+
+      // Scroll to anchor if URL has hash
+      const hash = window.location.hash;
+      if (hash) {
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+      }
+    }
+
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      const spans = hamburger.querySelectorAll('span');
+      const isOpen = navLinks.classList.contains('open');
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      spans[0].style.transform = isOpen ? 'rotate(45deg) translate(5px, 5px)' : '';
+      spans[1].style.opacity   = isOpen ? '0' : '1';
+      spans[2].style.transform = isOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.querySelectorAll('span').forEach(s => {
+          s.style.transform = '';
+          s.style.opacity = '1';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
