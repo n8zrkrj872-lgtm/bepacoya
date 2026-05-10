@@ -181,6 +181,7 @@ hamburger.addEventListener('click', () => {
   const spans = hamburger.querySelectorAll('span');
   const isOpen = navLinks.classList.contains('open');
   hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  document.body.classList.toggle('menu-open', isOpen);
   spans[0].style.transform = isOpen ? 'rotate(45deg) translate(5px, 5px)' : '';
   spans[1].style.opacity = isOpen ? '0' : '1';
   spans[2].style.transform = isOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
@@ -190,6 +191,7 @@ hamburger.addEventListener('click', () => {
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('open');
+    document.body.classList.remove('menu-open');
     hamburger.querySelectorAll('span').forEach(s => {
       s.style.transform = '';
       s.style.opacity = '1';
