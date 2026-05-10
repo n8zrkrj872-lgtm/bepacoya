@@ -166,6 +166,37 @@ async function cargarPensamientos() {
 
 cargarPensamientos();
 
+// Contact form — Formspree sin redirección
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('button[type="submit"]');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    const res = await fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { Accept: 'application/json' },
+    });
+
+    if (res.ok) {
+      btn.textContent = '✓ Mensaje enviado';
+      btn.style.background = '#698d6c';
+      contactForm.reset();
+      setTimeout(() => {
+        btn.textContent = 'Enviar mensaje';
+        btn.disabled = false;
+        btn.style.background = '';
+      }, 3000);
+    } else {
+      btn.textContent = 'Error — intenta de nuevo';
+      btn.disabled = false;
+    }
+  });
+}
+
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
