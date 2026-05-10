@@ -469,7 +469,8 @@
             <p style="font-size:0.78rem;color:var(--tierra-claro);margin-top:6px">Los alumnos necesitan este código para ver la clase.</p>
           </div>
 
-          <div style="margin-top:24px;display:flex;justify-content:flex-end">
+          <div style="margin-top:24px;display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap">
+            <a id="abrir-whereby-btn" href="#" target="_blank" rel="noopener" class="btn btn--outline btn--sm" style="display:none">Abrir sala Whereby →</a>
             <button class="btn btn--primary" id="guardar-clase-btn">Guardar configuración</button>
           </div>
         </div>
@@ -957,6 +958,11 @@
       document.getElementById('cl-codigo').value  = data.codigo  || '';
       clActivo.checked = data.activo;
       actualizarToggle(data.activo);
+      const abrirBtn = document.getElementById('abrir-whereby-btn');
+      if (data.stream_url) {
+        abrirBtn.href = data.stream_url.replace('?embed', '').replace('&embed', '');
+        abrirBtn.style.display = 'inline-flex';
+      }
     }
 
     document.getElementById('guardar-clase-btn').addEventListener('click', async () => {
@@ -980,6 +986,12 @@
       mostrarToast('✓ Clase actualizada');
       btn.textContent = 'Guardar configuración';
       btn.disabled = false;
+      const abrirBtn = document.getElementById('abrir-whereby-btn');
+      const urlGuardada = document.getElementById('cl-url').value.trim();
+      if (urlGuardada) {
+        abrirBtn.href = urlGuardada.replace('?embed', '').replace('&embed', '');
+        abrirBtn.style.display = 'inline-flex';
+      }
     });
 
     // Cargar al mostrar el tab de clases
