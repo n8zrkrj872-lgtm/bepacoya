@@ -351,6 +351,21 @@
               </select>
             </div>
           </div>
+          <!-- Foto -->
+          <div class="form-group" style="margin-top:8px">
+            <label>Foto</label>
+            <div id="me-foto-actual" style="margin-bottom:12px;display:none">
+              <img id="me-foto-preview" src="" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-bottom:8px" />
+              <button type="button" class="btn btn--danger btn--sm" id="borrar-foto-btn">🗑 Borrar foto</button>
+            </div>
+            <div class="foto-upload-area" onclick="document.getElementById('me-foto-input').click()">
+              <input type="file" id="me-foto-input" accept="image/*" />
+              <div class="upload-icon">🖼️</div>
+              <strong id="me-foto-label">Toca para reemplazar la foto</strong>
+              <p>JPG, PNG o WEBP · Máx 5MB</p>
+              <img class="foto-preview" id="me-foto-nueva-preview" src="" alt="Preview" />
+            </div>
+          </div>
           <div class="form-actions">
             <button class="btn btn--outline btn--sm" id="cancelar-memoria-edit-btn">Cancelar</button>
             <button class="btn btn--primary btn--sm" id="guardar-memoria-edit-btn">Guardar cambios</button>
@@ -623,16 +638,57 @@
       document.getElementById('me-hora').value        = data.hora || '';
       document.getElementById('me-lugar').value       = data.lugar || '';
       document.getElementById('me-tipo').value        = data.tipo || 'taller';
+
+      const fotoActualDiv    = document.getElementById('me-foto-actual');
+      const fotoPreviewImg   = document.getElementById('me-foto-preview');
+      const fotoNuevaPreview = document.getElementById('me-foto-nueva-preview');
+      const fotoInput        = document.getElementById('me-foto-input');
+
+      fotoInput.value = '';
+      fotoNuevaPreview.style.display = 'none';
+      fotoNuevaPreview.src = '';
+
+      if (data.foto_url) {
+        fotoActualDiv.style.display = 'block';
+        fotoPreviewImg.src = data.foto_url;
+      } else {
+        fotoActualDiv.style.display = 'none';
+      }
+
       memoriaEditForm.classList.add('open');
       memoriaEditForm.scrollIntoView({ behavior: 'smooth' });
     };
+
+    // Preview foto nueva
+    document.getElementById('me-foto-input').addEventListener('change', () => {
+      const file = document.getElementById('me-foto-input').files[0];
+      if (!file) return;
+      const preview = document.getElementById('me-foto-nueva-preview');
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    });
+
+    // Borrar foto
+    document.getElementById('borrar-foto-btn').addEventListener('click', async () => {
+      const id = document.getElementById('me-id').value;
+      if (!confirm('¿Segura que quieres borrar la foto?')) return;
+      await supabase.from('eventos').update({ foto_url: null }).eq('id', id);
+      document.getElementById('me-foto-actual').style.display = 'none';
+      mostrarToast('Foto borrada');
+      cargarMemorias();
+    });
 
     cancelarMemoriaEditBtn.addEventListener('click', () => {
       memoriaEditForm.classList.remove('open');
     });
 
     guardarMemoriaEditBtn.addEventListener('click', async () => {
-      const id = document.getElementById('me-id').value;
+      const id   = document.getElementById('me-id').value;
+      const file = document.getElementById('me-foto-input').files[0];
+
+      guardarMemoriaEditBtn.textContent = 'Guardando...';
+      guardarMemoriaEditBtn.disabled = true;
+
       const datos = {
         titulo:      document.getElementById('me-titulo').value.trim(),
         descripcion: document.getElementById('me-descripcion').value.trim(),
@@ -641,9 +697,23 @@
         lugar:       document.getElementById('me-lugar').value.trim(),
         tipo:        document.getElementById('me-tipo').value,
       };
+
+      if (file) {
+        const ext      = file.name.split('.').pop();
+        const fileName = `evento-${id}-${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from('Memorias').upload(fileName, file, { upsert: true });
+        if (!uploadError) {
+          const { data: urlData } = supabase.storage.from('Memorias').getPublicUrl(fileName);
+          datos.foto_url = urlData.publicUrl;
+        }
+      }
+
       await supabase.from('eventos').update(datos).eq('id', id);
       mostrarToast('✓ Memoria actualizada');
       memoriaEditForm.classList.remove('open');
+      guardarMemoriaEditBtn.textContent = 'Guardar cambios';
+      guardarMemoriaEditBtn.disabled = false;
       cargarMemorias();
     });
 
