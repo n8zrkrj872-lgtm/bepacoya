@@ -199,9 +199,24 @@ if (contactForm) {
 
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');
+
+// WhatsApp — no pasa de la línea del footer
+const waBtn = document.querySelector('.whatsapp-float');
+const footerBottom = document.querySelector('.footer__bottom');
+function ajustarWhatsApp() {
+  if (!waBtn || !footerBottom) return;
+  const rect = footerBottom.getBoundingClientRect();
+  if (rect.top < window.innerHeight) {
+    waBtn.style.bottom = (window.innerHeight - rect.top + 12) + 'px';
+  } else {
+    waBtn.style.bottom = '24px';
+  }
+}
+
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 40);
-});
+  ajustarWhatsApp();
+}, { passive: true });
 
 // Mobile hamburger menu
 const hamburger = document.getElementById('hamburger');
