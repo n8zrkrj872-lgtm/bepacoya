@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="regresa-icon.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -204,7 +204,7 @@
 <body>
 
   <!-- Minimal nav -->
-  <nav class="r-nav">
+  <nav class="r-nav" id="r-nav" style="display:none">
     <a href="index.html" class="r-nav__logo">Pacoya</a>
     <a href="index.html" class="r-nav__back">← Volver</a>
   </nav>
@@ -235,6 +235,18 @@
   <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9998;transition:opacity 0.85s ease;"></div>
 
   <script>
+    // Mostrar nav solo si se navega desde el sitio
+    const ref = document.referrer;
+    const fromSite = ref && (
+      ref.includes('bepacoya.com') ||
+      ref.includes('github.io') ||
+      ref.includes('localhost') ||
+      ref.includes('127.0.0.1')
+    );
+    if (fromSite) {
+      document.getElementById('r-nav').style.display = 'flex';
+    }
+
     // Fade de entrada
     window.addEventListener('load', () => {
       const f = document.getElementById('page-fade');
