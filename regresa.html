@@ -97,7 +97,7 @@
       bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 3;
+      z-index: 8;
       display: none;
       flex-direction: column;
       gap: 10px;
@@ -243,13 +243,23 @@
       transform: scale(1.3);
     }
 
+    /* Retention darkness overlay */
+    #retention-dark {
+      position: fixed;
+      inset: 0;
+      background: #0e0b07;
+      z-index: 6;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     /* ── WIM HOF BOTTOM BAR ── */
     .wh-bottom {
       position: fixed;
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 3;
+      z-index: 8;
       display: flex;
       align-items: baseline;
       gap: 14px;
@@ -367,6 +377,9 @@
     <span id="wh-round"></span>
   </div>
 
+  <!-- Retention darkness -->
+  <div id="retention-dark"></div>
+
   <!-- Fade overlay -->
   <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9998;transition:opacity 0.85s ease;"></div>
 
@@ -469,6 +482,9 @@
     function whStop() {
       wh.active = false;
       showWhUI(false);
+      darkEl.style.transition = 'opacity 1s ease';
+      darkEl.style.opacity = '0';
+      setTimeout(() => { darkEl.style.transition = ''; }, 1100);
     }
 
     function showWhUI(show) {
@@ -497,11 +513,16 @@
       wh.phaseStart = performance.now();
       document.getElementById('wh-tap').classList.remove('show');
       document.getElementById('wh-timer').textContent = '';
+      darkEl.style.transition = 'opacity 2s ease';
+      darkEl.style.opacity = '0';
+      setTimeout(() => { darkEl.style.transition = ''; }, 2100);
       updateWhLabels();
     }
 
     document.getElementById('wh-tap').addEventListener('click', whAdvanceFromRetention);
     document.addEventListener('keydown', e => { if (e.code === 'Space' && wh.phase === 'retention') whAdvanceFromRetention(); });
+
+    const darkEl = document.getElementById('retention-dark');
 
     function animateWimHof(now) {
       if (!wh.active) return;
@@ -541,6 +562,7 @@
       } else if (wh.phase === 'retention') {
         p = 0.05 + Math.sin(elapsed * 0.0015) * 0.04; // subtle alive pulse
         label = 'retención';
+        darkEl.style.opacity = Math.min(elapsed / 90000, 1);
         // Update timer
         const secs = Math.floor(elapsed / 1000);
         const m = Math.floor(secs / 60);
