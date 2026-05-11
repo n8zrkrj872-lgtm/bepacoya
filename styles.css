@@ -603,6 +603,12 @@ ul { list-style: none; }
 .service-card__icon {
   font-size: 2rem;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.service-card:not(.service-card--featured) {
+  text-align: center;
 }
 
 .service-card--featured .service-card__icon {
