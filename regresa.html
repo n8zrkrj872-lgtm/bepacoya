@@ -217,7 +217,7 @@
       color: var(--dim);
       margin-top: 18px;
       height: 18px;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.9s ease;
       user-select: none;
     }
 
@@ -572,7 +572,7 @@
         }
       } else if (wh.phase === 'retention') {
         p = 0.05 + Math.sin(elapsed * 0.0015) * 0.04; // subtle alive pulse
-        label = WH_RETENTION_MSGS[Math.floor(elapsed / 8000) % WH_RETENTION_MSGS.length];
+        label = WH_RETENTION_MSGS[Math.floor(elapsed / 12000) % WH_RETENTION_MSGS.length];
         darkEl.style.opacity = Math.min(elapsed / 90000, 1);
         // Update timer
         const secs = Math.floor(elapsed / 1000);
@@ -674,8 +674,8 @@
 
       if (label !== lastLabel) {
         lastLabel = label;
-        labelEl.style.opacity = '0';
-        setTimeout(() => { labelEl.textContent = label; labelEl.style.opacity = '1'; }, 280);
+        labelEl.style.opacity = '0.08';
+        setTimeout(() => { labelEl.textContent = label; labelEl.style.opacity = '1'; }, 500);
       }
     }
 
