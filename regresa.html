@@ -166,11 +166,16 @@
     }
 
     /* Orb */
-    .breath-orb {
+    .orb-wrap {
       position: relative;
       z-index: 2;
       width: 180px;
       height: 180px;
+      flex-shrink: 0;
+    }
+    .breath-orb {
+      position: absolute;
+      inset: 0;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(122,158,126,0.2) 0%, rgba(122,158,126,0.06) 55%, transparent 75%);
       box-shadow: 0 0 80px rgba(122,158,126,0.1), 0 0 160px rgba(122,158,126,0.05);
@@ -255,51 +260,58 @@
     .wh-counter.show { opacity: 1; }
 
     .wh-round {
-      position: relative;
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 3;
       font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: rgba(250,247,242,0.2);
-      margin-top: 8px;
+      white-space: nowrap;
       opacity: 0;
       transition: opacity 0.5s;
       user-select: none;
     }
     .wh-round.show { opacity: 1; }
 
-    /* Tap to continue — retention phase */
+    /* Tap to continue — centered over orb */
     .wh-tap {
-      position: fixed;
-      bottom: 48px;
+      position: absolute;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      z-index: 50;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      width: 100%;
+      text-align: center;
+      font-size: 0.58rem;
+      line-height: 1.9;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(250,247,242,0.22);
-      opacity: 0;
+      color: rgba(250,247,242,0.7);
+      visibility: hidden;
       pointer-events: none;
-      transition: opacity 1s ease;
-      animation: tapPulse 2.5s ease-in-out infinite;
       user-select: none;
     }
     .wh-tap.show {
-      opacity: 1;
+      visibility: visible;
       pointer-events: all;
       cursor: pointer;
+      animation: tapPulse 2.5s ease-in-out infinite;
     }
     @keyframes tapPulse {
-      0%, 100% { opacity: 0.22; }
-      50%       { opacity: 0.55; }
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 0.95; }
     }
 
     /* Retention timer */
     .wh-timer {
-      position: relative;
+      position: fixed;
+      bottom: 62px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 3;
-      margin-top: 28px;
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.5rem, 7vw, 4rem);
       font-weight: 300;
@@ -330,8 +342,11 @@
   <!-- Breathing hero -->
   <section class="breath-hero">
     <canvas id="particles-canvas"></canvas>
-    <div class="breath-glow"     id="breath-glow"></div>
-    <div class="breath-orb"      id="breath-orb"></div>
+    <div class="breath-glow" id="breath-glow"></div>
+    <div class="orb-wrap">
+      <div class="breath-orb" id="breath-orb"></div>
+      <div class="wh-tap" id="wh-tap">toca para<br>continuar</div>
+    </div>
     <div class="breath-wordmark" id="breath-wordmark">Pacoya</div>
     <div class="breath-label"    id="breath-label">inhala</div>
     <div class="breath-dots"     id="breath-dots">
@@ -341,7 +356,6 @@
       <div class="breath-dot" id="dot-3"></div>
     </div>
     <div class="wh-counter" id="wh-counter"></div>
-    <div class="wh-round"   id="wh-round"></div>
     <div class="wh-config"  id="wh-config">
       <div class="wh-config__row">
         <span class="wh-config__label">Respiraciones</span>
@@ -358,11 +372,11 @@
         </div>
       </div>
     </div>
-    <div class="wh-timer"   id="wh-timer"></div>
   </section>
 
-  <!-- Tap to continue (retention) -->
-  <div class="wh-tap" id="wh-tap">toca para continuar</div>
+  <!-- Fixed bottom WH elements -->
+  <div class="wh-round" id="wh-round"></div>
+  <div class="wh-timer" id="wh-timer"></div>
 
   <!-- Fade overlay -->
   <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9998;transition:opacity 0.85s ease;"></div>
