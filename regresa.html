@@ -231,14 +231,28 @@
     </div>
   </section>
 
-  <!-- Fade de entrada -->
-  <div id="entry-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9998;transition:opacity 0.9s ease;"></div>
+  <!-- Fade overlay (entrada y salida) -->
+  <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9998;transition:opacity 0.85s ease;"></div>
 
   <script>
+    // Fade de entrada
     window.addEventListener('load', () => {
-      const f = document.getElementById('entry-fade');
-      setTimeout(() => { f.style.opacity = '0'; }, 80);
-      setTimeout(() => { f.remove(); }, 1000);
+      const f = document.getElementById('page-fade');
+      setTimeout(() => { f.style.opacity = '0'; f.style.pointerEvents = 'none'; }, 80);
+    });
+
+    // Fade de salida en cualquier link interno
+    document.querySelectorAll('a[href]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('http')) {
+          e.preventDefault();
+          const f = document.getElementById('page-fade');
+          f.style.pointerEvents = 'all';
+          f.style.opacity = '1';
+          setTimeout(() => { window.location.href = href; }, 850);
+        }
+      });
     });
 
     // ── MODES ──
