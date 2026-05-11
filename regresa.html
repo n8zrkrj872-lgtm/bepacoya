@@ -513,9 +513,6 @@
       wh.phaseStart = performance.now();
       document.getElementById('wh-tap').classList.remove('show');
       document.getElementById('wh-timer').textContent = '';
-      darkEl.style.transition = 'opacity 2s ease';
-      darkEl.style.opacity = '0';
-      setTimeout(() => { darkEl.style.transition = ''; }, 2100);
       updateWhLabels();
     }
 
@@ -596,10 +593,16 @@
             wh.phaseStart  = now;
             timerEl.textContent = '';
             updateWhLabels();
+            darkEl.style.transition = 'opacity 3s ease';
+            darkEl.style.opacity = '0';
+            setTimeout(() => { darkEl.style.transition = ''; }, 3100);
           } else {
             wh.phase = 'done';
             label    = 'completa';
             updateWhLabels();
+            darkEl.style.transition = 'opacity 3s ease';
+            darkEl.style.opacity = '0';
+            setTimeout(() => { darkEl.style.transition = ''; }, 3100);
           }
         }
       } else if (wh.phase === 'done') {
