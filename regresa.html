@@ -475,11 +475,12 @@
 
     // Durations (ms)
     const WH_DUR = {
-      'power-in':  1500,
-      'power-out': 1000,
-      'rec-in':    3000,
-      'rec-hold':  15000,
-      'rec-out':   3000,
+      'power-in':   1500,
+      'power-out':  1000,
+      'rec-in':     3000,
+      'rec-hold':   15000,
+      'rec-out':    3000,
+      'round-pause': 3000,
     };
 
     function whStart() {
@@ -544,27 +545,28 @@
       let label = '';
 
       if (wh.phase === 'power-in') {
-        const t = Math.min(elapsed / WH_DUR['power-in'], 1);
+        const isLast = wh.breathCount === wh.maxBreaths - 1;
+        const dur = isLast ? WH_DUR['power-in'] * 2 : WH_DUR['power-in'];
+        const t = Math.min(elapsed / dur, 1);
         p = easeInOut(t);
-        label = 'inhala';
-        if (elapsed >= WH_DUR['power-in']) {
+        label = isLast ? 'hasta el fondo' : 'inhala';
+        if (elapsed >= dur) {
           wh.phase = 'power-out';
           wh.phaseStart = now;
         }
       } else if (wh.phase === 'power-out') {
-        const t = Math.min(elapsed / WH_DUR['power-out'], 1);
+        const isLast = wh.breathCount === wh.maxBreaths - 1;
+        const dur = isLast ? WH_DUR['power-out'] * 2 : WH_DUR['power-out'];
+        const t = Math.min(elapsed / dur, 1);
         p = 1 - easeInOut(t);
-        label = 'suelta';
-        if (elapsed >= WH_DUR['power-out']) {
+        label = isLast ? 'suéltalo todo' : 'suelta';
+        if (elapsed >= dur) {
           wh.breathCount++;
           updateWhLabels();
           if (wh.breathCount >= wh.maxBreaths) {
-            // Enter retention
             wh.phase     = 'retention';
             wh.phaseStart = now;
-            setTimeout(() => {
-              tapEl.classList.add('show');
-            }, 800);
+            setTimeout(() => { tapEl.classList.add('show'); }, 800);
           } else {
             wh.phase     = 'power-in';
             wh.phaseStart = now;
@@ -603,7 +605,7 @@
           if (wh.round < wh.maxRounds) {
             wh.round++;
             wh.breathCount = 0;
-            wh.phase       = 'power-in';
+            wh.phase       = 'round-pause';
             wh.phaseStart  = now;
             timerEl.textContent = '';
             updateWhLabels();
@@ -618,6 +620,13 @@
             darkEl.style.opacity = '0';
             setTimeout(() => { darkEl.style.transition = ''; }, 3100);
           }
+        }
+      } else if (wh.phase === 'round-pause') {
+        p = 0.2 + Math.sin(elapsed * 0.0008) * 0.06;
+        label = 'prepárate';
+        if (elapsed >= WH_DUR['round-pause']) {
+          wh.phase     = 'power-in';
+          wh.phaseStart = now;
         }
       } else if (wh.phase === 'done') {
         p = 0.5 + Math.sin(now * 0.001) * 0.1;
