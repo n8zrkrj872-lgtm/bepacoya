@@ -626,6 +626,10 @@ ul { list-style: none; }
   color: var(--tierra);
 }
 
+.service-card:not(.service-card--featured) h3 {
+  text-align: center;
+}
+
 .service-card p {
   font-size: 0.9rem;
   color: var(--tierra-claro);
