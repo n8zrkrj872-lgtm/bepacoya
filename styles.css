@@ -435,24 +435,25 @@ ul { list-style: none; }
   background: var(--blanco);
   border: 1px solid rgba(181, 149, 106, 0.2);
   border-radius: var(--radius-md);
-  padding: 20px 22px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   box-shadow: 0 8px 30px var(--sombra-md);
-  max-width: 300px;
+  max-width: 290px;
+  width: 290px;
 }
 .cert-icon { flex-shrink: 0; }
 .cert-info { display: flex; flex-direction: column; }
 .cert-name {
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--tierra);
 }
 .cert-title {
-  font-size: 0.88rem;
+  font-size: 0.75rem;
   font-family: var(--font-display);
   font-weight: 400;
   color: var(--tierra);
@@ -461,10 +462,10 @@ ul { list-style: none; }
 .cert-divider {
   border: none;
   border-top: 1px solid rgba(61, 47, 34, 0.1);
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .cert-credential {
-  font-size: 0.72rem;
+  font-size: 0.6rem;
   color: var(--tierra-claro);
   line-height: 1.45;
 }
@@ -1463,7 +1464,10 @@ ul { list-style: none; }
 
   .services__grid { grid-template-columns: 1fr; }
 
-  .about__values { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
+  .about__values { grid-template-columns: repeat(4, 1fr); gap: 12px 6px; }
+  .value__icon { width: 54px; height: 54px; }
+  .value__name { font-size: 0.54rem; letter-spacing: 0.12em; }
+  .value__desc { font-size: 0.7rem; }
 
   .access-input-group { flex-direction: column; }
   .event-card { flex-direction: column; gap: 12px; }
