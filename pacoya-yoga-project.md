@@ -1,190 +1,166 @@
-# 🌿 Pacoya Yoga — Documento de Proyecto
+# Pacoya Yoga — Documento de Proyecto
 
-> *"Encuentra tu equilibrio. Sana desde adentro."*
-
----
-
-## 📋 Resumen del Proyecto
-
-**Nombre del sitio:** Pacoya Yoga  
-**Tipo:** Landing Page + Web App  
-**Idioma:** Español  
-**Objetivo:** Promocionar el estudio de yoga, ofrecer clases en línea con acceso privado, publicar pensamientos positivos y gestionar eventos exclusivos para miembros.
+> *"Vivir es urgente."*
 
 ---
 
-## 🎯 Propósito y Audiencia
+## Resumen del Proyecto
 
-### Propósito Principal
-Crear una presencia digital que refleje la filosofía de bienestar de Pacoya Yoga, con especial énfasis en el **yoga oncológico** — una práctica especializada para personas que viven o han vivido con cáncer, impartida por instructora certificada.
-
-### Audiencia Objetivo
-- Adultos interesados en yoga y bienestar general
-- Personas en proceso oncológico o recuperación
-- Miembros activos que asisten a eventos y clases especiales
-- Personas que buscan clases en línea desde casa
+**Sitio web:** [bepacoya.com](https://bepacoya.com)  
+**Repositorio:** [github.com/n8zrkrj872-lgtm/bepacoya](https://github.com/n8zrkrj872-lgtm/bepacoya)  
+**Estado:** Publicado y en producción  
+**Instructora:** Bryanna Osuna  
+**Correo oficial:** contacto@bepacoya.com (Google Workspace)  
+**Teléfono / WhatsApp:** 686 187 5393
 
 ---
 
-## 🗂️ Secciones de la Página
+## Stack Tecnológico (implementado)
 
-### 1. Hero
-- Frase principal inspiradora
-- Llamada a la acción: *"Únete a nuestra comunidad"* y *"Ver clases en vivo"*
-- Estética visual calmante (tonos verdes, crema y tierra)
-
-### 2. Sobre Nosotros
-- Historia del estudio Pacoya Yoga
-- Presentación de la instructora principal, **certificada en Yoga Oncológico**
-- Valores: presencia, sanación, comunidad, compasión
-- Destacar la especialización oncológica como diferenciador único
-
-### 3. Servicios
-| Servicio | Descripción |
+| Capa | Tecnología |
 |---|---|
-| Yoga General | Clases para todos los niveles |
-| Yoga Oncológico | Práctica especializada para personas en proceso de tratamiento o recuperación de cáncer. Instructora certificada. |
-| Meditación | Sesiones guiadas de meditación y mindfulness |
-| Clases en Línea | Transmisión en vivo con código de acceso privado |
-| Sesiones Especiales | Talleres y retiros para miembros |
-
-### 4. Clases en Vivo (Acceso Privado)
-- Sección protegida con **código de acceso único** por clase
-- El código se proporciona a los miembros con anticipación
-- Reproductor integrado (YouTube Live / Zoom / Vimeo — por definir)
-- Diseño limpio que no revela el contenido hasta ingresar el código
-
-### 5. Eventos para Miembros
-Sección dedicada a actividades exclusivas de la comunidad Pacoya:
-- Clases de meditación grupales
-- Sesiones especiales temáticas
-- Talleres de bienestar
-- Retiros y encuentros presenciales
-- Formato: tarjetas de evento con fecha, hora, descripción y botón RSVP
-
-### 6. Blog — Pensamientos Positivos
-- Publicaciones diarias o frecuentes
-- Reflexiones, frases inspiradoras, tips de bienestar
-- Formato sencillo: título + texto + fecha
-- Escritura personal de la instructora
-
-### 7. Testimonios
-- Comentarios de alumnas y alumnos
-- Especialmente de personas que han tomado yoga oncológico
-- Formato: foto (opcional), nombre, testimonio
-
-### 8. Contacto
-- Formulario de contacto: nombre, correo, mensaje
-- Redes sociales
-- Ubicación (si aplica)
-- Horarios de clases
+| Frontend | HTML + CSS + JavaScript vanilla (ES Modules) |
+| Base de datos | Supabase (PostgreSQL) |
+| Hosting | GitHub Pages (auto-deploy desde rama `main`) |
+| Dominio | bepacoya.com via Hostinger DNS |
+| Email | Google Workspace → contacto@bepacoya.com |
+| Formulario de contacto | Formspree (endpoint `xeenvjnp`) |
+| Clases en vivo | Whereby (link con código de acceso privado) |
+| Tipografía | Cormorant Garamond + DM Sans (Google Fonts) |
 
 ---
 
-## 🎨 Identidad Visual
+## Páginas del Sitio
 
-### Paleta de Colores
-| Nombre | Uso | Hex sugerido |
+### `index.html` — Página principal
+Secciones en orden:
+1. **Hero** — frase principal + llamadas a acción
+2. **Nosotros** — historia del estudio y valores
+3. **Oncología** — sección destacada de yoga oncológico
+4. **Servicios** — tarjetas de servicios ofrecidos
+5. **Eventos** — próximos eventos cargados desde Supabase
+6. **Memorias** — eventos pasados con fotos (desde Supabase)
+7. **Pensamientos** — últimas 3 entradas del blog (preview)
+8. **Testimonios** — testimonios de alumnas
+9. **Clases en Vivo** — acceso privado con código
+10. **Contacto** — formulario conectado a Formspree
+
+### `pensamientos.html` — Blog completo
+- Carga todos los pensamientos activos desde Supabase
+- Ordenados por fecha descendente
+- Soporta anchor links (`#p-{id}`) para navegación directa
+
+### `memorias.html` — Galería de eventos pasados
+- Eventos con `foto_url` y fecha pasada
+- Tarjetas con imagen, título, descripción y fecha
+
+### `admin.html` — Panel de administración
+Acceso directo por URL (sin contraseña — URL privada).  
+Pestañas:
+- **Eventos** — crear/editar próximos eventos
+- **Memorias** — agregar fotos a eventos pasados
+- **Pensamientos** — publicar entradas del blog
+- **En Vivo** — activar clase, pegar link de Whereby, definir código de acceso
+
+### `regresa.html` — Experiencia de respiración
+- Página independiente de meditación/respiración
+- Dos modos: **Respiración Cuadrada** (4-4-4-4) y **Respiración Calma** (4-6)
+- Animación de partículas + wordmark "Pacoya" que respira
+- Nav oculto en acceso directo, visible solo al navegar desde el sitio
+- Transición de fade oscuro al entrar y salir
+- Ícono propio (`regresa-icon.png`)
+
+---
+
+## Base de Datos — Supabase
+
+### Tabla `eventos`
+| Campo | Tipo | Descripción |
 |---|---|---|
-| Verde salvia | Color principal, botones, acentos | `#7A9E7E` |
-| Verde pálido | Fondos suaves | `#EBF3EC` |
-| Crema | Fondo general | `#FAF7F2` |
-| Tierra / Bark | Títulos y textos | `#3D2F22` |
-| Dorado suave | Detalles y separadores | `#B5956A` |
+| `id` | int | Primaria |
+| `titulo` | text | Nombre del evento |
+| `descripcion` | text | Descripción breve |
+| `fecha` | date | Fecha del evento |
+| `hora` | text | Hora (ej. "10:00 AM") |
+| `lugar` | text | Lugar o modalidad |
+| `tipo` | text | `meditacion`, `taller`, `especial`, `retiro` |
+| `activo` | bool | Si se muestra en el sitio |
+| `foto_url` | text | URL de foto (para memorias) |
 
-### Tipografía
-- **Display / Títulos:** Cormorant Garamond (serif elegante)
-- **Cuerpo / UI:** DM Sans (limpio y legible)
-
-### Tono Visual
-Orgánico, calmante, sereno. Inspirado en la naturaleza: hojas, tierra, luz filtrada. Sin elementos agresivos ni colores saturados.
-
----
-
-## ⚙️ Funcionalidades Técnicas
-
-### Clases en Vivo con Código de Acceso
-- Campo de texto donde el usuario ingresa su código
-- Validación del código (puede ser simple JS o conectado a base de datos)
-- Al ingresar código correcto → se muestra el reproductor de video en vivo
-- Al ingresar código incorrecto → mensaje de error amable
-
-### Blog / Pensamientos Positivos
-- Publicaciones en formato simple
-- Posibilidad futura de conectar a CMS (Notion, Contentful, etc.)
-- Por ahora: contenido estático o administrado manualmente en el código
-
-### Sección de Eventos
-- Tarjetas de eventos con: título, fecha, hora, descripción, tipo (meditación, sesión especial, taller)
-- Botón de registro o confirmación de asistencia
-- Posibilidad de enviar correo de confirmación en versión futura
-
----
-
-## 🛠️ Stack Tecnológico Sugerido
-
-| Capa | Tecnología | Razón |
+### Tabla `pensamientos`
+| Campo | Tipo | Descripción |
 |---|---|---|
-| Frontend | HTML + CSS + JavaScript | Ligero, sin dependencias, fácil de mantener |
-| Fuentes | Google Fonts | Cormorant Garamond + DM Sans |
-| Video en Vivo | YouTube Live embed | Gratuito, confiable, fácil integración |
-| Formulario de contacto | Formspree / Netlify Forms | Sin backend propio necesario |
-| Hosting | Netlify / Vercel | Gratuito para proyectos estáticos |
-| Dominio sugerido | `pacoyayoga.com` o `pacoya.yoga` | — |
+| `id` | int | Primaria |
+| `titulo` | text | Título de la entrada |
+| `contenido` | text | Cuerpo del texto |
+| `fecha` | date | Fecha de publicación |
+| `tipo` | text | `reflexion`, `inspiracion`, `oncologico` |
+| `activo` | bool | Si se muestra en el sitio |
+
+### Tabla `clases_en_vivo`
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `id` | int | Siempre id=1 (fila única) |
+| `titulo` | text | Nombre de la clase |
+| `stream_url` | text | Link de Whereby |
+| `codigo` | text | Código de acceso (mayúsculas) |
+| `activo` | bool | Si hay clase activa ahora |
 
 ---
 
-## 📅 Fases de Desarrollo
+## Funcionalidades Implementadas
 
-### Fase 1 — Base visual (semana 1–2)
-- [ ] Hero + Navbar
-- [ ] Sección Sobre Nosotros
-- [ ] Sección Servicios
-- [ ] Footer
-
-### Fase 2 — Contenido dinámico (semana 3)
-- [ ] Sección Eventos
-- [ ] Blog / Pensamientos Positivos
-- [ ] Sección Testimonios
-
-### Fase 3 — Funcionalidades especiales (semana 4)
-- [ ] Sección Clases en Vivo con código de acceso
-- [ ] Formulario de contacto funcional
-- [ ] Optimización móvil
-
-### Fase 4 — Lanzamiento
-- [ ] Revisión de contenido final
-- [ ] Pruebas en dispositivos
-- [ ] Deploy a Netlify/Vercel
-- [ ] Conectar dominio
+- [x] Sitio publicado en bepacoya.com con SSL
+- [x] Navbar responsivo con menú hamburguesa (iOS full-screen)
+- [x] Favicon + apple-touch-icon para shortcut en iPhone
+- [x] Eventos dinámicos desde Supabase (próximos y pasados)
+- [x] Blog "Pensamientos" con página completa y anchors
+- [x] Panel de administración completo
+- [x] Clases en vivo con código de acceso (Whereby)
+- [x] Formulario de contacto vía Formspree (sin redirección)
+- [x] Botón flotante de WhatsApp en móvil (transparente, respeta el footer)
+- [x] Correo corporativo contacto@bepacoya.com (Google Workspace)
+- [x] Página "Regresa" — experiencia de respiración guiada
+- [x] Transiciones de fade oscuro entre páginas
+- [x] Scroll reveal en secciones
+- [x] SEO básico (meta description en todas las páginas)
 
 ---
 
-## 📝 Contenido Pendiente a Proporcionar
+## DNS Hostinger — bepacoya.com
 
-Para avanzar con el desarrollo, se necesita:
-
-- [ ] Nombre completo de la instructora
-- [ ] Breve biografía personal
-- [ ] Certificación de Yoga Oncológico (nombre, institución)
-- [ ] Foto de la instructora (o imagen representativa)
-- [ ] Servicios exactos con precios (si se publicarán)
-- [ ] Horarios de clases
-- [ ] Correo electrónico de contacto
-- [ ] Redes sociales (Instagram, Facebook, etc.)
-- [ ] Plataforma preferida para transmisión en vivo (YouTube / Zoom / Vimeo)
-- [ ] 2–3 testimonios reales de alumnas/alumnos
-- [ ] Logo (si existe), o definir si se crea uno
+| Tipo | Nombre | Valor |
+|---|---|---|
+| ALIAS / CNAME | @ | n8zrkrj872-lgtm.github.io |
+| MX | @ | ASPMX.L.GOOGLE.COM (p1) |
+| MX | @ | ALT1/ALT2.ASPMX.L.GOOGLE.COM (p5) |
+| MX | @ | ALT3/ALT4.ASPMX.L.GOOGLE.COM (p10) |
+| TXT | @ | Verificación Google Workspace |
+| TXT | @ | `v=spf1 include:_spf.google.com ~all` |
 
 ---
 
-## 💡 Notas Importantes
+## Identidad Visual
 
-- El **yoga oncológico** es el diferenciador más poderoso de Pacoya. Debe estar destacado visualmente y con su propio espacio explicativo, ya que es un servicio especializado que genera mucha confianza y emoción en personas que lo necesitan.
-- El tono de toda la comunicación debe ser **cálido, esperanzador y sin tecnicismos médicos**.
-- La sección de clases en vivo debe sentirse **exclusiva y segura** — los miembros deben sentir que es un espacio privado y protegido.
-- El blog de pensamientos positivos puede ser una herramienta poderosa de fidelización si se actualiza con regularidad.
+| Variable | Valor |
+|---|---|
+| `--verde-salvia` | `#7A9E7E` |
+| `--crema` | `#FAF7F2` |
+| `--tierra` | `#3D2F22` |
+| `--tierra-claro` | `#6B5240` |
+| `--dorado` | `#B5956A` |
+| `--blanco` | `#FFFFFF` |
+
+Tono: orgánico, calmante, contemplativo. Sin neon ni elementos agresivos.
 
 ---
 
-*Documento creado para el proyecto Pacoya Yoga · Versión 1.0*
+## Redes Sociales
+
+- Facebook: [facebook.com/pacoyayoga](https://www.facebook.com/pacoyayoga/)
+- Instagram: [instagram.com/pacoyayoga](https://www.instagram.com/pacoyayoga/)
+- TikTok: [tiktok.com/@pacoyayoga](https://www.tiktok.com/@pacoyayoga)
+
+---
+
+*Última actualización: mayo 2026 · Versión 2.0*
