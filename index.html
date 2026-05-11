@@ -30,7 +30,7 @@
         <a href="#eventos">Eventos</a>
         <a href="#memorias">Memorias</a>
         <a href="#blog">Pensamientos</a>
-        <a href="regresa.html" id="link-regresa">Regresa</a>
+        <a href="respira.html" id="link-respira">Respira</a>
         <a href="#clases" class="btn btn--outline">Clases en Vivo</a>
         <a href="#contacto" class="btn btn--primary">Contáctanos</a>
       </nav>
@@ -402,13 +402,13 @@
       setTimeout(() => { f.style.opacity = '0'; f.style.pointerEvents = 'none'; }, 80);
     });
 
-    // Fade de salida hacia Regresa
-    document.getElementById('link-regresa').addEventListener('click', function(e) {
+    // Fade de salida hacia Respira
+    document.getElementById('link-respira').addEventListener('click', function(e) {
       e.preventDefault();
       const f = document.getElementById('page-fade');
       f.style.pointerEvents = 'all';
       f.style.opacity = '1';
-      setTimeout(() => { window.location.href = 'regresa.html'; }, 850);
+      setTimeout(() => { window.location.href = 'respira.html'; }, 850);
     });
   </script>
 </body>

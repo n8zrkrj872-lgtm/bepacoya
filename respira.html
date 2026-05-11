@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Regresa — Pacoya Yoga</title>
+  <title>Respira — Pacoya Yoga</title>
   <meta name="description" content="Un lugar para volver a ti. Respiración, silencio y presencia." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -152,11 +152,12 @@
       overflow: hidden;
     }
     #particles-canvas {
-      position: absolute;
+      position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
+      z-index: 7;
     }
     .breath-glow {
       position: absolute;
@@ -168,7 +169,6 @@
     /* Orb */
     .orb-wrap {
       position: relative;
-      z-index: 2;
       width: 180px;
       height: 180px;
       flex-shrink: 0;
@@ -291,14 +291,14 @@
     }
     #wh-round:empty { display: none; }
 
-    /* Tap to continue — centered over orb */
+    /* Tap to continue — fixed over orb center */
     .wh-tap {
-      position: absolute;
-      top: 50%;
+      position: fixed;
+      top: calc(26dvh + 90px);
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 10;
-      width: 100%;
+      z-index: 20;
+      width: 180px;
       text-align: center;
       font-size: 0.58rem;
       line-height: 1.9;
@@ -336,13 +336,14 @@
     <button class="mode-btn" data-mode="wimhof">Wim Hof</button>
   </div>
 
+  <canvas id="particles-canvas"></canvas>
+  <div class="wh-tap" id="wh-tap">toca para<br>continuar</div>
+
   <!-- Breathing hero -->
   <section class="breath-hero">
-    <canvas id="particles-canvas"></canvas>
     <div class="breath-glow" id="breath-glow"></div>
     <div class="orb-wrap">
       <div class="breath-orb" id="breath-orb"></div>
-      <div class="wh-tap" id="wh-tap">toca para<br>continuar</div>
     </div>
     <div class="breath-wordmark" id="breath-wordmark">Pacoya</div>
     <div class="breath-label"    id="breath-label">inhala</div>
@@ -455,8 +456,11 @@
       maxRounds:  3,
       breathCount: 0,
       maxBreaths: 30,
-      phase:      'power-in',   // power-in | power-out | retention | rec-in | rec-hold | rec-out | done
+      phase:      'power-in',
       phaseStart: 0,
+      holdPaused:         false,
+      holdPausedDuration: 0,
+      holdPauseStart:     0,
     };
 
     // Motivational messages during retention
@@ -490,6 +494,8 @@
       wh.phase       = 'power-in';
       wh.phaseStart  = performance.now();
       document.getElementById('wh-timer').textContent = '';
+      wh.holdPaused = false;
+      wh.holdPausedDuration = 0;
       showWhUI(true);
       updateWhLabels();
     }
@@ -533,6 +539,20 @@
 
     document.getElementById('wh-tap').addEventListener('click', whAdvanceFromRetention);
     document.addEventListener('keydown', e => { if (e.code === 'Space' && wh.phase === 'retention') whAdvanceFromRetention(); });
+
+    // Pause / resume rec-hold on tap
+    document.addEventListener('click', e => {
+      if (wh.phase !== 'rec-hold') return;
+      if (e.target.closest('.mode-btn, .wh-opt, .r-nav, .wh-config')) return;
+      const now = performance.now();
+      if (wh.holdPaused) {
+        wh.holdPausedDuration += now - wh.holdPauseStart;
+        wh.holdPaused = false;
+      } else {
+        wh.holdPauseStart = now;
+        wh.holdPaused = true;
+      }
+    });
 
     const darkEl = document.getElementById('retention-dark');
 
@@ -586,14 +606,17 @@
         p = easeInOut(t);
         label = 'inhala profundo';
         if (elapsed >= WH_DUR['rec-in']) {
-          wh.phase     = 'rec-hold';
-          wh.phaseStart = now;
+          wh.phase              = 'rec-hold';
+          wh.phaseStart         = now;
+          wh.holdPaused         = false;
+          wh.holdPausedDuration = 0;
         }
       } else if (wh.phase === 'rec-hold') {
         p = 1;
-        const remaining = Math.max(0, Math.ceil((WH_DUR['rec-hold'] - elapsed) / 1000));
-        label = `sostén · ${remaining}s`;
-        if (elapsed >= WH_DUR['rec-hold']) {
+        const effective = elapsed - wh.holdPausedDuration;
+        const remaining = Math.max(0, Math.ceil((WH_DUR['rec-hold'] - effective) / 1000));
+        label = wh.holdPaused ? `pausado · ${remaining}s` : `sostén · ${remaining}s`;
+        if (!wh.holdPaused && effective >= WH_DUR['rec-hold']) {
           wh.phase     = 'rec-out';
           wh.phaseStart = now;
         }
