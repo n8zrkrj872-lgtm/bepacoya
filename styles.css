@@ -607,8 +607,9 @@ ul { list-style: none; }
   justify-content: center;
 }
 
-.service-card:not(.service-card--featured) {
-  text-align: center;
+.service-card:not(.service-card--featured) .service-card__icon svg {
+  height: 38px;
+  width: auto;
 }
 
 .service-card--featured .service-card__icon {
