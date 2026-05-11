@@ -1402,8 +1402,8 @@ ul { list-style: none; }
   .event-card { flex-direction: column; gap: 12px; }
   .memorias__grid { grid-template-columns: 1fr; }
 
-  .footer__grid { grid-template-columns: 1fr; gap: 24px; }
-  .footer__brand { grid-column: span 1; }
+  .footer__grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .footer__contact { text-align: right; }
   .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
 }
 
@@ -1423,7 +1423,7 @@ ul { list-style: none; }
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(37, 211, 102, 0.82);
+    background: rgba(37, 211, 102, 0.42);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     box-shadow: 0 4px 16px rgba(0,0,0,0.18);
@@ -1432,7 +1432,7 @@ ul { list-style: none; }
   }
   .whatsapp-float:hover,
   .whatsapp-float:active {
-    background: rgba(37, 211, 102, 1);
+    background: rgba(37, 211, 102, 0.65);
     transform: scale(1.08);
   }
 }
