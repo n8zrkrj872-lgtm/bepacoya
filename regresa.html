@@ -91,54 +91,6 @@
       color: rgba(250,247,242,0.82);
     }
 
-    /* ── WIM HOF CONFIG ── */
-    .wh-config {
-      position: fixed;
-      top: 126px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-      background: rgba(14,11,7,0.55);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(250,247,242,0.07);
-      border-radius: 16px;
-      padding: 14px 20px;
-    }
-    .wh-config.show { display: flex; }
-    .wh-config__row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .wh-config__label {
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(250,247,242,0.3);
-      width: 90px;
-    }
-    .wh-opts { display: flex; gap: 6px; }
-    .wh-opt {
-      background: none;
-      border: 1px solid rgba(250,247,242,0.1);
-      border-radius: 100px;
-      padding: 5px 14px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem;
-      color: rgba(250,247,242,0.38);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .wh-opt.active {
-      border-color: rgba(122,158,126,0.5);
-      color: rgba(250,247,242,0.82);
-      background: rgba(122,158,126,0.1);
-    }
-
     /* ── HERO ── */
     .breath-hero {
       position: relative;
@@ -325,24 +277,6 @@
     <button class="mode-btn" data-mode="wimhof">Wim Hof</button>
   </div>
 
-  <!-- Wim Hof config panel -->
-  <div class="wh-config" id="wh-config">
-    <div class="wh-config__row">
-      <span class="wh-config__label">Respiraciones</span>
-      <div class="wh-opts">
-        <button class="wh-opt active" data-type="breaths" data-val="30">30</button>
-        <button class="wh-opt"        data-type="breaths" data-val="40">40</button>
-      </div>
-    </div>
-    <div class="wh-config__row">
-      <span class="wh-config__label">Rondas</span>
-      <div class="wh-opts">
-        <button class="wh-opt active" data-type="rounds" data-val="3">3</button>
-        <button class="wh-opt"        data-type="rounds" data-val="4">4</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Breathing hero -->
   <section class="breath-hero">
     <canvas id="particles-canvas"></canvas>
@@ -432,7 +366,7 @@
       return { label: mode.phases[0].label, p: 0, phaseIndex: 0 };
     }
 
-    // ── WIM HOF STATE ──
+    // ── WIM HOF STATE ── 30 respiraciones · 3 rondas
     let wh = {
       active:     false,
       round:      1,
@@ -666,24 +600,9 @@
         startTime   = performance.now();
         lastLabel   = '';
 
-        const isWH = mode === 'wimhof';
-        document.getElementById('wh-config').classList.toggle('show', isWH);
         dotsEl.classList.toggle('show', mode === 'cuadrada');
 
         if (isWH) whStart();
-      });
-    });
-
-    // ── WIM HOF CONFIG OPTS ──
-    document.querySelectorAll('.wh-opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        const type = opt.dataset.type;
-        document.querySelectorAll(`.wh-opt[data-type="${type}"]`).forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        if (type === 'breaths') wh.maxBreaths = parseInt(opt.dataset.val);
-        if (type === 'rounds')  wh.maxRounds  = parseInt(opt.dataset.val);
-        // Restart if active
-        if (currentMode === 'wimhof') whStart();
       });
     });
 
