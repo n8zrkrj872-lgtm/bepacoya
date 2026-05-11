@@ -243,38 +243,43 @@
       transform: scale(1.3);
     }
 
-    /* ── WIM HOF UI ── */
-    .wh-counter {
-      position: relative;
-      z-index: 3;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      font-weight: 300;
-      color: rgba(122,158,126,0.7);
-      letter-spacing: 0.06em;
-      margin-top: 24px;
-      opacity: 0;
-      transition: opacity 0.5s;
-      user-select: none;
-    }
-    .wh-counter.show { opacity: 1; }
-
-    .wh-round {
+    /* ── WIM HOF BOTTOM BAR ── */
+    .wh-bottom {
       position: fixed;
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 3;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(250,247,242,0.2);
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
       white-space: nowrap;
       opacity: 0;
       transition: opacity 0.5s;
       user-select: none;
     }
-    .wh-round.show { opacity: 1; }
+    .wh-bottom.show { opacity: 1; }
+    #wh-timer {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(250,247,242,0.45);
+      letter-spacing: 0.1em;
+    }
+    #wh-timer:empty { display: none; }
+    #wh-counter {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: rgba(250,247,242,0.3);
+    }
+    #wh-counter:empty { display: none; }
+    #wh-round {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.2);
+    }
+    #wh-round:empty { display: none; }
 
     /* Tap to continue — centered over orb */
     .wh-tap {
@@ -305,24 +310,6 @@
       50%       { opacity: 0.95; }
     }
 
-    /* Retention timer */
-    .wh-timer {
-      position: fixed;
-      bottom: 62px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 7vw, 4rem);
-      font-weight: 300;
-      color: rgba(250,247,242,0.45);
-      letter-spacing: 0.1em;
-      opacity: 0;
-      transition: opacity 0.8s;
-      user-select: none;
-      white-space: nowrap;
-    }
-    .wh-timer.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -355,7 +342,6 @@
       <div class="breath-dot" id="dot-2"></div>
       <div class="breath-dot" id="dot-3"></div>
     </div>
-    <div class="wh-counter" id="wh-counter"></div>
     <div class="wh-config"  id="wh-config">
       <div class="wh-config__row">
         <span class="wh-config__label">Respiraciones</span>
@@ -374,9 +360,12 @@
     </div>
   </section>
 
-  <!-- Fixed bottom WH elements -->
-  <div class="wh-round" id="wh-round"></div>
-  <div class="wh-timer" id="wh-timer"></div>
+  <!-- Fixed bottom WH bar -->
+  <div class="wh-bottom" id="wh-bottom">
+    <span id="wh-timer"></span>
+    <span id="wh-counter"></span>
+    <span id="wh-round"></span>
+  </div>
 
   <!-- Fade overlay -->
   <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9998;transition:opacity 0.85s ease;"></div>
@@ -472,6 +461,7 @@
       wh.breathCount = 0;
       wh.phase       = 'power-in';
       wh.phaseStart  = performance.now();
+      document.getElementById('wh-timer').textContent = '';
       showWhUI(true);
       updateWhLabels();
     }
@@ -482,8 +472,7 @@
     }
 
     function showWhUI(show) {
-      document.getElementById('wh-counter').classList.toggle('show', show);
-      document.getElementById('wh-round').classList.toggle('show', show);
+      document.getElementById('wh-bottom').classList.toggle('show', show);
     }
 
     function updateWhLabels() {
@@ -507,7 +496,7 @@
       wh.phase     = 'rec-in';
       wh.phaseStart = performance.now();
       document.getElementById('wh-tap').classList.remove('show');
-      document.getElementById('wh-timer').classList.remove('show');
+      document.getElementById('wh-timer').textContent = '';
       updateWhLabels();
     }
 
@@ -543,7 +532,6 @@
             wh.phaseStart = now;
             setTimeout(() => {
               tapEl.classList.add('show');
-              timerEl.classList.add('show');
             }, 800);
           } else {
             wh.phase     = 'power-in';
@@ -584,7 +572,7 @@
             wh.breathCount = 0;
             wh.phase       = 'power-in';
             wh.phaseStart  = now;
-            timerEl.classList.remove('show');
+            timerEl.textContent = '';
             updateWhLabels();
           } else {
             wh.phase = 'done';
