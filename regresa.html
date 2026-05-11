@@ -93,8 +93,8 @@
 
     /* ── WIM HOF CONFIG ── */
     .wh-config {
-      position: absolute;
-      bottom: calc(50% - 400px);
+      position: fixed;
+      bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 3;
@@ -147,7 +147,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      padding-top: 26dvh;
       overflow: hidden;
     }
     #particles-canvas {
@@ -239,37 +240,31 @@
 
     /* ── WIM HOF UI ── */
     .wh-counter {
-      position: absolute;
-      bottom: calc(50% - 280px);
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
       z-index: 3;
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.8rem, 5vw, 2.6rem);
       font-weight: 300;
       color: rgba(122,158,126,0.7);
       letter-spacing: 0.06em;
+      margin-top: 24px;
       opacity: 0;
       transition: opacity 0.5s;
       user-select: none;
-      white-space: nowrap;
     }
     .wh-counter.show { opacity: 1; }
 
     .wh-round {
-      position: absolute;
-      bottom: calc(50% - 318px);
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
       z-index: 3;
       font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: rgba(250,247,242,0.2);
+      margin-top: 8px;
       opacity: 0;
       transition: opacity 0.5s;
       user-select: none;
-      white-space: nowrap;
     }
     .wh-round.show { opacity: 1; }
 
@@ -302,11 +297,9 @@
 
     /* Retention timer */
     .wh-timer {
-      position: absolute;
-      bottom: calc(50% - 260px);
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
       z-index: 3;
+      margin-top: 28px;
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.5rem, 7vw, 4rem);
       font-weight: 300;
