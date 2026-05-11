@@ -93,20 +93,18 @@
 
     /* ── WIM HOF CONFIG ── */
     .wh-config {
-      position: fixed;
-      top: 126px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
+      position: relative;
+      z-index: 3;
       display: none;
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      background: rgba(14,11,7,0.55);
+      background: rgba(14,11,7,0.45);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(250,247,242,0.07);
       border-radius: 16px;
       padding: 14px 20px;
+      margin-top: 20px;
     }
     .wh-config.show { display: flex; }
     .wh-config__row {
@@ -325,24 +323,6 @@
     <button class="mode-btn" data-mode="wimhof">Wim Hof</button>
   </div>
 
-  <!-- Wim Hof config panel -->
-  <div class="wh-config" id="wh-config">
-    <div class="wh-config__row">
-      <span class="wh-config__label">Respiraciones</span>
-      <div class="wh-opts">
-        <button class="wh-opt active" data-type="breaths" data-val="30">30</button>
-        <button class="wh-opt"        data-type="breaths" data-val="40">40</button>
-      </div>
-    </div>
-    <div class="wh-config__row">
-      <span class="wh-config__label">Rondas</span>
-      <div class="wh-opts">
-        <button class="wh-opt active" data-type="rounds" data-val="3">3</button>
-        <button class="wh-opt"        data-type="rounds" data-val="4">4</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Breathing hero -->
   <section class="breath-hero">
     <canvas id="particles-canvas"></canvas>
@@ -358,6 +338,22 @@
     </div>
     <div class="wh-counter" id="wh-counter"></div>
     <div class="wh-round"   id="wh-round"></div>
+    <div class="wh-config"  id="wh-config">
+      <div class="wh-config__row">
+        <span class="wh-config__label">Respiraciones</span>
+        <div class="wh-opts">
+          <button class="wh-opt active" data-type="breaths" data-val="30">30</button>
+          <button class="wh-opt"        data-type="breaths" data-val="40">40</button>
+        </div>
+      </div>
+      <div class="wh-config__row">
+        <span class="wh-config__label">Rondas</span>
+        <div class="wh-opts">
+          <button class="wh-opt active" data-type="rounds" data-val="3">3</button>
+          <button class="wh-opt"        data-type="rounds" data-val="4">4</button>
+        </div>
+      </div>
+    </div>
     <div class="wh-timer"   id="wh-timer"></div>
   </section>
 
