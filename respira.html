@@ -458,9 +458,6 @@
       maxBreaths: 30,
       phase:      'power-in',
       phaseStart: 0,
-      holdPaused:         false,
-      holdPausedDuration: 0,
-      holdPauseStart:     0,
     };
 
     // Motivational messages during retention
@@ -494,8 +491,6 @@
       wh.phase       = 'power-in';
       wh.phaseStart  = performance.now();
       document.getElementById('wh-timer').textContent = '';
-      wh.holdPaused = false;
-      wh.holdPausedDuration = 0;
       showWhUI(true);
       updateWhLabels();
     }
@@ -540,19 +535,6 @@
     document.getElementById('wh-tap').addEventListener('click', whAdvanceFromRetention);
     document.addEventListener('keydown', e => { if (e.code === 'Space' && wh.phase === 'retention') whAdvanceFromRetention(); });
 
-    // Pause / resume rec-hold on tap
-    document.addEventListener('click', e => {
-      if (wh.phase !== 'rec-hold') return;
-      if (e.target.closest('.mode-btn, .wh-opt, .r-nav, .wh-config')) return;
-      const now = performance.now();
-      if (wh.holdPaused) {
-        wh.holdPausedDuration += now - wh.holdPauseStart;
-        wh.holdPaused = false;
-      } else {
-        wh.holdPauseStart = now;
-        wh.holdPaused = true;
-      }
-    });
 
     const darkEl = document.getElementById('retention-dark');
 
@@ -606,17 +588,14 @@
         p = easeInOut(t);
         label = 'inhala profundo';
         if (elapsed >= WH_DUR['rec-in']) {
-          wh.phase              = 'rec-hold';
-          wh.phaseStart         = now;
-          wh.holdPaused         = false;
-          wh.holdPausedDuration = 0;
+          wh.phase      = 'rec-hold';
+          wh.phaseStart = now;
         }
       } else if (wh.phase === 'rec-hold') {
         p = 1;
-        const effective = elapsed - wh.holdPausedDuration;
-        const remaining = Math.max(0, Math.ceil((WH_DUR['rec-hold'] - effective) / 1000));
-        label = wh.holdPaused ? `pausado · ${remaining}s` : `sostén · ${remaining}s`;
-        if (!wh.holdPaused && effective >= WH_DUR['rec-hold']) {
+        const remaining = Math.max(0, Math.ceil((WH_DUR['rec-hold'] - elapsed) / 1000));
+        label = `sostén · ${remaining}s`;
+        if (elapsed >= WH_DUR['rec-hold']) {
           wh.phase     = 'rec-out';
           wh.phaseStart = now;
         }
