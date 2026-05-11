@@ -117,6 +117,7 @@
         <a href="index.html#eventos">Eventos</a>
         <a href="index.html#memorias">Memorias</a>
         <a href="pensamientos.html" class="active">Pensamientos</a>
+        <a href="regresa.html" id="link-regresa">Regresa</a>
         <a href="index.html#clases" class="btn btn--outline">Clases en Vivo</a>
         <a href="index.html#contacto" class="btn btn--primary">Contáctanos</a>
       </nav>
@@ -257,6 +258,16 @@
         });
       });
     });
+
+    document.getElementById('link-regresa').addEventListener('click', function(e) {
+      e.preventDefault();
+      const fade = document.getElementById('page-fade');
+      fade.style.opacity = '1';
+      fade.style.pointerEvents = 'all';
+      setTimeout(() => { window.location.href = 'regresa.html'; }, 750);
+    });
   </script>
+
+  <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.75s ease;"></div>
 </body>
 </html>
