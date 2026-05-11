@@ -187,49 +187,6 @@
     </div>
   </section>
 
-  <!-- CLASES EN VIVO -->
-  <section class="live-classes" id="clases">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Acceso exclusivo</p>
-        <h2 class="section-title">Clases en Vivo</h2>
-        <p class="section-subtitle">Ingresa el código que recibiste para acceder a la transmisión en vivo de tu clase.</p>
-      </div>
-      <div class="live-classes__card">
-        <div class="live-gate" id="live-gate">
-          <div class="live-gate__icon">🔒</div>
-          <h3>Espacio privado para miembros</h3>
-          <p>Ingresa tu código de acceso para ver la clase en vivo. El código es enviado antes de cada sesión.</p>
-          <form class="live-gate__form" id="access-form">
-            <div class="access-input-group">
-              <label for="access-code" class="sr-only">Código de acceso</label>
-              <input
-                type="text"
-                id="access-code"
-                placeholder="Ingresa tu código aquí"
-                autocomplete="off"
-                maxlength="20"
-              />
-              <button type="submit" class="btn btn--primary">Acceder</button>
-            </div>
-            <p class="access-error" id="access-error"></p>
-          </form>
-          <p class="live-gate__hint">¿No tienes tu código? <a href="#contacto">Escríbenos</a> y te lo enviamos.</p>
-        </div>
-        <div class="live-player" id="live-player" hidden>
-          <div class="live-ready">
-            <span class="live-badge" style="font-size:1rem;margin-bottom:16px;display:block">● EN VIVO</span>
-            <h3 id="live-titulo" style="font-family:var(--font-display);font-size:1.8rem;font-weight:400;color:var(--crema);margin-bottom:12px">Clase en Vivo</h3>
-            <p style="color:rgba(250,247,242,0.6);font-size:0.92rem;margin-bottom:32px">Tu código fue verificado. Toca el botón para entrar a la clase.</p>
-            <a id="live-link" href="#" target="_blank" rel="noopener" class="btn btn--primary" style="font-size:1rem;padding:16px 40px">Entrar a la clase →</a>
-            <p style="margin-top:24px;font-size:0.78rem;color:rgba(250,247,242,0.35)">Se abrirá en una nueva pestaña. Permite el acceso a cámara y micrófono cuando se solicite.</p>
-            <button id="exit-live" style="margin-top:20px;background:none;border:none;color:rgba(250,247,242,0.4);font-size:0.82rem;cursor:pointer;font-family:var(--font-body)">← Volver</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- EVENTOS -->
   <section class="events" id="eventos">
     <div class="container">
@@ -317,6 +274,49 @@
               <strong>Sheila M.</strong>
               <small>Yoga Oncológico</small>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLASES EN VIVO -->
+  <section class="live-classes" id="clases">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Acceso exclusivo</p>
+        <h2 class="section-title">Clases en Vivo</h2>
+        <p class="section-subtitle">Ingresa el código que recibiste para acceder a la transmisión en vivo de tu clase.</p>
+      </div>
+      <div class="live-classes__card">
+        <div class="live-gate" id="live-gate">
+          <div class="live-gate__icon">🔒</div>
+          <h3>Espacio privado para miembros</h3>
+          <p>Ingresa tu código de acceso para ver la clase en vivo. El código es enviado antes de cada sesión.</p>
+          <form class="live-gate__form" id="access-form">
+            <div class="access-input-group">
+              <label for="access-code" class="sr-only">Código de acceso</label>
+              <input
+                type="text"
+                id="access-code"
+                placeholder="Ingresa tu código aquí"
+                autocomplete="off"
+                maxlength="20"
+              />
+              <button type="submit" class="btn btn--primary">Acceder</button>
+            </div>
+            <p class="access-error" id="access-error"></p>
+          </form>
+          <p class="live-gate__hint">¿No tienes tu código? <a href="#contacto">Escríbenos</a> y te lo enviamos.</p>
+        </div>
+        <div class="live-player" id="live-player" hidden>
+          <div class="live-ready">
+            <span class="live-badge" style="font-size:1rem;margin-bottom:16px;display:block">● EN VIVO</span>
+            <h3 id="live-titulo" style="font-family:var(--font-display);font-size:1.8rem;font-weight:400;color:var(--crema);margin-bottom:12px">Clase en Vivo</h3>
+            <p style="color:rgba(250,247,242,0.6);font-size:0.92rem;margin-bottom:32px">Tu código fue verificado. Toca el botón para entrar a la clase.</p>
+            <a id="live-link" href="#" target="_blank" rel="noopener" class="btn btn--primary" style="font-size:1rem;padding:16px 40px">Entrar a la clase →</a>
+            <p style="margin-top:24px;font-size:0.78rem;color:rgba(250,247,242,0.35)">Se abrirá en una nueva pestaña. Permite el acceso a cámara y micrófono cuando se solicite.</p>
+            <button id="exit-live" style="margin-top:20px;background:none;border:none;color:rgba(250,247,242,0.4);font-size:0.82rem;cursor:pointer;font-family:var(--font-body)">← Volver</button>
           </div>
         </div>
       </div>
