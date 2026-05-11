@@ -459,6 +459,20 @@
       phaseStart: 0,
     };
 
+    // Motivational messages during retention
+    const WH_RETENTION_MSGS = [
+      'estás bien',
+      'más de lo que crees',
+      'el cuerpo sabe',
+      'confía',
+      'suéltate',
+      'presente',
+      'eres capaz',
+      'quédate aquí',
+      'todo está bien',
+      'fluye',
+    ];
+
     // Durations (ms)
     const WH_DUR = {
       'power-in':  1500,
@@ -558,7 +572,7 @@
         }
       } else if (wh.phase === 'retention') {
         p = 0.05 + Math.sin(elapsed * 0.0015) * 0.04; // subtle alive pulse
-        label = 'retención';
+        label = WH_RETENTION_MSGS[Math.floor(elapsed / 8000) % WH_RETENTION_MSGS.length];
         darkEl.style.opacity = Math.min(elapsed / 90000, 1);
         // Update timer
         const secs = Math.floor(elapsed / 1000);
