@@ -267,12 +267,8 @@
       setTimeout(() => { window.location.href = 'regresa.html'; }, 850);
     });
 
-    window.addEventListener('load', () => {
-      const f = document.getElementById('page-fade');
-      setTimeout(() => { f.style.opacity = '0'; f.style.pointerEvents = 'none'; }, 80);
-    });
   </script>
 
-  <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9999;transition:opacity 0.85s ease;"></div>
+  <div id="page-fade" style="position:fixed;inset:0;background:#0e0b07;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.85s ease;"></div>
 </body>
 </html>
