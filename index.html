@@ -359,30 +359,38 @@
   <section class="live-classes" id="clases">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Acceso exclusivo</p>
+        <p class="section-eyebrow">Acceso a tu práctica</p>
         <h2 class="section-title">Clases en Vivo</h2>
-        <p class="section-subtitle">Ingresa el código que recibiste para acceder a la transmisión en vivo de tu clase.</p>
+        <p class="section-subtitle">Ingresa tu código para acceder a la sesión en vivo.</p>
       </div>
       <div class="live-classes__card">
         <div class="live-gate" id="live-gate">
-          <div class="live-gate__icon">🔒</div>
+          <div class="live-gate__icon">
+            <svg viewBox="0 0 36 42" width="30" height="35" fill="none" stroke="#7A9E7E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="18" width="28" height="20" rx="5"/>
+              <path d="M11 18 V13 C11 7.5, 25 7.5, 25 13 V18"/>
+              <circle cx="18" cy="28" r="2.5"/>
+              <line x1="18" y1="30.5" x2="18" y2="34"/>
+            </svg>
+          </div>
           <h3>Espacio privado para miembros</h3>
-          <p>Ingresa tu código de acceso para ver la clase en vivo. El código es enviado antes de cada sesión.</p>
+          <p>Tu código de acceso es personal e intransferible.<br>Se envía antes de cada sesión.</p>
           <form class="live-gate__form" id="access-form">
             <div class="access-input-group">
               <label for="access-code" class="sr-only">Código de acceso</label>
               <input
                 type="text"
                 id="access-code"
-                placeholder="Ingresa tu código aquí"
+                placeholder="Código de acceso"
                 autocomplete="off"
                 maxlength="20"
               />
-              <button type="submit" class="btn btn--primary">Acceder</button>
+              <button type="submit" class="btn btn--primary">Entrar</button>
             </div>
             <p class="access-error" id="access-error"></p>
           </form>
-          <p class="live-gate__hint">¿No tienes tu código? <a href="#contacto">Escríbenos</a> y te lo enviamos.</p>
+          <div class="live-gate__divider"><span>o</span></div>
+          <p class="live-gate__hint">¿No tienes tu acceso? <a href="#contacto">Escríbenos.</a></p>
         </div>
         <div class="live-player" id="live-player" hidden>
           <div class="live-ready">
@@ -450,8 +458,20 @@
         </div>
         <div class="footer__contact">
           <h4>Contacto</h4>
-          <p>contacto@bepacoya.com</p>
-          <p><a href="tel:6861875393" style="color:inherit">686 187 5393</a></p>
+          <div class="footer__contact-list">
+            <div class="footer__contact-item">
+              <svg viewBox="0 0 24 18" width="17" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="22" height="16" rx="3"/><path d="M1 4l11 7 11-7"/></svg>
+              <span>contacto@bepacoya.com</span>
+            </div>
+            <div class="footer__contact-item">
+              <svg viewBox="0 0 22 22" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5C3 3.5 5 1 7 1c.6 0 1 .4 1.5 1L10 5c.4.8.2 1.5-.3 2L8.5 8.3C9.4 10 12 12.6 13.7 13.5L15 12c.5-.5 1.2-.7 2-.3l3 1.5c.6.5 1 .9 1 1.5 0 2-2.5 4-2.5 4C5 21 1 5 3 3.5Z"/></svg>
+              <a href="tel:6861875393" style="color:inherit">686 187 5393</a>
+            </div>
+            <div class="footer__contact-item">
+              <svg viewBox="0 0 20 24" width="13" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 1C6.1 1 3 4.1 3 8c0 5.25 7 14 7 14s7-8.75 7-14c0-3.9-3.1-7-7-7Z"/><circle cx="10" cy="8" r="2.5"/></svg>
+              <span>Mexicali, Baja California</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="footer__bottom">
