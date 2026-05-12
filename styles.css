@@ -1177,11 +1177,6 @@ ul { list-style: none; }
   transform: scale(1.04);
 }
 
-/* Filtro cartoon — solo en index.html */
-.memorias__grid--cartoon .memoria-card__img img {
-  filter: saturate(1.6) contrast(1.15) brightness(1.05) hue-rotate(5deg);
-  image-rendering: auto;
-}
 
 .memoria-card__tag {
   position: absolute;
