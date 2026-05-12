@@ -277,6 +277,24 @@
   </section>
 
   <!-- MEMORIAS -->
+  <!-- Filtro SVG ilustración — solo index memorias -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="ilustracion">
+        <feComponentTransfer>
+          <feFuncR type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+          <feFuncG type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+          <feFuncB type="discrete" tableValues="0 0.25 0.5 0.75 1"/>
+        </feComponentTransfer>
+        <feComponentTransfer>
+          <feFuncR type="linear" slope="1.2" intercept="-0.05"/>
+          <feFuncG type="linear" slope="1.2" intercept="-0.05"/>
+          <feFuncB type="linear" slope="1.1" intercept="-0.05"/>
+        </feComponentTransfer>
+      </filter>
+    </defs>
+  </svg>
+
   <section class="memorias" id="memorias">
     <div class="container">
       <div class="section-header">
@@ -284,7 +302,7 @@
         <h2 class="section-title">Memorias</h2>
         <p class="section-subtitle">Momentos especiales que hemos vivido juntos — con presencia, gratitud y comunidad.</p>
       </div>
-      <div class="memorias__grid" id="memorias-grid">
+      <div class="memorias__grid memorias__grid--ilustracion" id="memorias-grid">
         <div class="events-loading">Cargando memorias...</div>
       </div>
       <div class="blog__cta" style="margin-top:48px">
