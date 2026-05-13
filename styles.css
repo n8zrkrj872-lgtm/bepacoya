@@ -1179,7 +1179,7 @@ ul { list-style: none; }
 
 /* Efecto ilustración — solo index.html */
 .memorias__grid--ilustracion .memoria-card__img img {
-  filter: url(#ilustracion) saturate(1.8) contrast(1.25);
+  filter: saturate(2.2) contrast(1.5) brightness(1.08) hue-rotate(5deg);
 }
 
 
