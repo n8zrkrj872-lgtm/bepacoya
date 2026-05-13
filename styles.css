@@ -1177,10 +1177,6 @@ ul { list-style: none; }
   transform: scale(1.04);
 }
 
-/* Efecto ilustración — solo index.html */
-.memorias__grid--ilustracion .memoria-card__img img {
-  filter: saturate(2.2) contrast(1.5) brightness(1.08) hue-rotate(5deg);
-}
 
 
 .memoria-card__tag {
