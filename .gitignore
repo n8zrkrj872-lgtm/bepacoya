@@ -1,3 +1,10 @@
 # Local Netlify folder
 .netlify
 pacoya-yoga-project.md
+
+# Archivos de contexto local (impeccable skill)
+PRODUCT.md
+DESIGN.md
+skills-lock.json
+.agents/
+.claude/
