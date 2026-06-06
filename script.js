@@ -6,6 +6,12 @@ const supabase = createClient(
   'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z'
 );
 
+// XSS helper — escapa caracteres peligrosos antes de insertar en innerHTML
+function esc(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+}
+
 const TIPOS = {
   meditacion: { label: 'Meditación',     clase: 'event-tag--meditacion' },
   especial:   { label: 'Taller especial', clase: 'event-tag--especial' },
@@ -46,17 +52,17 @@ async function cargarEventos() {
     card.innerHTML = `
       <div class="event-card__date">
         <span class="event-day">${dia}</span>
-        <span class="event-month">${mes}</span>
+        <span class="event-month">${esc(mes)}</span>
       </div>
       <div class="event-card__content">
-        <span class="event-tag ${tipo.clase}">${tipo.label}</span>
-        <h3>${ev.titulo}</h3>
-        ${ev.descripcion ? `<p>${ev.descripcion}</p>` : ''}
+        <span class="event-tag ${esc(tipo.clase)}">${esc(tipo.label)}</span>
+        <h3>${esc(ev.titulo)}</h3>
+        ${ev.descripcion ? `<p>${esc(ev.descripcion)}</p>` : ''}
         <div class="event-meta">
-          ${ev.hora   ? `<span>🕐 ${ev.hora}</span>` : ''}
-          ${ev.lugar  ? `<span>📍 ${ev.lugar}</span>` : ''}
+          ${ev.hora  ? `<span>🕐 ${esc(ev.hora)}</span>`  : ''}
+          ${ev.lugar ? `<span>📍 ${esc(ev.lugar)}</span>` : ''}
         </div>
-        <button class="btn ${btnClass} btn--sm event-rsvp" data-event="${ev.titulo}">Confirmar asistencia</button>
+        <button class="btn ${btnClass} btn--sm event-rsvp" data-event="${esc(ev.titulo)}">Confirmar asistencia</button>
       </div>`;
     grid.appendChild(card);
   });
@@ -103,13 +109,13 @@ async function cargarMemorias() {
     card.className = 'memoria-card';
     card.innerHTML = `
       <div class="memoria-card__img">
-        <img src="${ev.foto_url}" alt="${ev.titulo}" loading="lazy" />
-        <span class="event-tag ${tipo.clase} memoria-card__tag">${tipo.label}</span>
+        <img src="${esc(ev.foto_url)}" alt="${esc(ev.titulo)}" loading="lazy" />
+        <span class="event-tag ${esc(tipo.clase)} memoria-card__tag">${esc(tipo.label)}</span>
       </div>
       <div class="memoria-card__info">
-        <span class="memoria-card__date">${dia} de ${mes}, ${año}</span>
-        <h3>${ev.titulo}</h3>
-        ${ev.descripcion ? `<p>${ev.descripcion}</p>` : ''}
+        <span class="memoria-card__date">${dia} de ${esc(mes)}, ${año}</span>
+        <h3>${esc(ev.titulo)}</h3>
+        ${ev.descripcion ? `<p>${esc(ev.descripcion)}</p>` : ''}
       </div>`;
     grid.appendChild(card);
   });
@@ -154,12 +160,12 @@ async function cargarPensamientos() {
     article.className = `blog-card ${featured}`;
     article.innerHTML = `
       <div class="blog-card__meta">
-        <span class="blog-date">${fechaStr}</span>
-        <span class="blog-tag">${tipo}</span>
+        <span class="blog-date">${esc(fechaStr)}</span>
+        <span class="blog-tag">${esc(tipo)}</span>
       </div>
-      <h3>${p.titulo}</h3>
-      <p>${preview}</p>
-      <a href="pensamientos.html#p-${p.id}" class="blog-card__link">Seguir leyendo →</a>`;
+      <h3>${esc(p.titulo)}</h3>
+      <p>${esc(preview)}</p>
+      <a href="pensamientos.html#p-${parseInt(p.id, 10)}" class="blog-card__link">Seguir leyendo →</a>`;
     grid.appendChild(article);
   });
 }
@@ -263,22 +269,21 @@ if (accessForm) {
     submitBtn.textContent = 'Verificando...';
     submitBtn.disabled = true;
 
-    const { data } = await supabase
-      .from('clases_en_vivo')
-      .select('stream_url, activo, codigo, titulo')
-      .eq('id', 1)
-      .single();
+    // La verificación ocurre en el servidor — el código y el URL nunca se
+    // envían al navegador juntos. La función SQL devuelve el stream_url
+    // sólo si el código es correcto; de lo contrario devuelve null.
+    const { data: result } = await supabase.rpc('verificar_codigo_clase', { p_codigo: code });
 
     submitBtn.textContent = 'Entrar';
     submitBtn.disabled = false;
 
-    if (data && data.activo && data.codigo === code && data.stream_url) {
+    if (result && result.stream_url) {
       accessError.textContent = '';
-      document.getElementById('live-titulo').textContent = data.titulo || 'Clase en Vivo';
-      liveLink.href = data.stream_url;
+      document.getElementById('live-titulo').textContent = result.titulo || 'Clase en Vivo';
+      liveLink.href = result.stream_url;
       liveGate.hidden = true;
       livePlayer.hidden = false;
-    } else if (!data || !data.activo) {
+    } else if (!result || !result.activo) {
       accessError.textContent = 'No hay ninguna clase activa en este momento.';
       accessCodeEl.style.borderColor = '#e07070';
       setTimeout(() => { accessCodeEl.style.borderColor = ''; }, 2000);

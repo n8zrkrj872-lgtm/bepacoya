@@ -194,6 +194,11 @@
       'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z'
     );
 
+    function esc(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+    }
+
     const TIPOS = {
       reflexion:   'Reflexión',
       inspiracion: 'Inspiración',
@@ -224,11 +229,11 @@
         card.id = `p-${p.id}`;
         card.innerHTML = `
           <div class="pensamiento-card__meta">
-            <span class="pensamiento-card__date">${fechaStr}</span>
-            <span class="pensamiento-card__tipo">${tipo}</span>
+            <span class="pensamiento-card__date">${esc(fechaStr)}</span>
+            <span class="pensamiento-card__tipo">${esc(tipo)}</span>
           </div>
-          <h2>${p.titulo}</h2>
-          <p>${p.contenido}</p>`;
+          <h2>${esc(p.titulo)}</h2>
+          <p>${esc(p.contenido)}</p>`;
         lista.appendChild(card);
       });
 

@@ -234,11 +234,15 @@
     <div class="login-card">
       <div class="logo-circle"><span>Pacoya</span><span>yoga studio</span></div>
       <h1>Panel de administración</h1>
-      <p>Ingresa tu contraseña para continuar</p>
+      <p>Ingresa tus credenciales para continuar</p>
       <form id="login-form">
         <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@correo.com" required autocomplete="username" />
+        </div>
+        <div class="form-group">
           <label for="password">Contraseña</label>
-          <input type="password" id="password" placeholder="••••••••" required />
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
         </div>
         <button type="submit" class="btn btn--primary btn--full">Entrar</button>
         <p class="login-error" id="login-error"></p>
@@ -486,12 +490,17 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const SUPABASE_URL   = 'https://kzqtjzzpyhmzdlczsbnz.supabase.co';
-    const SUPABASE_KEY   = 'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z';
-    const ADMIN_PASSWORD = 'pacoya2026';
+    const SUPABASE_URL = 'https://kzqtjzzpyhmzdlczsbnz.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z';
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     const hoy = new Date().toISOString().split('T')[0];
+
+    // ── ESCAPE helper (XSS) ──
+    function esc(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+    }
 
     // ── DOM refs ──
     const loginScreen   = document.getElementById('login-screen');
@@ -512,21 +521,26 @@
     const fotoPreview   = document.getElementById('foto-preview');
     const toast         = document.getElementById('toast');
 
-    // ── LOGIN ──
-    if (sessionStorage.getItem('pacoya-admin')) showAdmin();
+    // ── LOGIN (Supabase Auth) ──
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) showAdmin();
+    });
 
-    loginForm.addEventListener('submit', e => {
+    loginForm.addEventListener('submit', async e => {
       e.preventDefault();
-      if (document.getElementById('password').value === ADMIN_PASSWORD) {
-        sessionStorage.setItem('pacoya-admin', '1');
-        showAdmin();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      loginError.textContent = '';
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        loginError.textContent = 'Credenciales incorrectas.';
       } else {
-        loginError.textContent = 'Contraseña incorrecta.';
+        showAdmin();
       }
     });
 
-    logoutBtn.addEventListener('click', () => {
-      sessionStorage.removeItem('pacoya-admin');
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
       adminScreen.style.display = 'none';
       loginScreen.style.display = 'flex';
     });
@@ -615,35 +629,36 @@
 
         const thumbHtml = esMemorias
           ? (ev.foto_url
-              ? `<img class="evento-thumb" src="${ev.foto_url}" alt="${ev.titulo}" />`
+              ? `<img class="evento-thumb" src="${esc(ev.foto_url)}" alt="${esc(ev.titulo)}" />`
               : `<div class="evento-thumb-placeholder">🌿</div>`)
           : '';
 
+        const evId = parseInt(ev.id, 10);
         const accionesHtml = esMemorias
           ? `<div class="evento-acciones">
                ${!ev.foto_url ? '<span class="sin-foto-badge">Sin foto</span>' : ''}
-               <button class="btn btn--outline btn--sm" onclick="editarMemoria(${ev.id})">Editar</button>
-               <button class="btn btn--outline btn--sm" onclick="abrirFotoForm(${ev.id}, '${ev.titulo.replace(/'/g,"\\'")}')">
+               <button class="btn btn--outline btn--sm" onclick="editarMemoria(${evId})">Editar</button>
+               <button class="btn btn--outline btn--sm" onclick="abrirFotoForm(${evId})">
                  ${ev.foto_url ? 'Cambiar foto' : 'Agregar foto'}
                </button>
-               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${ev.id})">Borrar</button>
+               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${evId})">Borrar</button>
              </div>`
           : `<div class="evento-acciones">
-               <button class="btn btn--outline btn--sm" onclick="editarEvento(${ev.id})">Editar</button>
-               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${ev.id})">Borrar</button>
+               <button class="btn btn--outline btn--sm" onclick="editarEvento(${evId})">Editar</button>
+               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${evId})">Borrar</button>
              </div>`;
 
         item.innerHTML = `
           ${thumbHtml}
           <div class="evento-fecha">
-            <span class="evento-dia">${dia}</span>
-            <span class="evento-mes">${mes}</span>
+            <span class="evento-dia">${esc(String(dia))}</span>
+            <span class="evento-mes">${esc(mes)}</span>
           </div>
           <div class="evento-info">
-            <h4>${ev.titulo}</h4>
-            <p>${ev.hora ? ev.hora + ' · ' : ''}${ev.lugar || ''}</p>
+            <h4>${esc(ev.titulo)}</h4>
+            <p>${ev.hora ? esc(ev.hora) + ' · ' : ''}${esc(ev.lugar || '')}</p>
           </div>
-          <span class="evento-tipo">${ev.tipo}</span>
+          <span class="evento-tipo">${esc(ev.tipo)}</span>
           ${accionesHtml}`;
         container.appendChild(item);
       });
@@ -767,9 +782,10 @@
     });
 
     // ── FOTO FORM ──
-    window.abrirFotoForm = (id, titulo) => {
+    window.abrirFotoForm = async (id) => {
       document.getElementById('m-evento-id').value = id;
-      document.getElementById('memoria-form-title').textContent = `Foto: ${titulo}`;
+      const { data: ev } = await supabase.from('eventos').select('titulo').eq('id', id).single();
+      document.getElementById('memoria-form-title').textContent = `Foto: ${ev?.titulo || ''}`;
       fotoPreview.style.display = 'none';
       fotoPreview.src = '';
       fotoInput.value = '';
@@ -882,18 +898,21 @@
         const mes   = fecha.toLocaleString('es-MX', { month: 'short' });
         const item  = document.createElement('div');
         item.className = 'evento-item';
+        const pId      = parseInt(p.id, 10);
+        const tipoText = esc(TIPOS_P[p.tipo] || p.tipo);
+        const preview  = esc(p.contenido.substring(0, 80)) + (p.contenido.length > 80 ? '...' : '');
         item.innerHTML = `
           <div class="evento-fecha">
-            <span class="evento-dia">${dia}</span>
-            <span class="evento-mes">${mes}</span>
+            <span class="evento-dia">${esc(String(dia))}</span>
+            <span class="evento-mes">${esc(mes)}</span>
           </div>
           <div class="evento-info">
-            <h4>${p.titulo}</h4>
-            <p>${TIPOS_P[p.tipo] || p.tipo} · ${p.contenido.substring(0, 80)}${p.contenido.length > 80 ? '...' : ''}</p>
+            <h4>${esc(p.titulo)}</h4>
+            <p>${tipoText} · ${preview}</p>
           </div>
           <div class="evento-acciones">
-            <button class="btn btn--outline btn--sm" onclick="editarPensamiento(${p.id})">Editar</button>
-            <button class="btn btn--danger btn--sm" onclick="borrarPensamiento(${p.id})">Borrar</button>
+            <button class="btn btn--outline btn--sm" onclick="editarPensamiento(${pId})">Editar</button>
+            <button class="btn btn--danger btn--sm" onclick="borrarPensamiento(${pId})">Borrar</button>
           </div>`;
         listaPensamientos.appendChild(item);
       });

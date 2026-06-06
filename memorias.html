@@ -136,6 +136,11 @@
       'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z'
     );
 
+    function esc(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+    }
+
     const TIPOS = {
       meditacion: { label: 'Meditación',     clase: 'event-tag--meditacion' },
       especial:   { label: 'Taller especial', clase: 'event-tag--especial' },
@@ -167,13 +172,13 @@
         card.className = 'memoria-card';
         card.innerHTML = `
           <div class="memoria-card__img">
-            <img src="${ev.foto_url}" alt="${ev.titulo}" loading="lazy" />
-            <span class="event-tag ${tipo.clase} memoria-card__tag">${tipo.label}</span>
+            <img src="${esc(ev.foto_url)}" alt="${esc(ev.titulo)}" loading="lazy" />
+            <span class="event-tag ${esc(tipo.clase)} memoria-card__tag">${esc(tipo.label)}</span>
           </div>
           <div class="memoria-card__info">
-            <span class="memoria-card__date">${dia} de ${mes}, ${año}</span>
-            <h3>${ev.titulo}</h3>
-            ${ev.descripcion ? `<p>${ev.descripcion}</p>` : ''}
+            <span class="memoria-card__date">${dia} de ${esc(mes)}, ${año}</span>
+            <h3>${esc(ev.titulo)}</h3>
+            ${ev.descripcion ? `<p>${esc(ev.descripcion)}</p>` : ''}
           </div>`;
         grid.appendChild(card);
       });
