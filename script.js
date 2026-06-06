@@ -12,6 +12,14 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
 }
 
+// URL segura — solo permite https:// y http:// para evitar javascript: URIs
+function safeUrl(u) {
+  try {
+    const p = new URL(u);
+    return (p.protocol === 'https:' || p.protocol === 'http:') ? u : '#';
+  } catch { return '#'; }
+}
+
 const TIPOS = {
   meditacion: { label: 'Meditación',     clase: 'event-tag--meditacion' },
   especial:   { label: 'Taller especial', clase: 'event-tag--especial' },
@@ -280,7 +288,7 @@ if (accessForm) {
     if (result && result.stream_url) {
       accessError.textContent = '';
       document.getElementById('live-titulo').textContent = result.titulo || 'Clase en Vivo';
-      liveLink.href = result.stream_url;
+      liveLink.href = safeUrl(result.stream_url);
       liveGate.hidden = true;
       livePlayer.hidden = false;
     } else if (!result || !result.activo) {

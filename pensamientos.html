@@ -237,11 +237,11 @@
         lista.appendChild(card);
       });
 
-      // Scroll to anchor if URL has hash
+      // Scroll to anchor if URL has hash — solo acepta formato #p-{número}
       const hash = window.location.hash;
-      if (hash) {
+      if (hash && /^#p-\d+$/.test(hash)) {
         setTimeout(() => {
-          const el = document.querySelector(hash);
+          const el = document.getElementById(hash.slice(1));
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
       }

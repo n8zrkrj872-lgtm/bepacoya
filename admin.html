@@ -502,6 +502,22 @@
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
     }
 
+    // ── URL SEGURA — solo permite https:// y http:// para evitar javascript: URIs ──
+    function safeUrl(u) {
+      try {
+        const p = new URL(u);
+        return (p.protocol === 'https:' || p.protocol === 'http:') ? u : '#';
+      } catch { return '#'; }
+    }
+
+    // ── VALIDACIÓN DE ARCHIVO DE IMAGEN ──
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const ALLOWED_EXTS  = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    function esImagenValida(file) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      return ALLOWED_TYPES.includes(file.type) && ALLOWED_EXTS.includes(ext);
+    }
+
     // ── DOM refs ──
     const loginScreen   = document.getElementById('login-screen');
     const adminScreen   = document.getElementById('admin-screen');
@@ -522,8 +538,9 @@
     const toast         = document.getElementById('toast');
 
     // ── LOGIN (Supabase Auth) ──
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) showAdmin();
+    // getUser() valida contra el servidor — getSession() solo lee localStorage
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) showAdmin();
     });
 
     loginForm.addEventListener('submit', async e => {
@@ -750,6 +767,11 @@
       const id   = document.getElementById('me-id').value;
       const file = document.getElementById('me-foto-input').files[0];
 
+      if (file && !esImagenValida(file)) {
+        mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.');
+        return;
+      }
+
       guardarMemoriaEditBtn.textContent = 'Guardando...';
       guardarMemoriaEditBtn.disabled = true;
 
@@ -810,6 +832,7 @@
       const id   = document.getElementById('m-evento-id').value;
       const file = fotoInput.files[0];
       if (!file) { mostrarToast('Elige una foto primero.'); return; }
+      if (!esImagenValida(file)) { mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.'); return; }
 
       guardarMemoriaBtn.textContent = 'Subiendo...';
       guardarMemoriaBtn.classList.add('uploading');
@@ -981,7 +1004,7 @@
       actualizarToggle(data.activo);
       const abrirBtn = document.getElementById('abrir-meet-btn');
       if (data.stream_url) {
-        abrirBtn.href = data.stream_url;
+        abrirBtn.href = safeUrl(data.stream_url);
         abrirBtn.style.display = 'inline-flex';
       }
     }
@@ -992,6 +1015,13 @@
       btn.disabled = true;
 
       const url = document.getElementById('cl-url').value.trim();
+      if (url && safeUrl(url) === '#') {
+        mostrarToast('El URL debe empezar con https://');
+        btn.textContent = 'Guardar configuración';
+        btn.disabled = false;
+        return;
+      }
+
       await supabase.from('clases_en_vivo').update({
         titulo:      document.getElementById('cl-titulo').value.trim(),
         stream_url: url,
@@ -1005,7 +1035,7 @@
       const abrirBtn = document.getElementById('abrir-meet-btn');
       const urlGuardada = document.getElementById('cl-url').value.trim();
       if (urlGuardada) {
-        abrirBtn.href = urlGuardada;
+        abrirBtn.href = safeUrl(urlGuardada);
         abrirBtn.style.display = 'inline-flex';
       }
     });

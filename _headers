@@ -1,0 +1,6 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' cdn.jsdelivr.net fonts.googleapis.com 'unsafe-inline'; style-src 'self' fonts.googleapis.com fonts.gstatic.com 'unsafe-inline'; img-src 'self' data: blob: *.supabase.co *.supabase.in; font-src fonts.gstatic.com; connect-src 'self' *.supabase.co formspree.io; frame-src whereby.com *.whereby.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';
