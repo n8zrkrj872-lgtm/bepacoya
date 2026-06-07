@@ -812,7 +812,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#eventos">Eventos</a></li>
-      <li><a href="#memorias">Memorias</a></li>
       <li><a href="#blog">Pensamientos</a></li>
       <li><a href="respira.html" id="link-respira-p">Respira</a></li>
       <li><a href="#clases" class="nav-pill">Clases en Vivo</a></li>
@@ -825,7 +824,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <a href="#nosotros">Nosotros</a>
   <a href="#servicios">Servicios</a>
   <a href="#eventos">Eventos</a>
-  <a href="#memorias">Memorias</a>
   <a href="#blog">Pensamientos</a>
   <a href="respira.html">Respira</a>
   <a href="#clases">Clases en Vivo</a>
@@ -973,17 +971,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </section>
 
 <!-- ── MEMORIAS ──────────────────────────────── -->
-<section class="memorias" id="memorias">
-  <div class="memorias__head">
-    <div>
-      <span class="eyebrow ey-light reveal">Nuestra comunidad</span>
-      <h2 class="sh2 sh2-crema reveal rd1">Memorias</h2>
-    </div>
-    <a href="memorias.html" class="btn-link-light reveal rd2">Ver todas</a>
-  </div>
-  <!-- Fix #13: mem-footer vacío eliminado -->
-  <div class="mem-grid" id="memorias-grid"></div>
-</section>
 
 <!-- ── PENSAMIENTOS ──────────────────────────── -->
 <section class="pensamientos sec" id="blog">
@@ -1271,7 +1258,7 @@ document.getElementById('link-respira-p')?.addEventListener('click', e => {
 
 /* BOTTOM NAV — activo por scroll */
 const bnavItems = document.querySelectorAll('.bnav__item');
-const bnavOrder = ['inicio','eventos','clases','memorias','contacto'];
+const bnavOrder = ['inicio','eventos','clases','contacto'];
 function updateBnav() {
   let active = 'inicio';
   const mid = window.innerHeight * 0.45;
@@ -1332,18 +1319,6 @@ async function cargarEventos() {
 }
 cargarEventos();
 
-/* MEMORIAS */
-async function cargarMemorias() {
-  const g = document.getElementById('memorias-grid');
-  const { data, error } = await sb.from('memorias').select('*').order('fecha',{ascending:false}).limit(3);
-  if (error||!data?.length) { g.innerHTML='<p style="padding:40px;color:rgba(250,247,242,0.2);font-size:0.8rem">Sin memorias aún.</p>'; return; }
-  g.innerHTML = data.map(m => `
-    <div class="mem-item">
-      <img src="${esc(m.imagen_url||m.foto_url||'')}" alt="${esc(m.titulo||'Memoria')}" loading="lazy"/>
-      <div class="mem-ov"><p class="mem-ti">${esc(m.titulo||'')}</p></div>
-    </div>`).join('');
-}
-cargarMemorias();
 
 /* PENSAMIENTOS */
 async function cargarPens() {
