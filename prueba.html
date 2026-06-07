@@ -325,27 +325,68 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .g-rule    { width: 28px; height: 1px; background: var(--cobre); opacity: 0.4; margin: 16px 0; }
 .g-rule-lt { width: 28px; height: 1px; background: var(--cobre-lt); opacity: 0.3; margin: 16px 0; }
 
-/* ─── NOSOTROS ───────────────────────────── */
+/* ─── NOSOTROS (sin foto, editorial puro) ─── */
 .nosotros { background: var(--crema); }
-.nosotros__wrap { max-width: 1100px; margin: 0 auto; }
-.nosotros__img { position: relative; margin-bottom: 40px; }
-.nosotros__photo {
-  width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top;
-  filter: grayscale(8%) contrast(1.03);
+.nos__inner { max-width: 640px; }
+
+/* Cabecera */
+.nos__head { margin-bottom: 36px; }
+
+/* Byline de instructora — tipografía pura, sin card ni foto */
+.nos__byline {
+  display: flex; align-items: flex-start; gap: 18px;
+  padding: 24px 0; border-top: 1px solid rgba(28,21,16,0.08);
+  border-bottom: 1px solid rgba(28,21,16,0.08);
+  margin-bottom: 32px;
 }
-.nosotros__card {
-  position: absolute; bottom: -16px; right: 0;
-  background: var(--crema); border: 1px solid rgba(28,21,16,0.08);
-  padding: 14px 18px; max-width: 178px;
+.nos__initial {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(122,158,126,0.14);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-d); font-size: 1.2rem; font-weight: 300;
+  color: var(--salvia); letter-spacing: 0;
 }
-.nc-name { font-family: var(--f-d); font-size: 0.95rem; font-weight: 400; display: block; margin-bottom: 2px; color: var(--tinta); }
-.nc-title { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(28,21,16,0.38); display: block; }
-.nc-cred { font-size: 0.66rem; color: var(--salvia); display: block; margin-top: 7px; line-height: 1.45; }
-.nosotros__copy p { font-size: 0.95rem; line-height: 1.9; color: rgba(28,21,16,0.6); margin-bottom: 12px; }
-.nosotros__grid { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
-.valor { padding: 12px 0; }
-.valor-name { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--salvia); display: block; margin-bottom: 3px; }
-.valor-desc { font-size: 0.78rem; color: rgba(28,21,16,0.48); line-height: 1.5; }
+.nos__name {
+  font-family: var(--f-d); font-size: 1.05rem; font-weight: 400;
+  color: var(--tinta); display: block; margin-bottom: 3px;
+}
+.nos__role {
+  font-size: 0.65rem; font-weight: 400; letter-spacing: 0.06em;
+  color: rgba(28,21,16,0.4); line-height: 1.55; display: block;
+}
+.nos__cert {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 6px; font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--salvia);
+}
+.nos__cert::before {
+  content: ''; display: block; width: 5px; height: 5px;
+  border-radius: 50%; background: var(--salvia); flex-shrink: 0;
+}
+
+/* Cuerpo de texto */
+.nos__copy p {
+  font-size: 0.95rem; line-height: 1.9; color: rgba(28,21,16,0.58); margin-bottom: 12px;
+}
+.nos__copy p:last-child { margin-bottom: 0; }
+
+/* Valores — lista limpia, sin cajas */
+.nos__values {
+  margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid rgba(28,21,16,0.07);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+}
+.valor {
+  padding: 18px 0; border-bottom: 1px solid rgba(28,21,16,0.06);
+}
+.valor:nth-child(odd) { padding-right: 20px; border-right: 1px solid rgba(28,21,16,0.06); }
+.valor:nth-child(even) { padding-left: 20px; }
+.valor:nth-last-child(-n+2) { border-bottom: none; }
+.valor-name {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--salvia); display: block; margin-bottom: 5px;
+}
+.valor-desc { font-size: 0.78rem; color: rgba(28,21,16,0.42); line-height: 1.55; }
 
 /* ─── ONCOLÓGICO ─────────────────────────── */
 .oncologico { background: var(--bosque); position: relative; overflow: hidden; }
@@ -699,10 +740,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .btn-hero:hover { background: var(--cobre-lt); }
   .btn-hero-ghost:hover { color: rgba(250,247,242,0.75); border-color: rgba(250,247,242,0.35); }
 
-  .nosotros__wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center; }
-  .nosotros__img { margin-bottom: 0; }
-  .nosotros__photo { aspect-ratio: 3/4; }
-  .nosotros__card { right: -20px; bottom: -20px; }
+  .nos__inner { max-width: 720px; }
+  .nos__values { grid-template-columns: repeat(4, 1fr); }
+  .valor { padding: 0 24px 0 0; border-right: 1px solid rgba(28,21,16,0.06); border-bottom: none; }
+  .valor:nth-child(odd) { border-right: 1px solid rgba(28,21,16,0.06); padding-right: 24px; padding-left: 0; }
+  .valor:nth-child(even) { padding-left: 24px; border-right: 1px solid rgba(28,21,16,0.06); }
+  .valor:last-child { border-right: none; }
 
   .oncologico__wrap { display: grid; grid-template-columns: 1fr 1.8fr; gap: 80px; align-items: start; }
   .onco-label { margin-bottom: 0; padding-top: 8px; }
@@ -820,34 +863,48 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 <!-- ── NOSOTROS ─────────────────────────────── -->
 <section class="nosotros sec" id="nosotros">
-  <div class="nosotros__wrap">
-    <div class="nosotros__img reveal">
-      <img
-        src="Contenido/Foto Bryanna en pose yoga.png"
-        alt="Bryanna Osuna, instructora de yoga oncológico"
-        class="nosotros__photo"
-        loading="lazy"
-      />
-      <div class="nosotros__card">
-        <span class="nc-name">Bryanna Osuna</span>
-        <span class="nc-title">Instructora de Yoga</span>
-        <span class="nc-cred">Certificada · Red Internacional de Yoga Oncológico</span>
+  <div class="nos__inner">
+
+    <div class="nos__head">
+      <span class="eyebrow ey-salvia reveal">Sobre Nosotros</span>
+      <h2 class="sh2 sh2-tinta reveal rd1">Un espacio<br><em>creado con amor</em></h2>
+    </div>
+
+    <!-- Instructora sin foto — byline editorial -->
+    <div class="nos__byline reveal rd2">
+      <div class="nos__initial" aria-hidden="true">B</div>
+      <div>
+        <span class="nos__name">Bryanna Osuna</span>
+        <span class="nos__role">Instructora de Yoga · Mexicali, B.C.</span>
+        <span class="nos__cert">Certificada, Red Internacional de Yoga Oncológico</span>
       </div>
     </div>
-    <div class="nosotros__copy">
-      <span class="eyebrow ey-salvia reveal rd1">Sobre Nosotros</span>
-      <h2 class="sh2 sh2-tinta reveal rd2">Un espacio<br><em>creado con amor</em></h2>
-      <div class="g-rule reveal rd2"></div>
+
+    <div class="nos__copy">
       <p class="reveal rd3">Pacoya Yoga es un espacio creado para acompañar el bienestar desde la presencia, el movimiento y la respiración.</p>
       <p class="reveal rd4">Creemos en prácticas humanas, conscientes y accesibles, donde cada persona pueda reconectar consigo misma a su propio ritmo.</p>
       <p class="reveal rd5">Nuestra enseñanza integra calma, sensibilidad y atención plena, adaptándose con respeto a cada proceso y experiencia.</p>
-      <div class="nosotros__grid reveal rd6">
-        <div class="valor"><span class="valor-name">Presencia</span><p class="valor-desc">Respirar y volver al presente.</p></div>
-        <div class="valor"><span class="valor-name">Bienestar</span><p class="valor-desc">Movimiento consciente para cuerpo y mente.</p></div>
-        <div class="valor"><span class="valor-name">Comunidad</span><p class="valor-desc">Un espacio para compartir y sentirte acompañada.</p></div>
-        <div class="valor"><span class="valor-name">Calma</span><p class="valor-desc">Respirar, desacelerar y reconectar contigo.</p></div>
+    </div>
+
+    <div class="nos__values">
+      <div class="valor reveal">
+        <span class="valor-name">Presencia</span>
+        <p class="valor-desc">Respirar y volver al presente.</p>
+      </div>
+      <div class="valor reveal rd1">
+        <span class="valor-name">Bienestar</span>
+        <p class="valor-desc">Movimiento consciente para cuerpo y mente.</p>
+      </div>
+      <div class="valor reveal rd2">
+        <span class="valor-name">Comunidad</span>
+        <p class="valor-desc">Un espacio para compartir y sentirte acompañada.</p>
+      </div>
+      <div class="valor reveal rd3">
+        <span class="valor-name">Calma</span>
+        <p class="valor-desc">Desacelerar y reconectar contigo.</p>
       </div>
     </div>
+
   </div>
 </section>
 
