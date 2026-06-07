@@ -174,7 +174,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   to   { transform: translate(-4%, 3%) scale(1.08); }
 }
 
-.hero__text { position: relative; z-index: 2; padding: 0 var(--px) 48px; }
+.hero__text {
+  position: relative; z-index: 2; padding: 0 var(--px) 48px;
+  /* Centrado en móvil */
+  text-align: center;
+}
 
 .hero__studio {
   font-size: 0.58rem; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase;
@@ -188,7 +192,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   overflow: hidden;
 }
 .hero__vivir {
-  font-size: clamp(5rem, 20vw, 10rem); display: block;
+  /* Más grande en móvil — ocupa un buen porcentaje del ancho */
+  font-size: clamp(5.5rem, 28vw, 10rem); display: block;
   opacity: 0; transform: translateY(110%);
   animation: slideUp 1.1s cubic-bezier(0, 0, 0.1, 1) 0.65s both;
 }
@@ -213,17 +218,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 .hero__rule {
-  width: 28px; height: 1px; background: rgba(176,120,64,0.35); margin: 22px 0;
-  transform-origin: left; transform: scaleX(0); opacity: 0;
+  width: 28px; height: 1px; background: rgba(176,120,64,0.35); margin: 22px auto;
+  transform-origin: center; transform: scaleX(0); opacity: 0;
   animation: lineGrow 0.8s var(--ease-out) 1.2s both;
 }
 .hero__body {
   font-size: 0.88rem; line-height: 1.88; color: rgba(250,247,242,0.42);
-  max-width: 28ch; margin-bottom: 26px;
+  max-width: 28ch; margin: 0 auto 26px;
   opacity: 0; animation: fadeUp 0.9s ease 1.3s both;
 }
 .hero__actions {
   display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  justify-content: center;
   opacity: 0; animation: fadeUp 0.9s ease 1.5s both;
 }
 .btn-hero {
@@ -671,11 +677,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     padding: clamp(80px,12vh,140px) clamp(32px,5vw,72px) clamp(52px,8vh,88px);
     position: relative; z-index: 2; order: -1;
   }
+  /* Desktop: texto a la izquierda, layout 2 columnas */
+  .hero__text { text-align: left; }
+  .hero__rule { margin: 28px 0; transform-origin: left; }
+  .hero__body { max-width: 320px; margin: 0 0 36px 0; }
+  .hero__actions { justify-content: flex-start; }
   .hero__vivir { font-size: clamp(6rem,10vw,11rem); }
   .hero__display em { font-size: 0.5em; }
   .hero__studio { margin-bottom: clamp(28px,6vh,56px); }
-  .hero__body { max-width: 320px; margin-bottom: 36px; }
-  .hero__rule { margin: 28px 0; }
   .hero__loc {
     display: block; position: absolute;
     bottom: clamp(28px,4vh,52px); right: clamp(28px,4vw,52px);
