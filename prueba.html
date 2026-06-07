@@ -186,8 +186,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 .hero__text {
-  position: relative; z-index: 2; padding: 0 var(--px) 48px;
-  /* Izquierda — voz editorial, no template */
+  position: relative; z-index: 2;
+  /* padding-bottom: bottom nav + margen para que los CTAs no queden tapados */
+  padding: 0 var(--px) calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px);
   text-align: left;
 }
 
