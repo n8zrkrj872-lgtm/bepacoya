@@ -1318,7 +1318,11 @@ updateBnav();
 /* EVENTOS */
 async function cargarEventos() {
   const el = document.getElementById('events-list');
-  const { data, error } = await sb.from('eventos').select('*').order('fecha',{ascending:true}).limit(6);
+  const hoy = new Date().toISOString().split('T')[0];
+  const { data, error } = await sb.from('eventos').select('*')
+    .eq('activo', true)
+    .gte('fecha', hoy)
+    .order('fecha', { ascending: true });
   if (error || !data?.length) { el.innerHTML='<p class="ev-empty">No hay eventos próximos por ahora.</p>'; return; }
   const mes = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
   const tipo = { meditacion:'Meditación', taller:'Taller', retiro:'Retiro', especial:'Especial', oncologico:'Oncológico' };
@@ -1350,7 +1354,10 @@ cargarEventos();
 /* PENSAMIENTOS */
 async function cargarPens() {
   const list = document.getElementById('pens-list');
-  const { data, error } = await sb.from('pensamientos').select('*').order('fecha',{ascending:false}).limit(4);
+  const { data, error } = await sb.from('pensamientos').select('*')
+    .eq('activo', true)
+    .order('fecha', { ascending: false })
+    .limit(3);
   if (error||!data?.length) { list.innerHTML='<p class="load-empty">Sin pensamientos aún.</p>'; return; }
   const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   list.innerHTML = data.map(p => {
@@ -1393,13 +1400,18 @@ aForm?.addEventListener('submit', async e => {
   const { data: result } = await sb.rpc('verificar_codigo_clase', { p_codigo: code });
   if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Entrar'; }
   if (result && result.stream_url) {
+    aErr.textContent = '';
     document.getElementById('live-titulo').textContent = result.titulo || 'Clase en Vivo';
     document.getElementById('live-link').href = safeUrl(result.stream_url);
     lGate.style.display='none'; lPlay.classList.add('vis');
   } else if (!result || !result.activo) {
     aErr.textContent = 'No hay ninguna clase activa en este momento.';
+    aCode.style.borderColor = '#e07070';
+    setTimeout(() => { aCode.style.borderColor = ''; }, 2000);
   } else {
-    aErr.textContent = 'Código no válido o clase no activa.';
+    aErr.textContent = 'Código incorrecto. Verifica e intenta de nuevo.';
+    aCode.style.borderColor = '#e07070';
+    setTimeout(() => { aCode.style.borderColor = ''; }, 2000);
   }
 });
 document.getElementById('exit-live')?.addEventListener('click', () => {
@@ -1407,7 +1419,7 @@ document.getElementById('exit-live')?.addEventListener('click', () => {
   aCode.value=''; aErr.textContent='';
 });
 
-/* CONTACTO — envío fetch para no navegar fuera de la página */
+/* CONTACTO — envío fetch, sin redirección, con feedback de éxito */
 const cForm = document.getElementById('contact-form');
 const cBtn  = cForm?.querySelector('button[type="submit"]');
 cForm?.addEventListener('submit', async e => {
@@ -1419,10 +1431,16 @@ cForm?.addEventListener('submit', async e => {
       headers: { 'Accept': 'application/json' }
     });
     if (res.ok) {
-      cForm.innerHTML = '<p style="font-family:var(--f-d);font-style:italic;font-size:1.15rem;color:rgba(250,247,242,0.75);line-height:1.7;padding:8px 0">Gracias. Te escribimos pronto.</p>';
+      if (cBtn) {
+        cBtn.textContent = '✓ Mensaje enviado';
+        cBtn.style.background = 'var(--salvia)';
+      }
+      cForm.reset();
+      setTimeout(() => {
+        if (cBtn) { cBtn.textContent = 'Enviar'; cBtn.disabled = false; cBtn.style.background = ''; }
+      }, 3500);
     } else {
       if (cBtn) { cBtn.disabled = false; cBtn.textContent = 'Enviar'; }
-      alert('Algo salió mal. Escríbenos directamente a contacto@bepacoya.com');
     }
   } catch {
     if (cBtn) { cBtn.disabled = false; cBtn.textContent = 'Enviar'; }
