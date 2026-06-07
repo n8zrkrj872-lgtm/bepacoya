@@ -24,6 +24,7 @@
   --salvia:   #7A9E7E;
   --f-d: 'Cormorant Garamond', Georgia, serif;
   --f-b: 'DM Sans', system-ui, sans-serif;
+  --rojo-error: #C05050;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --t: 0.25s var(--ease);
@@ -213,11 +214,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: radial-gradient(circle, rgba(122,158,126,0.06) 0%, transparent 60%);
 }
 
-@keyframes kenburns {
-  from { transform: scale(1.09) translate(0, 0); }
-  to   { transform: scale(1.01) translate(-1.5%, 1%); }
-}
-
 .hero__text {
   position: relative; z-index: 2;
   /* padding-bottom: bottom nav + margen para que los CTAs no queden tapados */
@@ -271,7 +267,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   animation: lineGrow 0.8s var(--ease-out) 1.2s both;
 }
 .hero__body {
-  font-size: 0.95rem; line-height: 1.82; color: rgba(250,247,242,0.45);
+  font-size: 0.95rem; line-height: 1.82; color: rgba(250,247,242,0.62);
   max-width: 30ch; margin-bottom: 26px;
   opacity: 0; animation: fadeUp 0.9s ease 1.3s both;
 }
@@ -485,29 +481,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ev-hr { font-size: 0.68rem; color: rgba(28,21,16,0.28); margin-top: 5px; }
 .ev-lnk { display: none; }
 .ev-empty { padding: 24px 0; color: rgba(28,21,16,0.3); font-size: 0.8rem; }
+.load-empty { padding: 24px 0; color: rgba(250,247,242,0.25); font-size: 0.8rem; }
 
-/* ─── MEMORIAS ───────────────────────────── */
-.memorias { background: var(--tinta); }
-.memorias__head {
-  padding: var(--sec-py) var(--px) 28px;
-  display: flex; align-items: flex-end; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
-}
-.mem-grid { display: grid; grid-template-columns: 1fr; gap: 2px; }
-.mem-item { position: relative; overflow: hidden; aspect-ratio: 4/3; background: rgba(250,247,242,0.04); }
-.mem-item img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: grayscale(15%) contrast(1.04);
-  transition: transform 0.75s ease, filter 0.75s ease;
-}
-.mem-item:active img { transform: scale(1.04); filter: grayscale(0%); }
-.mem-ov {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(28,21,16,0.75) 0%, transparent 50%);
-  display: flex; align-items: flex-end; padding: 20px;
-}
-.mem-ti { font-family: var(--f-d); font-size: 1rem; font-style: italic; color: var(--crema); line-height: 1.25; }
-.mem-footer { padding: 20px var(--px) var(--sec-py); }
+/* ─── PENSAMIENTOS / LINKS LIGHT ─────────── */
 .btn-link-light {
   font-size: 0.63rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
   color: rgba(250,247,242,0.35); border-bottom: 1px solid rgba(250,247,242,0.15); padding-bottom: 2px;
@@ -583,7 +559,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   -webkit-tap-highlight-color: transparent;
 }
 .clases__btn:active { color: var(--cobre); }
-.clases__err { font-size: 0.74rem; color: #C04040; margin-top: 10px; min-height: 18px; }
+.clases__err { font-size: 0.74rem; color: var(--rojo-error); margin-top: 10px; min-height: 18px; }
 .clases__hint { margin-top: 14px; font-size: 0.73rem; color: rgba(28,21,16,0.32); }
 .clases__hint a { color: var(--cobre); transition: color var(--t); }
 .clases__hint a:active { color: var(--tinta); }
@@ -720,8 +696,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     font-size: 0.58rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--cobre); border: 1px solid rgba(176,120,64,0.3); padding: 4px 11px; border-radius: 999px; white-space: nowrap;
   }
-  .mem-grid { grid-template-columns: 1fr 1fr; }
-  .mem-item { aspect-ratio: 3/4; }
   .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
   .test-item { border-top: none; border-left: 1px solid rgba(28,21,16,0.07); padding: 0 0 0 32px; }
   .test-item:first-child { border-left: none; padding-left: 0; padding-right: 32px; }
@@ -794,11 +768,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   }
   .ev-lnk:hover { color: var(--cobre); border-color: rgba(176,120,64,0.35); }
 
-  .mem-grid { grid-template-columns: repeat(3,1fr); }
-  .mem-item { aspect-ratio: 3/4; }
-  .mem-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
-  .mem-ov { opacity: 0; transition: opacity 0.4s ease; }
-  .mem-item:hover .mem-ov { opacity: 1; }
   .pens-row:hover { opacity: 0.68; }
 
   .contacto__wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 80px; align-items: start; }
@@ -906,7 +875,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <div>
         <span class="nos__name">Bryanna Osuna</span>
         <span class="nos__role">Instructora de Yoga · Mexicali, B.C.</span>
-        <span class="nos__cert">Certificada · RED Internacional de Yoga Oncológico para personas con cáncer</span>
+        <a href="https://yogaoncologico.org/redeiras/bryanna-osuna" target="_blank" rel="noopener" class="nos__cert">Certificada · RED Internacional de Yoga Oncológico para personas con cáncer</a>
       </div>
     </div>
 
@@ -1084,7 +1053,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <section class="contacto sec" id="contacto">
   <div class="contacto__wrap">
     <div class="contacto__info">
-      <h2 class="sh2 sh2-crema reveal">Comienza tu práctica</h2>
+      <span class="eyebrow ey-salvia reveal">Contáctanos</span>
+      <h2 class="sh2 sh2-crema reveal rd1">Comienza tu práctica</h2>
       <p class="contacto__pull reveal rd1">Escríbenos para conocer horarios, clases y sesiones disponibles. Será un gusto acompañarte.</p>
       <div class="c-row reveal rd3">
         <svg viewBox="0 0 24 18" width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="22" height="16" rx="3"/><path d="M1 4l11 7 11-7"/></svg>
@@ -1266,16 +1236,44 @@ function updateNav() {
 /* HAMBURGER */
 const ham = document.getElementById('ham');
 const mob = document.getElementById('nav-mob');
-ham.addEventListener('click', () => {
-  const o = mob.classList.toggle('open');
-  ham.classList.toggle('open', o);
-  ham.setAttribute('aria-expanded', String(o));
-  document.body.style.overflow = o ? 'hidden' : '';
+const mobLinks = Array.from(mob.querySelectorAll('a'));
+
+function openMenu() {
+  mob.classList.add('open');
+  ham.classList.add('open');
+  ham.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+  // Foco al primer enlace tras la transición
+  setTimeout(() => { if (mobLinks[0]) mobLinks[0].focus(); }, 60);
+}
+function closeMenu() {
+  mob.classList.remove('open');
+  ham.classList.remove('open');
+  ham.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  ham.focus();
+}
+
+ham.addEventListener('click', () => mob.classList.contains('open') ? closeMenu() : openMenu());
+
+// Cerrar con Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && mob.classList.contains('open')) closeMenu();
 });
-mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  mob.classList.remove('open'); ham.classList.remove('open');
-  ham.setAttribute('aria-expanded','false'); document.body.style.overflow='';
-}));
+
+// Trampa de foco dentro del menú
+mob.addEventListener('keydown', e => {
+  if (!mob.classList.contains('open') || e.key !== 'Tab') return;
+  const first = mobLinks[0];
+  const last  = mobLinks[mobLinks.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault(); last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus();
+  }
+});
+
+mobLinks.forEach(a => a.addEventListener('click', closeMenu));
 
 /* RESPIRA FADE */
 document.getElementById('link-respira-p')?.addEventListener('click', e => {
@@ -1353,7 +1351,7 @@ cargarEventos();
 async function cargarPens() {
   const list = document.getElementById('pens-list');
   const { data, error } = await sb.from('pensamientos').select('*').order('fecha',{ascending:false}).limit(4);
-  if (error||!data?.length) { list.innerHTML='<p style="padding:24px 0;color:rgba(250,247,242,0.25);font-size:0.8rem">Sin pensamientos aún.</p>'; return; }
+  if (error||!data?.length) { list.innerHTML='<p class="load-empty">Sin pensamientos aún.</p>'; return; }
   const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   list.innerHTML = data.map(p => {
     const fd = p.fecha ? new Date(p.fecha+'T12:00:00') : null;
@@ -1407,6 +1405,28 @@ aForm?.addEventListener('submit', async e => {
 document.getElementById('exit-live')?.addEventListener('click', () => {
   lPlay.classList.remove('vis'); lGate.style.display='';
   aCode.value=''; aErr.textContent='';
+});
+
+/* CONTACTO — envío fetch para no navegar fuera de la página */
+const cForm = document.getElementById('contact-form');
+const cBtn  = cForm?.querySelector('button[type="submit"]');
+cForm?.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (cBtn) { cBtn.disabled = true; cBtn.textContent = 'Enviando…'; }
+  try {
+    const res = await fetch(cForm.action, {
+      method: 'POST', body: new FormData(cForm),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      cForm.innerHTML = '<p style="font-family:var(--f-d);font-style:italic;font-size:1.15rem;color:rgba(250,247,242,0.75);line-height:1.7;padding:8px 0">Gracias. Te escribimos pronto.</p>';
+    } else {
+      if (cBtn) { cBtn.disabled = false; cBtn.textContent = 'Enviar'; }
+      alert('Algo salió mal. Escríbenos directamente a contacto@bepacoya.com');
+    }
+  } catch {
+    if (cBtn) { cBtn.disabled = false; cBtn.textContent = 'Enviar'; }
+  }
 });
 
 /* WHATSAPP — manejado dentro del onScroll unificado (Fix #3) */
