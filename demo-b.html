@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Demo B — Textura orgánica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --tinta:#1C1510;--crema:#FAF7F2;--arena:#F0E8D8;
+  --bosque:#243223;--bosque-dk:#182117;
+  --cobre:#B07840;--cobre-lt:#C9965C;--salvia:#7A9E7E;
+  --f-d:'Cormorant Garamond',Georgia,serif;
+  --f-b:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--f-b);background:var(--bosque-dk);color:var(--crema);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ── FILTRO SVG OCULTO ── */
+.filters{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ── HERO ── */
+.hero{
+  min-height:100svh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  background:var(--bosque-dk);
+}
+/* Capa de textura viva (SVG turbulence sobre la foto) */
+.hero__texture{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;opacity:0.55;
+}
+.hero__bg{position:absolute;inset:0;z-index:0;}
+.hero__bg img{
+  width:100%;height:100%;object-fit:cover;object-position:center 15%;
+  filter:grayscale(25%) sepia(10%) contrast(1.04);
+}
+/* Gradiente más rico, tonalidades de tierra */
+.hero__bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(176,120,64,0.12) 0%, transparent 60%),
+    linear-gradient(to top, rgba(24,33,23,0.97) 0%, rgba(24,33,23,0.55) 45%, transparent 80%);
+}
+/* Animación de luz viva sobre el hero */
+.hero__light{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 70% 30%, rgba(176,120,64,0.06) 0%, transparent 70%);
+  animation:lightDrift 12s ease-in-out infinite alternate;
+}
+@keyframes lightDrift{
+  from{transform:translate(0,0) scale(1)}
+  to  {transform:translate(-5%,3%) scale(1.1)}
+}
+
+.hero__text{position:relative;z-index:3;padding:0 28px 52px}
+.hero__studio{
+  font-size:0.58rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;
+  color:rgba(176,120,64,0.5);display:block;margin-bottom:22px;
+}
+.hero__display{
+  font-family:var(--f-d);font-style:italic;font-weight:300;
+  line-height:0.88;letter-spacing:-0.02em;
+}
+.hero__vivir{
+  font-size:clamp(5rem,22vw,10rem);display:block;
+  color:rgba(250,247,242,0.92);
+  /* textura de papel sobre el texto grande */
+  -webkit-font-smoothing:antialiased;
+}
+.hero__urgente{
+  font-size:clamp(2rem,8vw,4.5rem);
+  color:var(--cobre-lt);display:block;margin-top:0.06em;
+}
+.hero__rule{
+  width:36px;height:1px;background:rgba(176,120,64,0.3);margin:22px 0;
+}
+.hero__body{
+  font-size:0.9rem;line-height:1.88;color:rgba(250,247,242,0.4);
+  max-width:28ch;margin-bottom:26px;
+}
+.hero__cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.btn{
+  font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  background:var(--cobre);color:var(--crema);
+  padding:13px 28px;border-radius:999px;
+  transition:background 0.25s ease;position:relative;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%);
+  opacity:0;transition:opacity 0.3s;
+}
+.btn:hover{background:var(--cobre-lt)}
+.btn:hover::after{opacity:1}
+.btn-ghost{
+  font-size:0.68rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(250,247,242,0.35);border-bottom:1px solid rgba(250,247,242,0.15);padding-bottom:2px;
+  transition:color 0.3s,border-color 0.3s;
+}
+.btn-ghost:hover{color:rgba(250,247,242,0.7);border-color:rgba(250,247,242,0.3)}
+
+/* ── SECCIÓN TESTIMONIOS CON EFECTO TINTA ── */
+.sec-test{
+  padding:88px 28px;background:var(--crema);
+  /* textura de papel sutil en superficies claras */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"),
+    linear-gradient(var(--crema),var(--crema));
+  position:relative;overflow:hidden;
+}
+/* Mancha de tinta decorativa de fondo */
+.sec-test::before{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle, rgba(122,158,126,0.07) 0%, transparent 70%);
+  top:-100px;right:-100px;pointer-events:none;
+}
+.test-inner{max-width:720px;margin:0 auto}
+.quote-mark{
+  font-family:var(--f-d);font-size:5rem;font-weight:300;
+  color:rgba(176,120,64,0.15);line-height:1;
+  display:block;margin-bottom:-1.5rem;
+}
+.quote-text{
+  font-family:var(--f-d);font-style:italic;font-weight:300;
+  font-size:clamp(1.5rem,5vw,2.4rem);line-height:1.55;
+  color:rgba(28,21,16,0.82);margin-bottom:28px;
+  /* reveal con clip-path como tinta que se expande */
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path 1.2s cubic-bezier(0,0,0.15,1);
+}
+.quote-text.visible{clip-path:inset(0 0% 0 0)}
+
+.quote-attr{display:flex;align-items:center;gap:12px;margin-bottom:44px}
+.q-initial{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(28,21,16,0.06);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-d);font-size:1rem;color:rgba(28,21,16,0.4);
+  flex-shrink:0;
+}
+.q-name{font-size:0.85rem;font-weight:500;color:var(--tinta);display:block}
+.q-role{font-size:0.63rem;color:rgba(28,21,16,0.38);letter-spacing:0.06em}
+
+/* Citas secundarias: apiladas, con separador de tinta */
+.sec-quotes{display:flex;flex-direction:column;gap:0}
+.sec-quote{
+  padding:28px 0;
+  border-top:1px solid rgba(28,21,16,0.07);
+  opacity:0;transform:translateX(-16px);
+  transition:opacity 0.8s ease,transform 0.8s cubic-bezier(0,0,0.2,1);
+}
+.sec-quote.visible{opacity:1;transform:translateX(0)}
+.sec-quote:nth-child(2){transition-delay:0.15s}
+.sec-quote p{
+  font-family:var(--f-d);font-style:italic;font-weight:300;
+  font-size:1.05rem;line-height:1.7;color:rgba(28,21,16,0.6);margin-bottom:14px;
+}
+
+/* ── SECCIÓN OSCURA: SERVICIOS COMO LISTA ORGÁNICA ── */
+.sec-srv{
+  padding:88px 28px;
+  background:var(--bosque);
+  position:relative;overflow:hidden;
+}
+.sec-srv::before{
+  content:'∞';position:absolute;right:-5%;top:-10%;
+  font-family:var(--f-d);font-size:50vw;font-weight:300;
+  color:rgba(250,247,242,0.02);line-height:1;pointer-events:none;user-select:none;
+  animation:slowRotate 60s linear infinite;
+}
+@keyframes slowRotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.srv-inner{max-width:640px;margin:0 auto;position:relative;z-index:1}
+.eyebrow{font-size:0.62rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;display:block;margin-bottom:12px}
+.ey-cobre{color:rgba(176,120,64,0.65)}
+.sh2{font-family:var(--f-d);font-weight:300;font-size:clamp(1.9rem,6vw,3rem);line-height:1.1;margin-bottom:40px}
+.sh2-crema{color:rgba(250,247,242,0.92)}
+.srv-item{
+  display:flex;align-items:baseline;gap:18px;
+  padding:22px 0;border-bottom:1px solid rgba(250,247,242,0.06);
+  opacity:0;transform:translateY(20px);
+  transition:opacity 0.7s ease,transform 0.7s cubic-bezier(0,0,0.2,1);
+}
+.srv-item.visible{opacity:1;transform:translateY(0)}
+.srv-item:nth-child(1){transition-delay:0s}
+.srv-item:nth-child(2){transition-delay:0.1s}
+.srv-item:nth-child(3){transition-delay:0.2s}
+.srv-item:nth-child(4){transition-delay:0.3s}
+.srv-item:nth-child(5){transition-delay:0.4s}
+.srv-n{
+  font-family:var(--f-d);font-size:2.5rem;font-weight:300;
+  color:rgba(250,247,242,0.06);line-height:1;flex-shrink:0;
+  transition:color 0.3s ease;
+}
+.srv-item:hover .srv-n{color:rgba(176,120,64,0.2)}
+.srv-nm{
+  font-family:var(--f-d);font-size:clamp(1.2rem,3.5vw,1.5rem);font-weight:300;
+  color:rgba(250,247,242,0.75);line-height:1.2;
+  transition:color 0.3s;
+}
+.srv-item:hover .srv-nm{color:rgba(250,247,242,0.95)}
+.srv-ds{font-size:0.78rem;color:rgba(250,247,242,0.32);margin-top:3px;line-height:1.55}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+  .quote-text,.sec-quote,.srv-item{opacity:1;transform:none;clip-path:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO con textura viva -->
+<section class="hero" id="inicio">
+  <div class="hero__bg">
+    <img src="Contenido/Foto Bryanna en pose yoga.png" alt=""/>
+  </div>
+  <div class="hero__texture"></div>
+  <div class="hero__light"></div>
+  <div class="hero__text">
+    <span class="hero__studio">Pacoya Yoga · Mexicali · Baja California</span>
+    <div class="hero__display">
+      <span class="hero__vivir">Vivir</span>
+      <span class="hero__urgente">es urgente.</span>
+    </div>
+    <div class="hero__rule"></div>
+    <p class="hero__body">Un espacio seguro, cálido y especializado. Yoga oncológico certificado en Mexicali.</p>
+    <div class="hero__cta">
+      <a href="#testimonios" class="btn">Conocer más</a>
+      <a href="#servicios" class="btn-ghost">Ver servicios</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS con reveal de tinta -->
+<section class="sec-test" id="testimonios">
+  <div class="test-inner">
+    <span class="quote-mark" aria-hidden="true">"</span>
+    <p class="quote-text" id="qt">Cada práctica me recuerda que sigo aquí, que sigo fuerte y que estoy viva.</p>
+    <div class="quote-attr">
+      <div class="q-initial">K</div>
+      <div>
+        <span class="q-name">Krim Rebeca Guzmán García</span>
+        <span class="q-role">Yoga Oncológico</span>
+      </div>
+    </div>
+    <div class="sec-quotes">
+      <div class="sec-quote">
+        <p>"Sé lo mucho que le gustaba a mi mamá ir a sus clases de yoga. La hacían sentir muy cómoda, en tranquilidad, concentrada y muy a gusto con su cuerpo."</p>
+        <div class="quote-attr" style="margin-bottom:0">
+          <div class="q-initial">Z</div>
+          <div><span class="q-name">Hija de Zulema</span><span class="q-role">Familia de alumna</span></div>
+        </div>
+      </div>
+      <div class="sec-quote">
+        <p>"El ambiente te traslada a emociones sensoriales de paz, seguridad y cuidado. La calidez y empatía de la maestra hace que el yoga sea de apapacho."</p>
+        <div class="quote-attr" style="margin-bottom:0">
+          <div class="q-initial">S</div>
+          <div><span class="q-name">Sheila M.</span><span class="q-role">Yoga Oncológico</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS orgánicos -->
+<section class="sec-srv" id="servicios">
+  <div class="srv-inner">
+    <span class="eyebrow ey-cobre">Lo que ofrecemos</span>
+    <h2 class="sh2 sh2-crema">Servicios para<br><em>tu bienestar</em></h2>
+    <div class="srv-item"><span class="srv-n">01</span><div><div class="srv-nm">Yoga Oncológico</div><p class="srv-ds">Práctica certificada para cada etapa del proceso. Segura, compasiva, especializada.</p></div></div>
+    <div class="srv-item"><span class="srv-n">02</span><div><div class="srv-nm">Yoga General</div><p class="srv-ds">Para todos los niveles. Movimiento consciente y equilibrio interior.</p></div></div>
+    <div class="srv-item"><span class="srv-n">03</span><div><div class="srv-nm">Meditación</div><p class="srv-ds">Sesiones guiadas para cultivar calma y atención plena.</p></div></div>
+    <div class="srv-item"><span class="srv-n">04</span><div><div class="srv-nm">Clases en Línea</div><p class="srv-ds">Transmisión en vivo con código de acceso privado.</p></div></div>
+    <div class="srv-item"><span class="srv-n">05</span><div><div class="srv-nm">Sesiones Especiales</div><p class="srv-ds">Talleres, retiros y encuentros exclusivos para la comunidad.</p></div></div>
+  </div>
+</section>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+  });
+},{threshold:0.18,rootMargin:'0px 0px -30px 0px'});
+
+document.querySelectorAll('.sec-quote,.srv-item').forEach(el=>obs.observe(el));
+
+// Quote de tinta — se activa cuando entra en viewport
+const qt = document.getElementById('qt');
+const qObs = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){qt.classList.add('visible');qObs.disconnect();}
+},{threshold:0.3});
+qObs.observe(qt);
+</script>
+</body>
+</html>

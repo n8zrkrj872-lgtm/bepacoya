@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Demo C — Revelación cinematográfica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --tinta:#1C1510;--crema:#FAF7F2;--arena:#F0E8D8;
+  --bosque:#243223;--bosque-dk:#182117;
+  --cobre:#B07840;--cobre-lt:#C9965C;--salvia:#7A9E7E;
+  --f-d:'Cormorant Garamond',Georgia,serif;
+  --f-b:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--f-b);background:var(--bosque-dk);color:var(--crema);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ── CORTINA DE ENTRADA ── */
+#curtain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:var(--bosque-dk);
+  transform-origin:top;
+  transition:transform 1.4s cubic-bezier(0.76,0,0.24,1) 0.1s;
+}
+#curtain.open{transform:scaleY(0)}
+
+/* ── HERO con parallax profundo ── */
+.hero{
+  min-height:100svh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero__parallax{
+  position:absolute;inset:-15% 0;z-index:0;
+  will-change:transform;
+}
+.hero__parallax img{
+  width:100%;height:100%;object-fit:cover;object-position:center 15%;
+  filter:grayscale(22%) contrast(1.06) brightness(0.88);
+}
+.hero__parallax::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to right, rgba(24,33,23,0.35) 0%, transparent 60%),
+    linear-gradient(to top, rgba(24,33,23,0.97) 0%, rgba(24,33,23,0.3) 50%, transparent 80%);
+}
+
+/* Marca de agua tipográfica grande, apenas visible */
+.hero__watermark{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--f-d);font-size:clamp(12rem,30vw,22rem);font-weight:300;font-style:italic;
+  color:rgba(250,247,242,0.025);line-height:1;pointer-events:none;user-select:none;
+  white-space:nowrap;z-index:0;
+  letter-spacing:-0.05em;
+}
+
+.hero__text{position:relative;z-index:2;padding:0 28px 52px}
+.hero__studio{
+  font-size:0.58rem;font-weight:500;letter-spacing:0.34em;text-transform:uppercase;
+  color:rgba(176,120,64,0.45);display:block;margin-bottom:24px;
+  opacity:0;animation:fadeSlide 1s ease 1.6s both;
+}
+/* Título con escritura a mano: cada palabra tiene su propio timing */
+.hero__display{
+  font-family:var(--f-d);font-style:italic;font-weight:300;
+  line-height:0.88;letter-spacing:-0.02em;overflow:hidden;
+}
+.hero__vivir{
+  font-size:clamp(5rem,22vw,10rem);display:block;
+  color:rgba(250,247,242,0.93);
+  opacity:0;transform:translateY(105%);
+  animation:wordReveal 1s cubic-bezier(0,0,0.1,1) 1.7s both;
+}
+.hero__urgente{
+  font-size:clamp(2rem,8vw,4.5rem);color:var(--cobre-lt);
+  display:block;margin-top:0.06em;
+  opacity:0;transform:translateY(105%);
+  animation:wordReveal 0.9s cubic-bezier(0,0,0.1,1) 2.1s both;
+}
+@keyframes wordReveal{from{transform:translateY(105%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.hero__rule{
+  width:0;height:1px;background:rgba(176,120,64,0.3);margin:24px 0;
+  animation:lineExpand 0.8s ease 2.4s both;
+}
+@keyframes lineExpand{from{width:0}to{width:36px}}
+.hero__body{
+  font-size:0.9rem;line-height:1.88;color:rgba(250,247,242,0.38);
+  max-width:28ch;margin-bottom:28px;
+  opacity:0;animation:fadeSlide 0.8s ease 2.5s both;
+}
+.hero__cta{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  opacity:0;animation:fadeSlide 0.8s ease 2.7s both;
+}
+.btn{
+  font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  background:var(--cobre);color:var(--crema);
+  padding:13px 28px;border-radius:999px;
+  transition:background 0.25s ease;
+}
+.btn:hover{background:var(--cobre-lt)}
+.btn-ghost{
+  font-size:0.68rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(250,247,242,0.35);border-bottom:1px solid rgba(250,247,242,0.15);padding-bottom:2px;
+  transition:color 0.3s,border-color 0.3s;
+}
+.btn-ghost:hover{color:rgba(250,247,242,0.7);border-color:rgba(250,247,242,0.3)}
+
+/* Número de año flotante, como un fotograma */
+.hero__year{
+  position:absolute;bottom:36px;right:28px;z-index:2;
+  font-family:var(--f-d);font-size:0.6rem;font-weight:300;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(250,247,242,0.18);
+  writing-mode:vertical-rl;
+  opacity:0;animation:fadeSlide 1s ease 3s both;
+}
+
+/* ── SECCIÓN: CORTINA DE REVELACIÓN ── */
+/* Cada sección tiene una cortina que sube al entrar al viewport */
+.curtain-sec{position:relative;overflow:hidden}
+.curtain-inner{
+  /* La sección completa se enmascara y se revela de arriba a abajo */
+  clip-path:inset(100% 0 0 0);
+  transition:clip-path 1.1s cubic-bezier(0.76,0,0.24,1);
+}
+.curtain-sec.revealed .curtain-inner{clip-path:inset(0% 0 0 0)}
+
+/* ── NOSOTROS ── */
+.sec-nos{background:var(--crema);padding:92px 28px}
+.nos-inner{max-width:720px;margin:0 auto}
+.eyebrow{font-size:0.62rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;display:block;margin-bottom:12px}
+.ey-salvia{color:var(--salvia)}
+.sh2{font-family:var(--f-d);font-weight:300;font-size:clamp(2rem,6vw,3rem);line-height:1.1;margin-bottom:28px}
+.sh2-tinta{color:var(--tinta)}
+.body-p{font-size:1rem;line-height:1.9;color:rgba(28,21,16,0.6);margin-bottom:14px;max-width:66ch}
+
+/* Grilla de valores con línea de tiempo vertical */
+.timeline{
+  margin-top:48px;position:relative;padding-left:24px;
+}
+.timeline::before{
+  content:'';position:absolute;left:0;top:8px;bottom:8px;
+  width:1px;background:rgba(28,21,16,0.1);
+}
+.tl-item{
+  position:relative;padding:0 0 36px 24px;
+  opacity:0;transform:translateX(-20px);
+  transition:opacity 0.7s ease,transform 0.7s cubic-bezier(0,0,0.2,1);
+}
+.tl-item.visible{opacity:1;transform:translateX(0)}
+.tl-item:nth-child(1){transition-delay:0.1s}
+.tl-item:nth-child(2){transition-delay:0.22s}
+.tl-item:nth-child(3){transition-delay:0.34s}
+.tl-item:nth-child(4){transition-delay:0.46s}
+.tl-item::before{
+  content:'';position:absolute;left:-3px;top:8px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--cobre);opacity:0.5;
+}
+.tl-nm{font-size:0.62rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--salvia);display:block;margin-bottom:4px}
+.tl-ds{font-size:0.88rem;color:rgba(28,21,16,0.55);line-height:1.6}
+
+/* ── SECCIÓN OSCURA ONCOLÓGICO ── */
+.sec-onco{background:var(--bosque);padding:92px 28px;position:relative;overflow:hidden}
+.sec-onco::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(176,120,64,0.06) 0%,transparent 70%);
+  right:-100px;top:-100px;pointer-events:none;
+}
+.onco-inner{max-width:720px;margin:0 auto;position:relative;z-index:1}
+.ey-cobre{color:rgba(176,120,64,0.65)}
+.sh2-crema{color:rgba(250,247,242,0.92)}
+.body-dark{font-size:1rem;line-height:1.9;color:rgba(250,247,242,0.62);margin-bottom:14px;max-width:66ch}
+
+/* Certificación como elemento visual propio */
+.cert-badge{
+  display:inline-flex;align-items:center;gap:12px;
+  margin-top:32px;padding:14px 20px;
+  border:1px solid rgba(176,120,64,0.2);
+  background:rgba(176,120,64,0.04);
+  opacity:0;transform:translateY(16px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+.cert-badge.visible{opacity:1;transform:translateY(0)}
+.cert-dot{width:8px;height:8px;border-radius:50%;background:var(--salvia);flex-shrink:0}
+.cert-text{font-size:0.7rem;letter-spacing:0.08em;color:rgba(250,247,242,0.5)}
+.cert-text strong{color:rgba(250,247,242,0.8);font-weight:500}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+  #curtain{transform:scaleY(0)!important}
+  .curtain-inner{clip-path:none!important}
+  .tl-item,.cert-badge{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- CORTINA DE ENTRADA -->
+<div id="curtain"></div>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero__parallax" id="parallax">
+    <img src="Contenido/Foto Bryanna en pose yoga.png" alt=""/>
+  </div>
+  <div class="hero__watermark" aria-hidden="true">Vivir</div>
+
+  <div class="hero__text">
+    <span class="hero__studio">Pacoya Yoga · Mexicali · Baja California</span>
+    <div class="hero__display">
+      <span class="hero__vivir">Vivir</span>
+      <span class="hero__urgente">es urgente.</span>
+    </div>
+    <div class="hero__rule"></div>
+    <p class="hero__body">Un espacio seguro, cálido y especializado donde el yoga se convierte en herramienta de sanación y presencia.</p>
+    <div class="hero__cta">
+      <a href="#nosotros" class="btn">Conocer más</a>
+      <a href="#oncologico" class="btn-ghost">Yoga Oncológico</a>
+    </div>
+  </div>
+  <span class="hero__year" aria-hidden="true">Mexicali 2026</span>
+</section>
+
+<!-- NOSOTROS: cortina de revelación + timeline -->
+<section class="curtain-sec" id="nosotros">
+  <div class="curtain-inner">
+    <div class="sec-nos">
+      <div class="nos-inner">
+        <span class="eyebrow ey-salvia">Sobre nosotros</span>
+        <h2 class="sh2 sh2-tinta">Un espacio<br><em>creado con amor</em></h2>
+        <p class="body-p">Pacoya Yoga es un espacio creado para acompañar el bienestar desde la presencia, el movimiento y la respiración. Creemos en prácticas humanas y accesibles.</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <span class="tl-nm">Presencia</span>
+            <p class="tl-ds">Respirar y volver al presente. La calma no se busca: se descubre.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-nm">Bienestar</span>
+            <p class="tl-ds">Movimiento consciente para cuerpo y mente, en cada etapa de la vida.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-nm">Comunidad</span>
+            <p class="tl-ds">Un espacio seguro para compartir, sentirte acompañada y crecer junto a otras.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-nm">Calma</span>
+            <p class="tl-ds">Desacelerar, reconectar contigo y recordar que vivir es urgente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ONCOLÓGICO: cortina + badge de certificación -->
+<section class="curtain-sec" id="oncologico">
+  <div class="curtain-inner">
+    <div class="sec-onco">
+      <div class="onco-inner">
+        <span class="eyebrow ey-cobre">Especialidad</span>
+        <h2 class="sh2 sh2-crema">Yoga<br>Oncológico</h2>
+        <p class="body-dark">Diseñada para personas que viven o han vivido con cáncer. Cada sesión se adapta respetando el cuerpo y las necesidades individuales en cada etapa del proceso.</p>
+        <p class="body-dark">El yoga oncológico ayuda a reducir la fatiga, la ansiedad y el dolor, mientras brinda momentos genuinos de paz y presencia.</p>
+        <div class="cert-badge" id="cert">
+          <div class="cert-dot"></div>
+          <span class="cert-text">Instructora <strong>certificada</strong> por la Red Internacional de Yoga Oncológico</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Cortina de entrada
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('curtain').classList.add('open'), 80);
+});
+
+// Parallax suave en hero
+const par = document.getElementById('parallax');
+function parallax() {
+  if(!par) return;
+  const y = window.scrollY * 0.35;
+  par.style.transform = `translateY(${y}px)`;
+}
+window.addEventListener('scroll', parallax, {passive:true});
+
+// Cortinas de sección (clip-path reveal)
+const curtainSecs = document.querySelectorAll('.curtain-sec');
+const curtainObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){e.target.classList.add('revealed');curtainObs.unobserve(e.target);}
+  });
+},{threshold:0.08});
+curtainSecs.forEach(s => curtainObs.observe(s));
+
+// Timeline + cert badge
+const itemObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {if(e.isIntersecting){e.target.classList.add('visible');itemObs.unobserve(e.target);}});
+},{threshold:0.2});
+document.querySelectorAll('.tl-item, .cert-badge').forEach(el => itemObs.observe(el));
+</script>
+</body>
+</html>
