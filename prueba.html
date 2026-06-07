@@ -66,7 +66,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   height: 52px; padding: 0 var(--px);
   display: flex; align-items: center; justify-content: space-between;
   transition: background var(--t), border-color var(--t);
-  border-bottom: 1px solid transparent;
+  /* Mobile: fondo verde sólido en el hero — no transparente */
+  background: var(--bosque);
+  border-bottom: 1px solid rgba(250,247,242,0.06);
 }
 .nav.over-light {
   background: rgba(250,247,242,0.93);
@@ -702,7 +704,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   :root { --px: 72px; --sec-py: 120px; }
   body { padding-bottom: 0; font-size: 1rem; }
 
-  .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); }
+  .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); background: transparent; border-bottom-color: transparent; }
   .nav__links { display: flex; align-items: center; gap: 26px; }
   .nav__links a { font-size: 0.7rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,247,242,0.5); transition: color var(--t); }
   .nav.over-light .nav__links a { color: rgba(28,21,16,0.45); }
