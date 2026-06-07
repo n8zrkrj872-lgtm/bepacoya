@@ -28,7 +28,7 @@
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --t: 0.25s var(--ease);
   --px:     20px;
-  --sec-py: 64px;
+  --sec-py: 52px;
   --bnav-h: 62px;
 }
 
@@ -238,8 +238,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   animation: lineGrow 0.8s var(--ease-out) 1.2s both;
 }
 .hero__body {
-  font-size: 0.88rem; line-height: 1.88; color: rgba(250,247,242,0.42);
-  max-width: 28ch; margin-bottom: 26px;
+  font-size: 0.95rem; line-height: 1.82; color: rgba(250,247,242,0.45);
+  max-width: 30ch; margin-bottom: 26px;
   opacity: 0; animation: fadeUp 0.9s ease 1.3s both;
 }
 .hero__actions {
@@ -390,11 +390,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ─── ONCOLÓGICO ─────────────────────────── */
 .oncologico { background: var(--bosque); position: relative; overflow: hidden; }
-.oncologico::before {
-  content: '∞'; position: absolute; right: -5%; top: -15%;
-  font-family: var(--f-d); font-size: 60vw; font-weight: 300;
-  color: rgba(250,247,242,0.02); line-height: 1; pointer-events: none; user-select: none;
-}
 .oncologico__wrap { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
 .onco-label { margin-bottom: 28px; }
 .onco-label p { font-size: 0.85rem; color: rgba(250,247,242,0.38); margin-top: 12px; line-height: 1.72; }
@@ -870,7 +865,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     <div class="nos__head">
       <span class="eyebrow ey-salvia reveal">Sobre nosotros</span>
-      <h2 class="sh2 sh2-tinta reveal rd1">Una nueva oportunidad<br><em>de vivir.</em></h2>
+      <h2 class="sh2 sh2-tinta reveal rd1">Un estudio, una comunidad,<br><em>un respiro.</em></h2>
     </div>
 
     <!-- Instructora sin foto — byline editorial -->
@@ -885,26 +880,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     <div class="nos__copy">
       <p class="reveal rd3">Pacoya no es solo un estudio de yoga. Esta práctica me dio algo que no esperaba: felicidad, empatía y un amor propio que no sabía que necesitaba.</p>
-      <p class="reveal rd4">Para quienes llegan, es un espacio seguro donde confían y sueltan lo que ya no necesitan. Y sin buscarlo, encuentran amistades nuevas.</p>
-      <p class="reveal rd5">Creemos que reunirse para moverse con conciencia es también una forma de aportar algo mejor al mundo.</p>
+      <p class="reveal rd4">Para quienes llegan, es un lugar donde se sienten en confianza, como son. Y sin buscarlo, encuentran amistades nuevas.</p>
+      <p class="reveal rd5">Creemos que hacer yoga juntas, con regularidad, ya es una forma pequeña de hacer algo bueno en el mundo.</p>
     </div>
 
     <div class="nos__values">
       <div class="valor reveal">
-        <span class="valor-name">Presencia</span>
-        <p class="valor-desc">Volver al cuerpo, a la respiración, al ahora.</p>
+        <span class="valor-name">Constancia</span>
+        <p class="valor-desc">Venir, aunque el día haya sido difícil.</p>
       </div>
       <div class="valor reveal rd1">
-        <span class="valor-name">Amor propio</span>
-        <p class="valor-desc">Engrandecer la relación contigo misma.</p>
+        <span class="valor-name">Cuidado</span>
+        <p class="valor-desc">Tratarte bien, sin pedir permiso para ello.</p>
       </div>
       <div class="valor reveal rd2">
-        <span class="valor-name">Soltar</span>
-        <p class="valor-desc">Dejar ir lo que ya no necesitas cargar.</p>
+        <span class="valor-name">Respiro</span>
+        <p class="valor-desc">Un rato para ti, sin pendientes y sin culpa.</p>
       </div>
       <div class="valor reveal rd3">
-        <span class="valor-name">Encuentro</span>
-        <p class="valor-desc">Nuevas amistades, nuevas versiones de ti.</p>
+        <span class="valor-name">Comunidad</span>
+        <p class="valor-desc">Personas que entienden lo que estás viviendo.</p>
       </div>
     </div>
 
@@ -918,11 +913,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <span class="eyebrow ey-cobre reveal">Especialidad</span>
       <h2 class="sh2 sh2-crema reveal rd1">Yoga<br>Oncológico</h2>
       <div class="g-rule-lt reveal rd2"></div>
-      <p class="reveal rd3">Práctica especializada, segura y compasiva para cada etapa del camino.</p>
+      <p class="reveal rd3">Adaptada a cada persona, en cualquier etapa del proceso oncológico.</p>
     </div>
     <div class="onco-body">
-      <p class="reveal">Diseñada para personas que viven o han vivido con cáncer, cada sesión se adapta respetando el cuerpo y las necesidades individuales en cada etapa del proceso.</p>
-      <p class="reveal rd1">El yoga oncológico ayuda a reducir la fatiga, la ansiedad y el dolor, mientras fortalece la conexión mente-cuerpo y brinda momentos genuinos de paz y presencia.</p>
+      <p class="reveal">Para personas que viven o han vivido con cáncer. Cada clase se adapta al cuerpo de quien llega ese día, sin forzar ni exigir.</p>
+      <p class="reveal rd1">Ayuda a reducir la fatiga, la ansiedad y el dolor. Cada sesión está pensada para sumar energía, no para exigirla.</p>
       <p class="reveal rd2">Bryanna Osuna es instructora certificada por la <a href="https://yogaoncologico.org/redeiras/bryanna-osuna" target="_blank" rel="noopener" class="onco-link">RED Internacional de Yoga Oncológico para personas con cáncer</a>, una formación especializada que garantiza una práctica segura, compasiva y adaptada.</p>
       <a href="#contacto" class="btn-ghost-light reveal rd3">Quiero saber más</a>
     </div>
