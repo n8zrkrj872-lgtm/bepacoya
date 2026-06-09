@@ -264,6 +264,7 @@
       <button class="tab-btn active" data-tab="proximos">Eventos</button>
       <button class="tab-btn" data-tab="memorias">Memorias</button>
       <button class="tab-btn" data-tab="pensamientos">Pensamientos</button>
+      <button class="tab-btn" data-tab="comunidad">Comunidad</button>
       <button class="tab-btn" data-tab="clases">En Vivo</button>
     </div>
 
@@ -439,6 +440,49 @@
         <div class="eventos-lista" id="lista-pensamientos"></div>
       </div>
 
+      <!-- TAB COMUNIDAD -->
+      <div class="tab-panel" id="tab-comunidad">
+        <div class="admin-top">
+          <h2>Comunidad</h2>
+          <button class="btn btn--primary btn--sm" id="toggle-comunidad-btn">+ Nuevo comentario</button>
+        </div>
+
+        <div class="evento-form" id="comunidad-form">
+          <h3 id="comunidad-form-title">Nuevo comentario</h3>
+          <input type="hidden" id="co-id" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" id="co-nombre" placeholder="Ej. Sheila M." />
+            </div>
+            <div class="form-group">
+              <label>Clase</label>
+              <input type="text" id="co-clase" placeholder="Ej. Yoga Oncológico" />
+            </div>
+            <div class="form-group">
+              <label>Estrellas</label>
+              <select id="co-estrellas">
+                <option value="5">★★★★★ (5)</option>
+                <option value="4">★★★★☆ (4)</option>
+                <option value="3">★★★☆☆ (3)</option>
+                <option value="2">★★☆☆☆ (2)</option>
+                <option value="1">★☆☆☆☆ (1)</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Comentario</label>
+              <textarea id="co-texto" rows="4" placeholder="Escribe el testimonio..."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-comunidad-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-comunidad-btn">Guardar</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-comunidad"></div>
+      </div>
+
       <!-- TAB CLASES EN VIVO -->
       <div class="tab-panel" id="tab-clases">
         <div class="admin-top">
@@ -568,6 +612,7 @@
       cargarProximos();
       cargarMemorias();
       cargarPensamientos();
+      cargarComunidad();
     }
 
     // ── TABS ──
@@ -962,6 +1007,103 @@
     function limpiarPensamientoForm() {
       ['p-id', 'p-titulo', 'p-contenido'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('p-tipo').value = 'reflexion';
+    }
+
+    // ── COMUNIDAD ──
+    const toggleComunidadBtn   = document.getElementById('toggle-comunidad-btn');
+    const comunidadForm        = document.getElementById('comunidad-form');
+    const cancelarComunidadBtn = document.getElementById('cancelar-comunidad-btn');
+    const guardarComunidadBtn  = document.getElementById('guardar-comunidad-btn');
+    const listaComunidad       = document.getElementById('lista-comunidad');
+
+    toggleComunidadBtn.addEventListener('click', () => {
+      limpiarComunidadForm();
+      document.getElementById('comunidad-form-title').textContent = 'Nuevo comentario';
+      comunidadForm.classList.add('open');
+    });
+
+    cancelarComunidadBtn.addEventListener('click', () => {
+      comunidadForm.classList.remove('open');
+      limpiarComunidadForm();
+    });
+
+    guardarComunidadBtn.addEventListener('click', async () => {
+      const id     = document.getElementById('co-id').value;
+      const nombre = document.getElementById('co-nombre').value.trim();
+      const texto  = document.getElementById('co-texto').value.trim();
+      if (!nombre || !texto) { mostrarToast('El nombre y el comentario son obligatorios.'); return; }
+
+      const datos = {
+        nombre,
+        clase: document.getElementById('co-clase').value.trim(),
+        texto,
+        estrellas: parseInt(document.getElementById('co-estrellas').value, 10),
+      };
+
+      if (id) {
+        await supabase.from('comunidad').update(datos).eq('id', id);
+        mostrarToast('✓ Comentario actualizado');
+      } else {
+        await supabase.from('comunidad').insert({ ...datos, fecha: hoy, activo: true });
+        mostrarToast('✓ Comentario publicado');
+      }
+
+      comunidadForm.classList.remove('open');
+      limpiarComunidadForm();
+      cargarComunidad();
+    });
+
+    async function cargarComunidad() {
+      const { data } = await supabase.from('comunidad').select('*')
+        .eq('activo', true).order('fecha', { ascending: false });
+
+      listaComunidad.innerHTML = '';
+      if (!data || data.length === 0) {
+        listaComunidad.innerHTML = `<div class="empty-state">💬<p>Aún no hay comentarios de la comunidad.</p></div>`;
+        return;
+      }
+
+      data.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'evento-item';
+        const cId      = parseInt(c.id, 10);
+        const stars    = '★'.repeat(c.estrellas || 0) + '☆'.repeat(5 - (c.estrellas || 0));
+        const preview  = esc(c.texto.substring(0, 80)) + (c.texto.length > 80 ? '...' : '');
+        item.innerHTML = `
+          <div class="evento-info">
+            <h4>${esc(c.nombre)}${c.clase ? ` · ${esc(c.clase)}` : ''}</h4>
+            <p>${stars} · ${preview}</p>
+          </div>
+          <div class="evento-acciones">
+            <button class="btn btn--outline btn--sm" onclick="editarComunidad(${cId})">Editar</button>
+            <button class="btn btn--danger btn--sm" onclick="borrarComunidad(${cId})">Borrar</button>
+          </div>`;
+        listaComunidad.appendChild(item);
+      });
+    }
+
+    window.editarComunidad = async id => {
+      const { data } = await supabase.from('comunidad').select('*').eq('id', id).single();
+      document.getElementById('co-id').value        = data.id;
+      document.getElementById('co-nombre').value    = data.nombre;
+      document.getElementById('co-clase').value     = data.clase || '';
+      document.getElementById('co-texto').value     = data.texto;
+      document.getElementById('co-estrellas').value = data.estrellas || 5;
+      document.getElementById('comunidad-form-title').textContent = 'Editar comentario';
+      comunidadForm.classList.add('open');
+      comunidadForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.borrarComunidad = async id => {
+      if (!confirm('¿Segura que quieres borrar este comentario?')) return;
+      await supabase.from('comunidad').delete().eq('id', id);
+      mostrarToast('Comentario eliminado');
+      cargarComunidad();
+    };
+
+    function limpiarComunidadForm() {
+      ['co-id', 'co-nombre', 'co-clase', 'co-texto'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('co-estrellas').value = '5';
     }
 
     // ── UTILS ──

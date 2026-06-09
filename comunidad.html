@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Pacoya Yoga — Mexicali</title>
-<meta name="description" content="Estudio de yoga oncológico y bienestar integral en Mexicali, Baja California."/>
+<title>Comunidad — Pacoya Yoga</title>
+<meta name="description" content="Testimonios y voces de la comunidad Pacoya Yoga."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <link rel="icon" type="image/svg+xml" href="icon.svg"/>
-<!-- Hero tipográfico: sin foto, sin preload de imagen -->
 <style>
 
 /* ─── TOKENS ─────────────────────────────── */
@@ -793,6 +792,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .wa:hover { transform: scale(1.07); }
 }
 
+
+/* ─── COMUNIDAD (página) ──────────────────── */
+.com-hero { background: var(--bosque-dk); text-align: center; padding-top: 128px; }
+.com-hero__sub { color: rgba(250,247,242,0.5); max-width: 480px; margin: 16px auto 0; font-size: 0.95rem; line-height: 1.75; }
+.com-lista { background: var(--crema); }
+.com-grid { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 0; }
+.com-card { padding: 28px 0; border-top: 1px solid rgba(28,21,16,0.07); }
+.com-card__stars { color: var(--cobre); font-size: 0.8rem; letter-spacing: 0.18em; margin-bottom: 12px; }
+.com-card p { font-family: var(--f-d); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.72; color: rgba(28,21,16,0.6); margin-bottom: 18px; }
+.com-empty { text-align: center; padding: 60px 0; color: rgba(28,21,16,0.35); font-size: 0.85rem; }
+@media (min-width: 760px) {
+  .com-grid { grid-template-columns: 1fr 1fr; column-gap: 56px; }
+  .com-card:nth-child(odd) { padding-right: 28px; }
+  .com-card:nth-child(even) { padding-left: 28px; }
+}
 </style>
 </head>
 <body>
@@ -804,274 +818,48 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 <!-- ── NAV ─────────────────────────────────── -->
 <header class="nav" id="nav">
-  <a href="#inicio" class="nav__mark">Pacoya Yoga</a>
+  <a href="prueba.html#inicio" class="nav__mark">Pacoya Yoga</a>
   <button class="nav__ham" id="ham" aria-label="Menú" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
   <nav aria-label="Menú principal">
     <ul class="nav__links">
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#eventos">Eventos</a></li>
-      <li><a href="#blog">Pensamientos</a></li>
+      <li><a href="prueba.html#nosotros">Nosotros</a></li>
+      <li><a href="prueba.html#servicios">Servicios</a></li>
+      <li><a href="prueba.html#eventos">Eventos</a></li>
+      <li><a href="prueba.html#blog">Pensamientos</a></li>
       <li><a href="respira.html" id="link-respira-p">Respira</a></li>
-      <li><a href="#clases" class="nav-pill">Clases en Vivo</a></li>
+      <li><a href="comunidad.html" class="active">Comunidad</a></li>
+      <li><a href="prueba.html#clases" class="nav-pill">Clases en Vivo</a></li>
     </ul>
   </nav>
 </header>
 
 <!-- Fix #5: nav__mobile como <nav> semántico para screen readers -->
 <nav class="nav__mobile" id="nav-mob" aria-label="Menú mobile">
-  <a href="#nosotros">Nosotros</a>
-  <a href="#servicios">Servicios</a>
-  <a href="#eventos">Eventos</a>
-  <a href="#blog">Pensamientos</a>
+  <a href="prueba.html#nosotros">Nosotros</a>
+  <a href="prueba.html#servicios">Servicios</a>
+  <a href="prueba.html#eventos">Eventos</a>
+  <a href="prueba.html#blog">Pensamientos</a>
   <a href="respira.html">Respira</a>
-  <a href="#clases">Clases en Vivo</a>
-  <a href="#contacto">Contáctanos</a>
+  <a href="comunidad.html">Comunidad</a>
+  <a href="prueba.html#clases">Clases en Vivo</a>
+  <a href="prueba.html#contacto">Contáctanos</a>
   <span class="nav__mobile__tag">"Vivir es urgente."</span>
 </nav>
 
-<!-- ── HERO TIPOGRÁFICO ───────────────────────── -->
-<section class="hero" id="inicio">
-  <!-- Profundidad sin foto: watermark + luces ambientales -->
-  <div class="hero__watermark" aria-hidden="true">V</div>
-  <div class="hero__light" aria-hidden="true"></div>
-  <div class="hero__light2" aria-hidden="true"></div>
-
-  <div class="hero__text">
-    <p class="hero__studio">Pacoya Yoga · Mexicali · Baja California</p>
-    <div class="hero__display">
-      <span class="hero__vivir">Vivir</span>
-      <em>es urgente.</em>
-    </div>
-    <div class="hero__rule"></div>
-    <p class="hero__body">Una nueva oportunidad para vivir, rodeada de personas que buscan lo mismo.</p>
-    <div class="hero__actions">
-      <a href="#nosotros" class="btn-hero">Conocer más</a>
-      <a href="#contacto" class="btn-hero-ghost">Contáctanos</a>
-    </div>
-  </div>
-
-  <div class="scroll-hint" aria-hidden="true">
-    <span>desplaza</span>
-    <div class="scroll-arrow"></div>
-  </div>
-
-  <span class="hero__loc" aria-hidden="true">Mexicali · Baja California · 2026</span>
+<!-- ── COMUNIDAD ─────────────────────────────── -->
+<section class="com-hero sec">
+  <span class="eyebrow ey-cobre reveal">Pacoya Yoga</span>
+  <h1 class="sh2 sh2-crema reveal rd1">Voces de la<br><em>comunidad</em></h1>
+  <p class="com-hero__sub reveal rd2">Testimonios de quienes practican con nosotros, comparten su camino y forman parte de Pacoya.</p>
 </section>
 
-<!-- ── NOSOTROS ─────────────────────────────── -->
-<section class="nosotros sec" id="nosotros">
-  <div class="nos__inner">
-
-    <div class="nos__head">
-      <span class="eyebrow ey-salvia reveal">Sobre Nosotros</span>
-      <h2 class="sh2 sh2-tinta reveal rd1">Un espacio<br><em>creado con amor</em></h2>
-    </div>
-
-    <!-- Instructora sin foto — byline editorial -->
-    <div class="nos__byline reveal rd2">
-      <div class="nos__initial" aria-hidden="true">B</div>
-      <div>
-        <span class="nos__name">Bryanna Osuna</span>
-        <span class="nos__role">Instructora de Yoga · Mexicali, B.C.</span>
-        <a href="https://yogaoncologico.org/redeiras/bryanna-osuna" target="_blank" rel="noopener" class="nos__cert">Certificada · RED Internacional de Yoga Oncológico para personas con cáncer</a>
-      </div>
-    </div>
-
-    <div class="nos__copy">
-      <p class="reveal rd3">Pacoya Yoga es un espacio creado para acompañar el bienestar desde la presencia, el movimiento y la respiración.</p>
-      <p class="reveal rd4">Creemos en prácticas humanas, conscientes y accesibles, donde cada persona pueda reconectar consigo misma a su propio ritmo.</p>
-      <p class="reveal rd5">Nuestra enseñanza integra calma, sensibilidad y atención plena, adaptándose con respeto a cada proceso y experiencia.</p>
-    </div>
-
-    <div class="nos__values">
-      <div class="valor reveal">
-        <span class="valor-name">Presencia</span>
-        <p class="valor-desc">Respirar y volver al presente.</p>
-      </div>
-      <div class="valor reveal rd1">
-        <span class="valor-name">Bienestar</span>
-        <p class="valor-desc">Movimiento consciente para cuerpo y mente.</p>
-      </div>
-      <div class="valor reveal rd2">
-        <span class="valor-name">Comunidad</span>
-        <p class="valor-desc">Un espacio para compartir y sentirte acompañada.</p>
-      </div>
-      <div class="valor reveal rd3">
-        <span class="valor-name">Calma</span>
-        <p class="valor-desc">Respirar, desacelerar y reconectar contigo.</p>
-      </div>
-    </div>
-
+<section class="com-lista sec">
+  <div class="com-grid" id="com-grid">
+    <p class="com-empty">Cargando comentarios...</p>
   </div>
 </section>
-
-<!-- ── ONCOLÓGICO ────────────────────────────── -->
-<section class="oncologico sec" id="oncologico">
-  <div class="oncologico__wrap">
-    <div class="onco-label">
-      <span class="eyebrow ey-cobre reveal">Especialidad</span>
-      <h2 class="sh2 sh2-crema reveal rd1">Yoga<br>Oncológico</h2>
-      <div class="g-rule-lt reveal rd2"></div>
-      <p class="reveal rd3">Una práctica especializada, segura y compasiva para personas que viven o han vivido con cáncer.</p>
-    </div>
-    <div class="onco-body">
-      <p class="reveal">Cada sesión se adapta respetando el cuerpo y las necesidades individuales en cada etapa del proceso.</p>
-      <p class="reveal rd1">El yoga oncológico ayuda a reducir la fatiga, la ansiedad y el dolor, mientras fortalece la conexión mente-cuerpo.</p>
-      <p class="reveal rd2">Bryanna Osuna es instructora certificada por la <a href="https://yogaoncologico.org/redeiras/bryanna-osuna" target="_blank" rel="noopener" class="onco-link">RED Internacional de Yoga Oncológico para personas con cáncer</a>, una formación especializada que garantiza una práctica segura, compasiva y adaptada.</p>
-      <a href="#contacto" class="btn-ghost-light reveal rd3">Quiero saber más</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── SERVICIOS ─────────────────────────────── -->
-<section class="servicios sec" id="servicios">
-  <div class="servicios__wrap">
-    <div class="servicios__head">
-      <span class="eyebrow ey-dim reveal">Lo que ofrecemos</span>
-      <h2 class="sh2 sh2-arena reveal rd1">Servicios para<br><em>tu bienestar</em></h2>
-    </div>
-    <div class="sr-list">
-      <div class="sr-row reveal">
-        <span class="sr-n">01</span>
-        <div><div class="sr-nm">Yoga Oncológico</div><p class="sr-ds">Práctica especializada para personas en proceso de tratamiento o recuperación. Instructora certificada. Un espacio seguro, adaptado y compasivo.</p></div>
-        <span class="sr-badge">Especialidad única</span>
-      </div>
-      <div class="sr-row reveal rd1">
-        <span class="sr-n">02</span>
-        <div><div class="sr-nm">Yoga General</div><p class="sr-ds">Clases para todos los niveles. Movimiento consciente, respiración y equilibrio.</p></div>
-      </div>
-      <div class="sr-row reveal rd2">
-        <span class="sr-n">03</span>
-        <div><div class="sr-nm">Meditación</div><p class="sr-ds">Sesiones guiadas para cultivar la calma interior y la atención plena en la vida cotidiana.</p></div>
-      </div>
-      <div class="sr-row reveal rd3">
-        <span class="sr-n">04</span>
-        <div><div class="sr-nm">Clases en Línea</div><p class="sr-ds">Transmisión en vivo con código de acceso privado. La misma calidez desde casa.</p></div>
-      </div>
-      <div class="sr-row reveal rd4">
-        <span class="sr-n">05</span>
-        <div><div class="sr-nm">Sesiones Especiales</div><p class="sr-ds">Talleres, retiros y encuentros para la comunidad Pacoya.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── EVENTOS ───────────────────────────────── -->
-<section class="eventos sec" id="eventos">
-  <div class="eventos__wrap">
-    <div class="eventos__head">
-      <span class="eyebrow ey-dim reveal">Comunidad Pacoya</span>
-      <h2 class="sh2 sh2-tinta reveal rd1">Próximos Eventos</h2>
-    </div>
-    <div class="ev-list" id="events-list">
-      <p class="ev-empty">Cargando eventos...</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── MEMORIAS ──────────────────────────────── -->
-
-<!-- ── PENSAMIENTOS ──────────────────────────── -->
-<section class="pensamientos sec" id="blog">
-  <div class="pensamientos__wrap">
-    <div class="pensamientos__head">
-      <span class="eyebrow ey-cobre reveal">Pensamientos</span>
-      <h2 class="sh2 sh2-crema reveal rd1">Lo que pensamos<br><em>en voz alta</em></h2>
-    </div>
-    <div class="pens-list" id="pens-list">
-      <p style="padding:24px 0;color:rgba(250,247,242,0.25);font-size:0.8rem">Cargando pensamientos...</p>
-    </div>
-    <div style="margin-top:32px" class="reveal">
-      <a href="pensamientos.html" class="btn-link-light">Ver todos los pensamientos</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── TESTIMONIOS ───────────────────────────── -->
-<section class="testimonios sec" id="testimonios">
-  <div class="test-inner">
-    <div class="testimonios__head">
-      <span class="eyebrow ey-dim reveal">Voces de la comunidad</span>
-      <h2 class="sh2 sh2-tinta reveal rd1">Lo que dicen quienes practican con nosotros</h2>
-    </div>
-    <div class="test-grid" id="test-list">
-      <p class="load-empty">Cargando comentarios...</p>
-    </div>
-    <div style="margin-top:32px;text-align:center" class="reveal">
-      <a href="comunidad.html" class="btn-link-dark">Ver más comentarios</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── CLASES EN VIVO ────────────────────────── -->
-<section class="clases sec" id="clases">
-  <div class="clases__wrap">
-    <span class="eyebrow ey-dim reveal">Acceso a tu práctica</span>
-    <h2 class="sh2 sh2-arena reveal rd1">Clases en Vivo</h2>
-
-    <div id="live-gate" class="reveal rd2">
-      <p class="clases__body">Tu código de acceso es personal e intransferible. Se envía antes de cada sesión.</p>
-      <form class="clases__form" id="access-form">
-        <label for="access-code" class="sr-only">Código de acceso</label>
-        <input type="text" id="access-code" class="clases__in" placeholder="Código de acceso" autocomplete="off" maxlength="20"/>
-        <button type="submit" class="clases__btn">Entrar</button>
-      </form>
-      <p class="clases__err" id="access-error"></p>
-      <p class="clases__hint">¿No tienes tu código? <a href="#contacto">Escríbenos.</a></p>
-    </div>
-
-    <div id="live-player" class="clases__player">
-      <span class="live-dot">En Vivo</span>
-      <p class="clases__ltit" id="live-titulo">Clase en Vivo</p>
-      <p class="clases__lsub">Tu código fue verificado. Entra cuando estés lista.</p>
-      <a id="live-link" href="#" target="_blank" rel="noopener" class="btn-primary">Entrar a la clase</a>
-      <button id="exit-live" class="clases__back">← Volver</button>
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACTO ──────────────────────────────── -->
-<section class="contacto sec" id="contacto">
-  <div class="contacto__wrap">
-    <div class="contacto__info">
-      <span class="eyebrow ey-salvia reveal">Contáctanos</span>
-      <h2 class="sh2 sh2-crema reveal rd1">Comienza tu práctica</h2>
-      <p class="contacto__pull reveal rd1">Escríbenos para conocer horarios, clases y sesiones disponibles. Será un gusto acompañarte.</p>
-      <div class="c-row reveal rd3">
-        <svg viewBox="0 0 24 18" width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="22" height="16" rx="3"/><path d="M1 4l11 7 11-7"/></svg>
-        <a href="mailto:contacto@bepacoya.com">contacto@bepacoya.com</a>
-      </div>
-      <div class="c-row reveal rd4">
-        <svg viewBox="0 0 22 22" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5C3 3.5 5 1 7 1c.6 0 1 .4 1.5 1L10 5c.4.8.2 1.5-.3 2L8.5 8.3C9.4 10 12 12.6 13.7 13.5L15 12c.5-.5 1.2-.7 2-.3l3 1.5c.6.5 1 .9 1 1.5 0 2-2.5 4-2.5 4C5 21 1 5 3 3.5Z"/></svg>
-        <a href="tel:6861875393">686 187 5393</a>
-      </div>
-      <div class="c-row reveal rd5">
-        <svg viewBox="0 0 20 24" width="13" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 1C6.1 1 3 4.1 3 8c0 5.25 7 14 7 14s7-8.75 7-14c0-3.9-3.1-7-7-7Z"/><circle cx="10" cy="8" r="2.5"/></svg>
-        <a href="https://maps.app.goo.gl/d5fffq238KrSZKuF7" target="_blank" rel="noopener">Mexicali, Baja California</a>
-      </div>
-    </div>
-    <form id="contact-form" action="https://formspree.io/f/xeenvjnp" method="POST" class="reveal rd2">
-      <div class="ff">
-        <label class="ff-label" for="f-nombre">Nombre</label>
-        <input class="ff-input" type="text" id="f-nombre" name="nombre" placeholder="Tu nombre" required/>
-      </div>
-      <div class="ff">
-        <label class="ff-label" for="f-correo">Correo electrónico</label>
-        <input class="ff-input" type="email" id="f-correo" name="correo" placeholder="Correo electrónico" required/>
-      </div>
-      <div class="ff">
-        <label class="ff-label" for="f-mensaje">Mensaje</label>
-        <textarea class="ff-textarea" id="f-mensaje" name="mensaje" rows="4" placeholder="¿Cómo podemos acompañarte?" required></textarea>
-      </div>
-      <button type="submit" class="btn-form">Enviar</button>
-    </form>
-  </div>
-</section>
-
-<!-- ── FOOTER ────────────────────────────────── -->
 <footer class="footer">
   <div class="footer__grid">
     <div>
@@ -1113,14 +901,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 <!-- ── BOTTOM NAV ─────────────────────────────── -->
 <nav class="bnav" id="bnav" aria-label="Navegación rápida">
-  <a href="#inicio" class="bnav__item bnav__item--active" data-section="inicio" aria-label="Inicio">
+  <a href="prueba.html#inicio" class="bnav__item" data-section="inicio" aria-label="Inicio">
     <!-- Pétalo: gota apuntando hacia arriba, símbolo de centro -->
     <svg viewBox="0 0 24 24">
       <path d="M12 21C12 21 4 15 4 9a8 8 0 0116 0c0 6-8 12-8 12z"/>
     </svg>
     <span>Inicio</span>
   </a>
-  <a href="#eventos" class="bnav__item" data-section="eventos" aria-label="Eventos">
+  <a href="prueba.html#eventos" class="bnav__item" data-section="eventos" aria-label="Eventos">
     <!-- Calendario limpio: solo marco y ganchos -->
     <svg viewBox="0 0 24 24">
       <rect x="3" y="5" width="18" height="16" rx="2.5"/>
@@ -1130,7 +918,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </svg>
     <span>Eventos</span>
   </a>
-  <a href="#clases" class="bnav__item" data-section="clases" aria-label="Clases">
+  <a href="prueba.html#clases" class="bnav__item" data-section="clases" aria-label="Clases">
     <!-- Persona sentada: círculo + arco abierto -->
     <svg viewBox="0 0 24 24">
       <circle cx="12" cy="6" r="2.5"/>
@@ -1146,7 +934,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </svg>
     <span>Memorias</span>
   </a>
-  <a href="#contacto" class="bnav__item" data-section="contacto" aria-label="Contacto">
+  <a href="prueba.html#contacto" class="bnav__item" data-section="contacto" aria-label="Contacto">
     <!-- Sobre: rectángulo + V -->
     <svg viewBox="0 0 24 24">
       <rect x="2" y="5" width="20" height="15" rx="2"/>
@@ -1175,10 +963,6 @@ function esc(s) {
   if (s == null) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
 }
-function safeUrl(u) {
-  try { const p = new URL(u); return (p.protocol==='https:'||p.protocol==='http:') ? u : '#'; }
-  catch { return '#'; }
-}
 
 /* FADE IN */
 window.addEventListener('load', () => {
@@ -1202,21 +986,6 @@ const revealObs = new IntersectionObserver(entries => {
 }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-/* NAVBAR */
-const nav = document.getElementById('nav');
-const lightSecs = ['nosotros','servicios','eventos','testimonios','clases'];
-function updateNav() {
-  const h = nav.offsetHeight;
-  let over = false;
-  for (const id of lightSecs) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    const r = el.getBoundingClientRect();
-    if (r.top <= h && r.bottom > h) { over = true; break; }
-  }
-  nav.classList.toggle('over-light', over);
-}
-
 /* HAMBURGER */
 const ham = document.getElementById('ham');
 const mob = document.getElementById('nav-mob');
@@ -1227,7 +996,6 @@ function openMenu() {
   ham.classList.add('open');
   ham.setAttribute('aria-expanded', 'true');
   document.body.style.overflow = 'hidden';
-  // Foco al primer enlace tras la transición
   setTimeout(() => { if (mobLinks[0]) mobLinks[0].focus(); }, 60);
 }
 function closeMenu() {
@@ -1240,12 +1008,10 @@ function closeMenu() {
 
 ham.addEventListener('click', () => mob.classList.contains('open') ? closeMenu() : openMenu());
 
-// Cerrar con Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && mob.classList.contains('open')) closeMenu();
 });
 
-// Trampa de foco dentro del menú
 mob.addEventListener('keydown', e => {
   if (!mob.classList.contains('open') || e.key !== 'Tab') return;
   const first = mobLinks[0];
@@ -1267,204 +1033,50 @@ document.getElementById('link-respira-p')?.addEventListener('click', e => {
   setTimeout(() => { window.location.href='respira.html'; }, 850);
 });
 
-/* BOTTOM NAV — activo por scroll */
-const bnavItems = document.querySelectorAll('.bnav__item');
-const bnavOrder = ['inicio','eventos','clases','contacto'];
-function updateBnav() {
-  let active = 'inicio';
-  const mid = window.innerHeight * 0.45;
-  for (const id of bnavOrder) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    if (el.getBoundingClientRect().top <= mid) active = id;
-  }
-  bnavItems.forEach(item => item.classList.toggle('bnav__item--active', item.dataset.section === active));
-}
-
-/* Fix #3 + #4: UN solo scroll listener con rAF throttle — todos los handlers juntos */
+/* WHATSAPP — ocultar al llegar al footer */
+const wa = document.querySelector('.wa');
+const ft = document.querySelector('.footer');
 let _rafId = null;
 function onScroll() {
   if (_rafId) return;
   _rafId = requestAnimationFrame(() => {
     updateProg();
-    updateNav();
-    updateBnav();
-    /* WhatsApp ocultar al llegar al footer */
     if (wa && ft) wa.style.opacity = ft.getBoundingClientRect().top < 120 ? '0' : '1';
     _rafId = null;
   });
 }
 window.addEventListener('scroll', onScroll, { passive: true });
-/* Fix #4: estado correcto al cargar (sin esperar primer scroll) */
-updateNav();
-updateBnav();
+updateProg();
 
-/* EVENTOS */
-async function cargarEventos() {
-  const el = document.getElementById('events-list');
-  const hoy = new Date().toISOString().split('T')[0];
-  const { data, error } = await sb.from('eventos').select('*')
-    .eq('activo', true)
-    .gte('fecha', hoy)
-    .order('fecha', { ascending: true });
-  if (error || !data?.length) { el.innerHTML='<p class="ev-empty">No hay eventos próximos por ahora.</p>'; return; }
-  const mes = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const tipo = { meditacion:'Meditación', taller:'Taller', retiro:'Retiro', especial:'Especial', oncologico:'Oncológico' };
-  el.innerHTML = data.map(ev => {
-    const fd = ev.fecha ? new Date(ev.fecha+'T12:00:00') : null;
-    return `<div class="ev-row reveal">
-      <div class="ev-d">
-        <span class="ev-d__n">${fd ? fd.getDate() : '—'}</span>
-        <span class="ev-d__m">${fd ? mes[fd.getMonth()].toUpperCase() : ''}</span>
-      </div>
-      <div>
-        <span class="ev-tp">${esc(tipo[ev.tipo]||ev.tipo||'Evento')}</span>
-        <div class="ev-ti">${esc(ev.nombre||ev.titulo||'')}</div>
-        ${ev.descripcion?`<p class="ev-ds">${esc(ev.descripcion)}</p>`:''}
-        ${ev.hora?`<p class="ev-hr">${esc(ev.hora)}</p>`:''}
-      </div>
-      ${ev.link?`<a href="${esc(ev.link)}" target="_blank" rel="noopener" class="ev-lnk">Inscribirse</a>`:''}
-    </div>`;
-  }).join('');
-  // Reveal dinámico para filas recién creadas
-  el.querySelectorAll('.reveal').forEach((e,i) => {
-    e.style.transitionDelay = `${i * 0.1}s`;
-    revealObs.observe(e);
-  });
-}
-cargarEventos();
-
-
-/* PENSAMIENTOS */
-async function cargarPens() {
-  const list = document.getElementById('pens-list');
-  const { data, error } = await sb.from('pensamientos').select('*')
-    .eq('activo', true)
-    .order('fecha', { ascending: false })
-    .limit(3);
-  if (error||!data?.length) { list.innerHTML='<p class="load-empty">Sin pensamientos aún.</p>'; return; }
-  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  list.innerHTML = data.map(p => {
-    const fd = p.fecha ? new Date(p.fecha+'T12:00:00') : null;
-    const fs = fd ? `${fd.getDate()} ${meses[fd.getMonth()]} ${fd.getFullYear()}` : '';
-    const pv = p.contenido ? p.contenido.replace(/<[^>]+>/g,'').substring(0,130) : '';
-    return `<a href="pensamientos.html" class="pens-row reveal">
-      <div>
-        <span class="pens-dt">${esc(fs)}</span>
-        ${p.categoria?`<span class="pens-cat">${esc(p.categoria)}</span>`:''}
-      </div>
-      <div>
-        <div class="pens-ti">${esc(p.titulo||'')}</div>
-        ${pv?`<p class="pens-pv">${esc(pv)}...</p>`:''}
-      </div>
-    </a>`;
-  }).join('');
-  list.querySelectorAll('.reveal').forEach((e,i) => {
-    e.style.transitionDelay = `${i * 0.1}s`;
-    revealObs.observe(e);
-  });
-}
-cargarPens();
-
-/* COMUNIDAD — testimonios */
+/* COMUNIDAD — todos los testimonios */
 async function cargarComunidad() {
-  const list = document.getElementById('test-list');
+  const grid = document.getElementById('com-grid');
   const { data, error } = await sb.from('comunidad').select('*')
     .eq('activo', true)
-    .order('fecha', { ascending: false })
-    .limit(3);
-  if (error || !data?.length) { list.innerHTML = '<p class="load-empty">Aún no hay comentarios de la comunidad.</p>'; return; }
-  list.innerHTML = data.map((c, i) => {
+    .order('fecha', { ascending: false });
+  if (error || !data?.length) { grid.innerHTML = '<p class="com-empty">Aún no hay comentarios de la comunidad.</p>'; return; }
+  grid.innerHTML = data.map(c => {
+    const estrellas = Math.max(0, Math.min(5, parseInt(c.estrellas, 10) || 0));
+    const stars = '★'.repeat(estrellas) + '☆'.repeat(5 - estrellas);
     const inicial = (c.nombre || '?').trim().charAt(0).toUpperCase();
-    const attr = `<div class="test-feature__attr">
-        <div class="test-initial">${esc(inicial)}</div>
-        <div><span class="test-name">${esc(c.nombre)}</span>${c.clase ? `<span class="test-role">${esc(c.clase)}</span>` : ''}</div>
-      </div>`;
-    if (i === 0) {
-      return `<div class="test-feature reveal">
-        <span class="test-feature__mark" aria-hidden="true">"</span>
-        <p class="test-feature__q">${esc(c.texto)}</p>
-        ${attr}
-      </div>`;
-    }
-    return `<div class="test-item reveal rd${i}">
+    return `<div class="com-card reveal">
+      <div class="com-card__stars" aria-label="${estrellas} de 5 estrellas">${stars}</div>
       <p>"${esc(c.texto)}"</p>
-      ${attr}
+      <div class="test-feature__attr">
+        <div class="test-initial">${esc(inicial)}</div>
+        <div>
+          <span class="test-name">${esc(c.nombre)}</span>
+          ${c.clase ? `<span class="test-role">${esc(c.clase)}</span>` : ''}
+        </div>
+      </div>
     </div>`;
   }).join('');
-  list.querySelectorAll('.reveal').forEach(e => revealObs.observe(e));
+  grid.querySelectorAll('.reveal').forEach((e,i) => {
+    e.style.transitionDelay = `${(i % 2) * 0.1}s`;
+    revealObs.observe(e);
+  });
 }
 cargarComunidad();
-
-/* CLASES EN VIVO */
-const aForm = document.getElementById('access-form');
-const aCode = document.getElementById('access-code');
-const aErr  = document.getElementById('access-error');
-const lGate = document.getElementById('live-gate');
-const lPlay = document.getElementById('live-player');
-
-aForm?.addEventListener('submit', async e => {
-  e.preventDefault();
-  const code = aCode.value.trim().toUpperCase();
-  if (!code) return;
-  aErr.textContent = '';
-  /* Fix #9: deshabilitar botón durante RPC para evitar dobles envíos */
-  const submitBtn = aForm.querySelector('button[type="submit"]');
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '…'; }
-  const { data: result } = await sb.rpc('verificar_codigo_clase', { p_codigo: code });
-  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Entrar'; }
-  if (result && result.stream_url) {
-    aErr.textContent = '';
-    document.getElementById('live-titulo').textContent = result.titulo || 'Clase en Vivo';
-    document.getElementById('live-link').href = safeUrl(result.stream_url);
-    lGate.style.display='none'; lPlay.classList.add('vis');
-  } else if (!result || !result.activo) {
-    aErr.textContent = 'No hay ninguna clase activa en este momento.';
-    aCode.style.borderColor = '#e07070';
-    setTimeout(() => { aCode.style.borderColor = ''; }, 2000);
-  } else {
-    aErr.textContent = 'Código incorrecto. Verifica e intenta de nuevo.';
-    aCode.style.borderColor = '#e07070';
-    setTimeout(() => { aCode.style.borderColor = ''; }, 2000);
-  }
-});
-document.getElementById('exit-live')?.addEventListener('click', () => {
-  lPlay.classList.remove('vis'); lGate.style.display='';
-  aCode.value=''; aErr.textContent='';
-});
-
-/* CONTACTO — envío fetch, sin redirección, con feedback de éxito */
-const cForm = document.getElementById('contact-form');
-const cBtn  = cForm?.querySelector('button[type="submit"]');
-cForm?.addEventListener('submit', async e => {
-  e.preventDefault();
-  if (cBtn) { cBtn.disabled = true; cBtn.textContent = 'Enviando…'; }
-  try {
-    const res = await fetch(cForm.action, {
-      method: 'POST', body: new FormData(cForm),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      if (cBtn) {
-        cBtn.textContent = '✓ Mensaje enviado';
-        cBtn.style.background = 'var(--salvia)';
-      }
-      cForm.reset();
-      setTimeout(() => {
-        if (cBtn) { cBtn.textContent = 'Enviar'; cBtn.disabled = false; cBtn.style.background = ''; }
-      }, 3500);
-    } else {
-      if (cBtn) { cBtn.disabled = false; cBtn.textContent = 'Enviar'; }
-    }
-  } catch {
-    if (cBtn) { cBtn.disabled = false; cBtn.textContent = 'Enviar'; }
-  }
-});
-
-/* WHATSAPP — manejado dentro del onScroll unificado (Fix #3) */
-const wa = document.querySelector('.wa');
-const ft = document.querySelector('.footer');
 </script>
-
 </body>
 </html>
