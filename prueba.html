@@ -525,6 +525,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .test-feature { text-align: center; padding-bottom: 44px; margin-bottom: 40px; }
 .test-stars { color: var(--cobre); font-size: 0.8rem; letter-spacing: 0.18em; margin-bottom: 12px; }
 .test-feature .test-stars { display: block; }
+.test-more {
+  display: inline-block; background: none; border: none; cursor: pointer; padding: 4px 0 0;
+  font-family: var(--f-b); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--cobre); -webkit-tap-highlight-color: transparent; transition: color var(--t);
+}
+.test-more:active { color: var(--cobre-lt); }
+.test-feature .test-more { display: block; margin: 4px auto 18px; }
+.test-item .test-more { margin-bottom: 18px; }
 .test-feature__mark { font-family: var(--f-d); font-size: 4rem; font-weight: 300; color: rgba(176,120,64,0.16); line-height: 1; display: block; margin-bottom: -1rem; }
 .test-feature__q {
   font-family: var(--f-d); font-style: italic; font-weight: 300;
@@ -1371,10 +1379,11 @@ cargarPens();
 /* COMUNIDAD — testimonios */
 function truncar(texto, max) {
   const t = (texto || '').trim();
-  if (t.length <= max) return t;
+  if (t.length <= max) return { corto: t, truncado: false };
   const corte = t.slice(0, max);
   const ultimoEspacio = corte.lastIndexOf(' ');
-  return corte.slice(0, ultimoEspacio > 0 ? ultimoEspacio : max).trimEnd() + '…';
+  const corto = corte.slice(0, ultimoEspacio > 0 ? ultimoEspacio : max).trimEnd() + '…';
+  return { corto, truncado: true };
 }
 async function cargarComunidad() {
   const list = document.getElementById('test-list');
@@ -1392,19 +1401,34 @@ async function cargarComunidad() {
         <div><span class="test-name">${esc(c.nombre)}</span>${c.clase ? `<span class="test-role">${esc(c.clase)}</span>` : ''}</div>
       </div>`;
     if (i === 0) {
+      const { corto, truncado } = truncar(c.texto, 200);
+      const toggle = truncado ? `<button class="test-more" type="button" data-short="${esc(corto)}" data-full="${esc(c.texto.trim())}">Leer más</button>` : '';
       return `<div class="test-feature reveal">
         ${stars}
         <span class="test-feature__mark" aria-hidden="true">"</span>
-        <p class="test-feature__q">${esc(truncar(c.texto, 200))}</p>
+        <p class="test-feature__q">${esc(corto)}</p>
+        ${toggle}
         ${attr}
       </div>`;
     }
+    const { corto, truncado } = truncar(c.texto, 150);
+    const toggle = truncado ? `<button class="test-more" type="button" data-short="&quot;${esc(corto)}&quot;" data-full="&quot;${esc(c.texto.trim())}&quot;">Leer más</button>` : '';
     return `<div class="test-item reveal rd${i}">
       ${stars}
-      <p>"${esc(truncar(c.texto, 150))}"</p>
+      <p>"${esc(corto)}"</p>
+      ${toggle}
       ${attr}
     </div>`;
   }).join('');
+  list.querySelectorAll('.test-more').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.previousElementSibling;
+      const expanded = btn.dataset.expanded === 'true';
+      p.textContent = expanded ? btn.dataset.short : btn.dataset.full;
+      btn.textContent = expanded ? 'Leer más' : 'Leer menos';
+      btn.dataset.expanded = expanded ? 'false' : 'true';
+    });
+  });
   list.querySelectorAll('.reveal').forEach(e => revealObs.observe(e));
 }
 cargarComunidad();
