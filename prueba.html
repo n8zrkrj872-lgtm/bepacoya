@@ -1367,6 +1367,13 @@ async function cargarPens() {
 cargarPens();
 
 /* COMUNIDAD — testimonios */
+function truncar(texto, max) {
+  const t = (texto || '').trim();
+  if (t.length <= max) return t;
+  const corte = t.slice(0, max);
+  const ultimoEspacio = corte.lastIndexOf(' ');
+  return corte.slice(0, ultimoEspacio > 0 ? ultimoEspacio : max).trimEnd() + '…';
+}
 async function cargarComunidad() {
   const list = document.getElementById('test-list');
   const { data, error } = await sb.from('comunidad').select('*')
@@ -1383,12 +1390,12 @@ async function cargarComunidad() {
     if (i === 0) {
       return `<div class="test-feature reveal">
         <span class="test-feature__mark" aria-hidden="true">"</span>
-        <p class="test-feature__q">${esc(c.texto)}</p>
+        <p class="test-feature__q">${esc(truncar(c.texto, 200))}</p>
         ${attr}
       </div>`;
     }
     return `<div class="test-item reveal rd${i}">
-      <p>"${esc(c.texto)}"</p>
+      <p>"${esc(truncar(c.texto, 150))}"</p>
       ${attr}
     </div>`;
   }).join('');
