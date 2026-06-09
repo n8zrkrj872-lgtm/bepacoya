@@ -523,6 +523,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .test-inner { max-width: 860px; margin: 0 auto; }
 .testimonios__head { margin-bottom: 32px; text-align: center; }
 .test-feature { text-align: center; padding-bottom: 44px; margin-bottom: 40px; }
+.test-stars { color: var(--cobre); font-size: 0.8rem; letter-spacing: 0.18em; margin-bottom: 12px; }
+.test-feature .test-stars { display: block; }
 .test-feature__mark { font-family: var(--f-d); font-size: 4rem; font-weight: 300; color: rgba(176,120,64,0.16); line-height: 1; display: block; margin-bottom: -1rem; }
 .test-feature__q {
   font-family: var(--f-d); font-style: italic; font-weight: 300;
@@ -1383,18 +1385,22 @@ async function cargarComunidad() {
   if (error || !data?.length) { list.innerHTML = '<p class="load-empty">Aún no hay comentarios de la comunidad.</p>'; return; }
   list.innerHTML = data.map((c, i) => {
     const inicial = (c.nombre || '?').trim().charAt(0).toUpperCase();
+    const estrellas = Math.max(0, Math.min(5, parseInt(c.estrellas, 10) || 0));
+    const stars = `<div class="test-stars" aria-label="${estrellas} de 5 estrellas">${'★'.repeat(estrellas)}${'☆'.repeat(5 - estrellas)}</div>`;
     const attr = `<div class="test-feature__attr">
         <div class="test-initial">${esc(inicial)}</div>
         <div><span class="test-name">${esc(c.nombre)}</span>${c.clase ? `<span class="test-role">${esc(c.clase)}</span>` : ''}</div>
       </div>`;
     if (i === 0) {
       return `<div class="test-feature reveal">
+        ${stars}
         <span class="test-feature__mark" aria-hidden="true">"</span>
         <p class="test-feature__q">${esc(truncar(c.texto, 200))}</p>
         ${attr}
       </div>`;
     }
     return `<div class="test-item reveal rd${i}">
+      ${stars}
       <p>"${esc(truncar(c.texto, 150))}"</p>
       ${attr}
     </div>`;
