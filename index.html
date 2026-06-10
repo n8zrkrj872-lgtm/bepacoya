@@ -101,25 +101,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; flex-direction: column;
   position: fixed; inset: 0; z-index: 199;
   background: var(--bosque-dk);
-  padding: 80px var(--px) 52px;
+  padding: 76px var(--px) 24px;
   opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   counter-reset: nav-item;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 .nav__mobile.open {
   opacity: 1; visibility: visible; pointer-events: auto;
 }
 .nav__mobile a {
-  font-family: var(--f-d); font-size: clamp(2.2rem,10vw,3rem);
+  font-family: var(--f-d); font-size: clamp(1.6rem,8vw,3rem);
   font-weight: 300; font-style: italic;
   color: rgba(250,247,242,0.8);
-  padding: 13px 0;
-  display: flex; align-items: center; gap: 18px;
+  padding: 10px 0;
+  display: flex; align-items: center; gap: 14px;
   opacity: 0; transform: translateX(-18px);
   transition: color var(--t), opacity 0.4s ease, transform 0.4s cubic-bezier(0,0,0.2,1);
   -webkit-tap-highlight-color: transparent;
   counter-increment: nav-item;
+  border-bottom: 1px solid rgba(250,247,242,0.06);
 }
+.nav__mobile a:first-child { border-top: 1px solid rgba(250,247,242,0.06); }
 .nav__mobile a::before {
   content: "0" counter(nav-item);
   font-family: var(--f-b); font-size: 0.55rem; font-style: normal;
@@ -135,12 +138,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav__mobile.open a:nth-child(5) { transition-delay: 0.27s; }
 .nav__mobile.open a:nth-child(6) { transition-delay: 0.32s; }
 .nav__mobile.open a:nth-child(7) { transition-delay: 0.37s; }
+.nav__mobile.open a:nth-child(8) { transition-delay: 0.42s; }
 .nav__mobile a:active { color: var(--cobre-lt); }
 .nav__mobile__tag {
-  margin-top: auto;
+  margin-top: 24px;
   font-family: var(--f-d); font-style: italic;
-  font-size: 0.9rem; color: rgba(250,247,242,0.12);
-  letter-spacing: 0.02em;
+  font-size: 0.85rem; color: rgba(250,247,242,0.18);
+  letter-spacing: 0.02em; text-align: center;
+  flex-shrink: 0;
+}
+@media (max-height: 640px) {
+  .nav__mobile { padding-top: 64px; }
+  .nav__mobile a { font-size: clamp(1.4rem,7vw,2.4rem); padding: 8px 0; }
+  .nav__mobile__tag { margin-top: 14px; }
 }
 
 /* ─── BOTTOM NAV ─────────────────────────── */
