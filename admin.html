@@ -30,6 +30,13 @@
     body {
       font-family: var(--font-body); font-size: 0.95rem; line-height: 1.6;
       background: var(--bosque-dk); color: rgba(250,247,242,0.85); min-height: 100vh;
+      color-scheme: dark;
+    }
+
+    /* FOCO VISIBLE (accesibilidad teclado) */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible {
+      outline: 2px solid var(--cobre-lt); outline-offset: 2px;
     }
 
     /* LOGIN */
@@ -54,7 +61,7 @@
     .form-group { text-align: left; margin-bottom: 16px; }
     .form-group label {
       display: block; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
-      text-transform: uppercase; color: rgba(250,247,242,0.4); margin-bottom: 8px;
+      text-transform: uppercase; color: rgba(250,247,242,0.55); margin-bottom: 8px;
     }
     .form-group input, .form-group textarea, .form-group select {
       width: 100%; font-family: var(--font-body); font-size: 0.92rem; padding: 12px 16px;
@@ -109,7 +116,7 @@
       font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em;
       text-transform: uppercase; white-space: nowrap;
       padding: 16px 24px; border: none; background: none; cursor: pointer;
-      color: rgba(250,247,242,0.4); border-bottom: 2px solid transparent;
+      color: rgba(250,247,242,0.5); border-bottom: 2px solid transparent;
       transition: all var(--t);
     }
     @media (max-width: 600px) {
@@ -198,11 +205,14 @@
     .empty-state p { font-size: 0.9rem; margin-top: 8px; }
 
     .toast {
-      position: fixed; bottom: 24px; right: 24px; background: var(--cobre);
+      position: fixed; bottom: 24px; right: 24px; left: 24px; max-width: 360px; margin-left: auto;
+      background: var(--cobre);
       color: var(--crema); padding: 14px 24px; border-radius: 999px; font-size: 0.88rem;
       opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 500; text-align: center;
     }
     .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.toast--error { background: var(--rojo-error); }
 
     .uploading { opacity: 0.6; pointer-events: none; }
 
@@ -273,18 +283,18 @@
       <button class="btn btn--outline btn--sm" id="logout-btn">Cerrar sesión</button>
     </header>
 
-    <div class="admin-tabs">
-      <button class="tab-btn active" data-tab="proximos">Eventos</button>
-      <button class="tab-btn" data-tab="memorias">Memorias</button>
-      <button class="tab-btn" data-tab="pensamientos">Pensamientos</button>
-      <button class="tab-btn" data-tab="comunidad">Comunidad</button>
-      <button class="tab-btn" data-tab="clases">En Vivo</button>
+    <div class="admin-tabs" role="tablist" aria-label="Secciones del panel">
+      <button class="tab-btn active" data-tab="proximos" role="tab" aria-selected="true" aria-controls="tab-proximos" id="tabbtn-proximos">Eventos</button>
+      <button class="tab-btn" data-tab="memorias" role="tab" aria-selected="false" aria-controls="tab-memorias" id="tabbtn-memorias">Memorias</button>
+      <button class="tab-btn" data-tab="pensamientos" role="tab" aria-selected="false" aria-controls="tab-pensamientos" id="tabbtn-pensamientos">Pensamientos</button>
+      <button class="tab-btn" data-tab="comunidad" role="tab" aria-selected="false" aria-controls="tab-comunidad" id="tabbtn-comunidad">Comunidad</button>
+      <button class="tab-btn" data-tab="clases" role="tab" aria-selected="false" aria-controls="tab-clases" id="tabbtn-clases">En Vivo</button>
     </div>
 
     <main class="admin-main">
 
       <!-- TAB PRÓXIMOS -->
-      <div class="tab-panel active" id="tab-proximos">
+      <div class="tab-panel active" id="tab-proximos" role="tabpanel" aria-labelledby="tabbtn-proximos">
         <div class="admin-top">
           <h2>Próximos Eventos</h2>
           <button class="btn btn--primary btn--sm" id="toggle-form-btn">+ Nuevo evento</button>
@@ -334,7 +344,7 @@
       </div>
 
       <!-- TAB MEMORIAS -->
-      <div class="tab-panel" id="tab-memorias">
+      <div class="tab-panel" id="tab-memorias" role="tabpanel" aria-labelledby="tabbtn-memorias">
         <div class="admin-top">
           <h2>Memorias</h2>
           <p style="font-size:0.85rem;color:rgba(250,247,242,0.45)">Edita los detalles o agrega una foto</p>
@@ -419,7 +429,7 @@
       </div>
 
       <!-- TAB PENSAMIENTOS -->
-      <div class="tab-panel" id="tab-pensamientos">
+      <div class="tab-panel" id="tab-pensamientos" role="tabpanel" aria-labelledby="tabbtn-pensamientos">
         <div class="admin-top">
           <h2>Pensamientos</h2>
           <button class="btn btn--primary btn--sm" id="toggle-pensamiento-btn">+ Nuevo pensamiento</button>
@@ -454,7 +464,7 @@
       </div>
 
       <!-- TAB COMUNIDAD -->
-      <div class="tab-panel" id="tab-comunidad">
+      <div class="tab-panel" id="tab-comunidad" role="tabpanel" aria-labelledby="tabbtn-comunidad">
         <div class="admin-top">
           <h2>Comunidad</h2>
           <button class="btn btn--primary btn--sm" id="toggle-comunidad-btn">+ Nuevo comentario</button>
@@ -497,7 +507,7 @@
       </div>
 
       <!-- TAB CLASES EN VIVO -->
-      <div class="tab-panel" id="tab-clases">
+      <div class="tab-panel" id="tab-clases" role="tabpanel" aria-labelledby="tabbtn-clases">
         <div class="admin-top">
           <h2>Clase en Vivo</h2>
         </div>
@@ -542,7 +552,7 @@
     </main>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -626,14 +636,19 @@
       cargarMemorias();
       cargarPensamientos();
       cargarComunidad();
+      cargarClase();
     }
 
     // ── TABS ──
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
       });
     });
@@ -651,7 +666,7 @@
       const id     = document.getElementById('evento-id').value;
       const titulo = document.getElementById('f-titulo').value.trim();
       const fecha  = document.getElementById('f-fecha').value;
-      if (!titulo || !fecha) { mostrarToast('El título y la fecha son obligatorios.'); return; }
+      if (!titulo || !fecha) { mostrarToast('El título y la fecha son obligatorios.', 'error'); return; }
 
       const datos = {
         titulo,
@@ -826,7 +841,7 @@
       const file = document.getElementById('me-foto-input').files[0];
 
       if (file && !esImagenValida(file)) {
-        mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.');
+        mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.', 'error');
         return;
       }
 
@@ -889,8 +904,8 @@
     guardarMemoriaBtn.addEventListener('click', async () => {
       const id   = document.getElementById('m-evento-id').value;
       const file = fotoInput.files[0];
-      if (!file) { mostrarToast('Elige una foto primero.'); return; }
-      if (!esImagenValida(file)) { mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.'); return; }
+      if (!file) { mostrarToast('Elige una foto primero.', 'error'); return; }
+      if (!esImagenValida(file)) { mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.', 'error'); return; }
 
       guardarMemoriaBtn.textContent = 'Subiendo...';
       guardarMemoriaBtn.classList.add('uploading');
@@ -902,7 +917,7 @@
         .from('Memorias').upload(fileName, file, { upsert: true });
 
       if (uploadError) {
-        mostrarToast('Error al subir la foto. Intenta de nuevo.');
+        mostrarToast('Error al subir la foto. Intenta de nuevo.', 'error');
         guardarMemoriaBtn.textContent = 'Guardar foto';
         guardarMemoriaBtn.classList.remove('uploading');
         return;
@@ -940,7 +955,7 @@
       const id       = document.getElementById('p-id').value;
       const titulo   = document.getElementById('p-titulo').value.trim();
       const contenido = document.getElementById('p-contenido').value.trim();
-      if (!titulo || !contenido) { mostrarToast('El título y el pensamiento son obligatorios.'); return; }
+      if (!titulo || !contenido) { mostrarToast('El título y el pensamiento son obligatorios.', 'error'); return; }
 
       const datos = {
         titulo,
@@ -1044,7 +1059,7 @@
       const id     = document.getElementById('co-id').value;
       const nombre = document.getElementById('co-nombre').value.trim();
       const texto  = document.getElementById('co-texto').value.trim();
-      if (!nombre || !texto) { mostrarToast('El nombre y el comentario son obligatorios.'); return; }
+      if (!nombre || !texto) { mostrarToast('El nombre y el comentario son obligatorios.', 'error'); return; }
 
       const datos = {
         nombre,
@@ -1127,10 +1142,13 @@
       document.getElementById('f-tipo').value = 'meditacion';
     }
 
-    function mostrarToast(msg) {
+    let toastTimer = null;
+    function mostrarToast(msg, tipo) {
       toast.textContent = msg;
+      toast.classList.toggle('toast--error', tipo === 'error');
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     // ── CLASES EN VIVO ──
@@ -1171,7 +1189,7 @@
 
       const url = document.getElementById('cl-url').value.trim();
       if (url && safeUrl(url) === '#') {
-        mostrarToast('El URL debe empezar con https://');
+        mostrarToast('El URL debe empezar con https://', 'error');
         btn.textContent = 'Guardar configuración';
         btn.disabled = false;
         return;
