@@ -154,7 +154,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* ─── BOTTOM NAV ─────────────────────────── */
-.bnav {
+html { scroll-padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
+  #contacto { scroll-margin-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
+  .contacto { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 16px); }
+  
+  .bnav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
   height: var(--bnav-h);
   background: rgba(24,33,23,0.97);
@@ -351,8 +355,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .ey-cobre  { color: rgba(176,120,64,0.7); }
 .ey-salvia { color: var(--salvia); }
-.ey-dim    { color: rgba(28,21,16,0.35); }
-.ey-light  { color: rgba(250,247,242,0.3); }
+.ey-dim { color: var(--ink-label-on-cream); }
+.ey-light { color: var(--cream-label-on-forest); }
 .sh2 {
   font-family: var(--f-d); font-weight: 300; line-height: 1.1;
   font-size: clamp(1.9rem, 7vw, 3.2rem);
