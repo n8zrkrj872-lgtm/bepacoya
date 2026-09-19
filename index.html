@@ -30,7 +30,7 @@
   --t: 0.25s var(--ease);
   --px:     20px;
   --sec-py: 52px;
-  --bnav-h: 62px;
+  --bnav-h: 62px; --ink-muted-on-cream: #5C534C; --ink-label-on-cream: #4A433C; --cream-muted-on-forest: #D9D4CC; --cream-label-on-forest: #E8E4DC;
 }
 
 /* ─── RESET ──────────────────────────────── */
@@ -276,7 +276,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transform-origin: left; transform: scaleX(0); opacity: 0;
   animation: lineGrow 0.8s var(--ease-out) 1.2s both;
 }
-.hero__body {
+.hero__cta-note { color: var(--cream-muted-on-forest); } .hero__body {
   font-size: 0.95rem; line-height: 1.82; color: rgba(250,247,242,0.62);
   max-width: 30ch; margin-bottom: 26px;
   opacity: 0; animation: fadeUp 0.9s ease 1.3s both;
@@ -425,13 +425,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--salvia); display: block; margin-bottom: 5px;
 }
-.valor-desc { font-size: 0.78rem; color: rgba(28,21,16,0.52); line-height: 1.55; }
+.valor-desc { font-size: 0.78rem; color: var(--ink-muted-on-cream); line-height: 1.55; }
 
 /* ─── ONCOLÓGICO ─────────────────────────── */
 .oncologico { background: var(--bosque); position: relative; overflow: hidden; }
 .oncologico__wrap { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
 .onco-label { margin-bottom: 28px; }
-.onco-label p { font-size: 0.85rem; color: rgba(250,247,242,0.38); margin-top: 12px; line-height: 1.72; }
+.onco-label p { font-size: 0.85rem; color: var(--cream-muted-on-forest); margin-top: 12px; line-height: 1.72; }
 .onco-body p { font-size: 1rem; line-height: 1.9; color: rgba(250,247,242,0.7); margin-bottom: 12px; }
 .onco-body p:last-of-type { margin-bottom: 28px; }
 .onco-link { color: var(--cobre-lt); text-decoration: underline; text-decoration-color: rgba(201,150,92,0.35); text-underline-offset: 3px; transition: text-decoration-color var(--t); }
@@ -468,7 +468,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-family: var(--f-d); font-size: clamp(1.2rem,4.5vw,1.55rem);
   font-weight: 300; color: rgba(28,21,16,0.72); transition: color var(--t); line-height: 1.2;
 }
-.sr-ds { font-size: 0.8rem; color: rgba(28,21,16,0.42); margin-top: 3px; line-height: 1.5; }
+.sr-ds { font-size: 0.8rem; color: var(--ink-muted-on-cream); margin-top: 3px; line-height: 1.5; }
 .sr-badge { display: none; }
 
 /* ─── EVENTOS ────────────────────────────── */
@@ -484,14 +484,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ev-row:last-child { border-bottom: none; }
 .ev-d { text-align: center; padding-top: 4px; }
 .ev-d__n { font-family: var(--f-d); font-size: 1.75rem; font-weight: 300; color: var(--cobre); line-height: 1; }
-.ev-d__m { display: block; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(28,21,16,0.28); margin-top: 2px; }
+.ev-d__m { display: block; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted-on-cream); margin-top: 2px; }
 .ev-tp { display: block; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--salvia); margin-bottom: 4px; }
 .ev-ti { font-family: var(--f-d); font-size: clamp(1.1rem,4.5vw,1.5rem); font-weight: 300; color: var(--tinta); line-height: 1.2; margin-bottom: 4px; }
-.ev-ds { font-size: 0.78rem; color: rgba(28,21,16,0.42); line-height: 1.55; }
-.ev-hr { font-size: 0.68rem; color: rgba(28,21,16,0.28); margin-top: 5px; }
+.ev-ds { font-size: 0.78rem; color: var(--ink-muted-on-cream); line-height: 1.55; }
+.ev-hr { font-size: 0.68rem; color: var(--ink-muted-on-cream); margin-top: 5px; }
 .ev-lnk { display: none; }
-.ev-empty { padding: 24px 0; color: rgba(28,21,16,0.3); font-size: 0.8rem; }
-.load-empty { padding: 24px 0; color: rgba(250,247,242,0.25); font-size: 0.8rem; }
+.ev-empty { padding: 24px 0; color: var(--ink-muted-on-cream); font-size: 0.8rem; }
+.load-empty { padding: 24px 0; color: var(--cream-muted-on-forest); font-size: 0.8rem; }
 
 /* ─── PENSAMIENTOS / LINKS LIGHT ─────────── */
 .btn-link-light {
@@ -520,10 +520,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-bottom: 1px solid rgba(250,247,242,0.06);
 }
 .pens-row:last-child { border-bottom: none; }
-.pens-dt { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,247,242,0.22); display: block; }
+.pens-dt { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream-muted-on-forest); display: block; }
 .pens-cat { display: block; margin-top: 4px; font-size: 0.56rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--salvia); }
 .pens-ti { font-family: var(--f-d); font-style: italic; font-weight: 300; font-size: clamp(1.1rem,4.5vw,1.5rem); color: rgba(250,247,242,0.88); line-height: 1.25; margin: 8px 0 5px; }
-.pens-pv { font-size: 0.78rem; color: rgba(250,247,242,0.32); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pens-pv { font-size: 0.78rem; color: var(--cream-muted-on-forest); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .pens-pv--full { display: block; -webkit-line-clamp: unset; overflow: visible; }
 .pens-more {
   display: inline-block; margin-top: 6px; background: none; border: none; cursor: pointer; padding: 4px 0 0;
@@ -561,15 +561,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-family: var(--f-d); font-size: 0.9rem; font-weight: 400; color: rgba(28,21,16,0.4);
 }
 .test-name { display: block; font-size: 0.84rem; font-weight: 500; color: var(--tinta); text-align: left; }
-.test-role { font-size: 0.63rem; color: rgba(28,21,16,0.38); letter-spacing: 0.06em; }
+.test-role { font-size: 0.63rem; color: var(--ink-muted-on-cream); letter-spacing: 0.06em; }
 .test-grid { display: flex; flex-direction: column; gap: 0; }
 .test-item { padding: 28px 0; border-top: 1px solid rgba(28,21,16,0.07); }
-.test-item p { font-family: var(--f-d); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.72; color: rgba(28,21,16,0.6); margin-bottom: 18px; }
+.test-item p { font-family: var(--f-d); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.72; color: #3D362F; margin-bottom: 18px; }
 
 /* ─── CLASES EN VIVO ─────────────────────── */
 .clases { background: var(--arena); text-align: center; }
 .clases__wrap { max-width: 480px; margin: 0 auto; }
-.clases__body { font-size: 0.9rem; color: rgba(28,21,16,0.48); line-height: 1.85; margin: 14px 0 28px; }
+.clases__body { font-size: 0.9rem; color: var(--ink-muted-on-cream); line-height: 1.85; margin: 14px 0 28px; }
 .clases__form { display: flex; max-width: 320px; margin: 0 auto; border-bottom: 1px solid rgba(28,21,16,0.2); }
 .clases__in {
   flex: 1; background: transparent; border: none; outline: none;
@@ -585,7 +585,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .clases__btn:active { color: var(--cobre); }
 .clases__err { font-size: 0.74rem; color: var(--rojo-error); margin-top: 10px; min-height: 18px; }
-.clases__hint { margin-top: 14px; font-size: 0.73rem; color: rgba(28,21,16,0.32); }
+.clases__hint { margin-top: 14px; font-size: 0.73rem; color: var(--ink-muted-on-cream); }
 .clases__hint a { color: var(--cobre); transition: color var(--t); }
 .clases__hint a:active { color: var(--tinta); }
 .clases__player { display: none; }
@@ -619,7 +619,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .c-row a { transition: color var(--t); }
 .c-row a:active { color: rgba(250,247,242,0.78); }
 .ff { margin-bottom: 22px; }
-.ff-label { display: block; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,247,242,0.25); margin-bottom: 8px; }
+.ff-label { display: block; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream-label-on-forest); margin-bottom: 8px; }
 .ff-input, .ff-textarea {
   width: 100%; background: transparent; border: none; outline: none;
   border-bottom: 1px solid rgba(250,247,242,0.14); padding: 9px 0;
@@ -656,7 +656,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   -webkit-tap-highlight-color: transparent;
 }
 .ft-social a:active { border-color: rgba(176,120,64,0.45); color: var(--cobre-lt); }
-.ft-clabel { display: block; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(250,247,242,0.18); margin-bottom: 14px; }
+.ft-clabel { display: block; font-size: 0.58rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-label-on-forest); margin-bottom: 14px; }
 .ft-ci { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; font-size: 0.78rem; color: rgba(250,247,242,0.35); min-height: 36px; }
 .ft-ci svg { opacity: 0.25; flex-shrink: 0; }
 .ft-ci a { transition: color var(--t); }
@@ -747,7 +747,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nav.over-light .nav__links .nav-pill:hover { background: rgba(28,21,16,0.04); }
   .nav__ham { display: none; }
   .nav__mobile { display: none !important; }
-  .bnav { display: none; }
+  .bnav { display: none; } html { scroll-padding-bottom: 0; } #contacto { scroll-margin-bottom: 0; } .contacto { padding-bottom: var(--sec-py); }
 
   /* Hero: full-width tipográfico — sin foto */
   .hero__text {
@@ -759,7 +759,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .hero__display em { font-size: clamp(3.2rem, 5.5vw, 6rem); }
   .hero__studio { margin-bottom: clamp(28px, 6vh, 56px); }
   .hero__rule { margin: 28px 0; }
-  .hero__body { max-width: 320px; margin-bottom: 36px; }
+  .hero__cta-note { color: var(--cream-muted-on-forest); } .hero__body { max-width: 320px; margin-bottom: 36px; }
   .hero__loc {
     display: block; position: absolute;
     bottom: clamp(28px,4vh,52px); right: clamp(28px,4vw,52px);
@@ -871,7 +871,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <p class="hero__body">Una nueva oportunidad para vivir, rodeada de personas que buscan lo mismo.</p>
     <div class="hero__actions">
       <a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20les%20escribo%20desde%20la%20web.%20Me%20interesa%20una%20clase%20%28presencial%20en%20Mexicali%20o%20en%20l%C3%ADnea%29.%20%C2%BFMe%20orientan%3F" target="_blank" rel="noopener" class="btn-hero">Escríbenos por WhatsApp</a>
-      <a href="#nosotros" class="btn-hero-ghost">Conocer más</a>       <p class="hero__cta-note" style="flex-basis:100%;margin-top:12px;font-size:0.72rem;line-height:1.5;color:rgba(250,247,242,0.42);max-width:42ch">Presencial en Mexicali o en línea — te respondemos por WhatsApp.</p>
+      <a href="#nosotros" class="btn-hero-ghost">Conocer más</a>       <p class="hero__cta-note" style="flex-basis:100%;margin-top:12px;font-size:0.72rem;line-height:1.5;max-width:42ch">Presencial en Mexicali o en línea — te respondemos por WhatsApp.</p>
     </div>
   </div>
 
@@ -1041,7 +1041,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <input type="text" id="access-code" class="clases__in" placeholder="Código de acceso" autocomplete="off" maxlength="20"/>
         <button type="submit" class="clases__btn">Entrar</button>
       </form>
-      <p class="clases__err" id="access-error"></p>
+      <p class="clases__err" id="access-error" role="status" aria-live="polite"></p>
       <p class="clases__hint">¿No tienes tu código? <a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20no%20tengo%20c%C3%B3digo%20de%20clase%20en%20vivo.%20%C2%BFMe%20ayudan%3F" target="_blank" rel="noopener">Escríbenos.</a></p>
     </div>
 
@@ -1468,7 +1468,7 @@ const lPlay = document.getElementById('live-player');
 aForm?.addEventListener('submit', async e => {
   e.preventDefault();
   const code = aCode.value.trim().toUpperCase();
-  if (!code) return;
+  if (!code) {   aErr.textContent = 'Escribe tu código de acceso para entrar.';   aCode.style.borderColor = '#e07070';   aCode.focus();   setTimeout(() => { aCode.style.borderColor = ''; }, 2000);   return; }
   aErr.textContent = '';
   /* Fix #9: deshabilitar botón durante RPC para evitar dobles envíos */
   const submitBtn = aForm.querySelector('button[type="submit"]');
