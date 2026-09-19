@@ -870,8 +870,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <div class="hero__rule"></div>
     <p class="hero__body">Una nueva oportunidad para vivir, rodeada de personas que buscan lo mismo.</p>
     <div class="hero__actions">
-      <a href="#nosotros" class="btn-hero">Conocer más</a>
-      <a href="#contacto" class="btn-hero-ghost">Contáctanos</a>
+      <a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20les%20escribo%20desde%20la%20web.%20Me%20interesa%20una%20clase%20%28presencial%20en%20Mexicali%20o%20en%20l%C3%ADnea%29.%20%C2%BFMe%20orientan%3F" target="_blank" rel="noopener" class="btn-hero">Escríbenos por WhatsApp</a>
+      <a href="#nosotros" class="btn-hero-ghost">Conocer más</a>
     </div>
   </div>
 
@@ -943,7 +943,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <p class="reveal">Cada sesión se adapta respetando el cuerpo y las necesidades individuales en cada etapa del proceso.</p>
       <p class="reveal rd1">El yoga oncológico ayuda a reducir la fatiga, la ansiedad y el dolor, mientras fortalece la conexión mente-cuerpo.</p>
       <p class="reveal rd2">Bryanna Osuna es instructora certificada por la <a href="https://yogaoncologico.org/redeiras/bryanna-osuna" target="_blank" rel="noopener" class="onco-link">RED Internacional de Yoga Oncológico para personas con cáncer</a>, una formación especializada que garantiza una práctica segura, compasiva y adaptada.</p>
-      <a href="#contacto" class="btn-ghost-light reveal rd3">Quiero saber más</a>
+      <a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20quiero%20preguntar%20por%20la%20pr%C3%A1ctica%20de%20yoga%20oncol%C3%B3gico." target="_blank" rel="noopener" class="btn-ghost-light reveal rd3">Preguntar por esta práctica</a>
     </div>
   </div>
 </section>
@@ -1042,7 +1042,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <button type="submit" class="clases__btn">Entrar</button>
       </form>
       <p class="clases__err" id="access-error"></p>
-      <p class="clases__hint">¿No tienes tu código? <a href="#contacto">Escríbenos.</a></p>
+      <p class="clases__hint">¿No tienes tu código? <a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20no%20tengo%20c%C3%B3digo%20de%20clase%20en%20vivo.%20%C2%BFMe%20ayudan%3F" target="_blank" rel="noopener">Escríbenos.</a></p>
     </div>
 
     <div id="live-player" class="clases__player">
@@ -1329,7 +1329,7 @@ async function cargarEventos() {
     .eq('activo', true)
     .gte('fecha', hoy)
     .order('fecha', { ascending: true });
-  if (error || !data?.length) { el.innerHTML='<p class="ev-empty">No hay eventos próximos por ahora.</p>'; return; }
+  if (error || !data?.length) { el.innerHTML='<div class="ev-empty"><h3>Pronto nuevos encuentros</h3><p>No hay eventos publicados ahora. Escríbenos y te avisamos del próximo.</p><a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20av%C3%ADsame%20cuando%20publiquen%20el%20pr%C3%B3ximo%20evento." target="_blank" rel="noopener" class="btn-link-dark">Avísame por WhatsApp →</a></div>'; return; }
   const mes = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
   const tipo = { meditacion:'Meditación', taller:'Taller', retiro:'Retiro', especial:'Especial', oncologico:'Oncológico' };
   el.innerHTML = data.map(ev => {
