@@ -11,6 +11,7 @@
   <meta property="og:title" content="Pacoya Yoga — Mexicali"/>
   <meta property="og:description" content="Estudio de yoga oncológico y bienestar integral en Mexicali, Baja California."/>
   <meta property="og:image" content="https://bepacoya.com/og-image.jpg"/>
+  
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
   <meta property="og:locale" content="es_MX"/>
@@ -383,7 +384,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
 .rd6 { transition-delay: 0.58s; }
 
 /* ─── SHARED SECTION ─────────────────────── */
-.sec { padding: var(--sec-py) var(--px); }  .contacto.sec {   padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 72px); }
+.sec { padding: var(--sec-py) var(--px); }  .contacto.sec { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 120px); }
 .eyebrow {
   font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
   margin-bottom: 12px; display: block;
@@ -657,7 +658,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
 .c-row svg { opacity: 0.28; flex-shrink: 0; }
 .c-row a { transition: color var(--t); }
 .c-row a:active { color: rgba(250,247,242,0.78); }
-.ff { margin-bottom: 22px; }
+.ff { margin-bottom: 22px; }.ff:last-of-type { margin-bottom: 12px; }
   .hp-gotcha {
       position: absolute !important;
       left: -10000px !important;
@@ -684,7 +685,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
   background: var(--cobre); color: var(--crema); padding: 12px 28px; border-radius: 999px;
   transition: background var(--t); -webkit-tap-highlight-color: transparent;
 }
-#contact-form .btn-form {   margin-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }  .btn-form:active { background: var(--cobre-lt); }
+#contact-form .btn-form { margin-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 40px); }  .btn-form:active { background: var(--cobre-lt); }
 
 /* ─── FOOTER ─────────────────────────────── */
 .footer {
@@ -842,7 +843,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
   }
   .ev-lnk:hover { color: var(--cobre); border-color: rgba(176,120,64,0.35); }
 
-  .contacto__wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 80px; align-items: start; }
+  .contacto__wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 80px; align-items: start; }  .contacto__action { display: flex; flex-direction: column; min-width: 0; }
   .contacto__info { margin-bottom: 0; }
   .c-row a:hover { color: rgba(250,247,242,0.78); }
   .btn-form:hover { background: var(--cobre-lt); }
@@ -1124,7 +1125,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
         <a href="https://maps.app.goo.gl/d5fffq238KrSZKuF7" target="_blank" rel="noopener">Mexicali, Baja California</a>
       </div>
     </div>
-    <a class="btn-hero contacto-wa" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20les%20escribo%20desde%20la%20web.%20Me%20interesa%20una%20clase%20%28presencial%20en%20Mexicali%20o%20en%20l%C3%ADnea%29.%20%C2%BFMe%20orientan%3F" target="_blank" rel="noopener">Escríbenos por WhatsApp</a> <p class="contacto-wa-note">Presencial en Mexicali o en línea — te respondemos por WhatsApp.</p> <p class="contacto-form-label">O déjanos un mensaje</p> <form id="contact-form" action="https://formspree.io/f/xeenvjnp" method="POST" class="reveal rd2">
+    <div class="contacto__action">    <a class="btn-hero contacto-wa" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20les%20escribo%20desde%20la%20web.%20Me%20interesa%20una%20clase%20%28presencial%20en%20Mexicali%20o%20en%20l%C3%ADnea%29.%20%C2%BFMe%20orientan%3F" target="_blank" rel="noopener">Escríbenos por WhatsApp</a> <p class="contacto-wa-note">Presencial en Mexicali o en línea — te respondemos por WhatsApp.</p> <p class="contacto-form-label">O déjanos un mensaje</p> <form id="contact-form" action="https://formspree.io/f/xeenvjnp" method="POST" class="reveal rd2">
             <!-- Honeypot anti-spam: leave empty (Formspree _gotcha) -->
             <input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-gotcha"/>
       <div class="ff">
@@ -1540,7 +1541,7 @@ document.getElementById('exit-live')?.addEventListener('click', () => {
 
 /* CONTACTO — envío fetch, sin redirección, con feedback de éxito */
 const cForm = document.getElementById('contact-form');
-const cBtn  = cForm?.querySelector('button[type="submit"]');
+const cBtn  = cForm?.querySelector('button[type="submit"]'); const waFab = document.querySelector('a.wa'); cForm?.querySelectorAll('input, textarea').forEach(el => { el.addEventListener('focus', () => waFab?.classList.add('wa--hide')); el.addEventListener('blur', () => { setTimeout(() => { if (!cForm.contains(document.activeElement)) waFab?.classList.remove('wa--hide'); }, 0); }); });
 cForm?.addEventListener('submit', async e => {
   e.preventDefault();
   if (cBtn) { cBtn.disabled = true; cBtn.textContent = 'Enviando…'; }
