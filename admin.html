@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pacoya Admin</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tinta:    #1C1510;
+      --crema:    #FAF7F2;
+      --arena:    #F0E8D8;
+      --bosque:   #243223;
+      --bosque-dk:#182117;
+      --cobre:    #B07840;
+      --cobre-lt: #C9965C;
+      --salvia:   #7A9E7E;
+      --rojo-error: #C05050;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --t: 0.25s cubic-bezier(0.4,0,0.2,1);
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body); font-size: 0.95rem; line-height: 1.6;
+      background: var(--bosque-dk); color: rgba(250,247,242,0.85); min-height: 100vh;
+      color-scheme: dark;
+    }
+
+    /* FOCO VISIBLE (accesibilidad teclado) */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible {
+      outline: 2px solid var(--cobre-lt); outline-offset: 2px;
+    }
+
+    /* LOGIN */
+    .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+
+    .login-card {
+      background: var(--bosque); border: 1px solid rgba(250,247,242,0.07); border-radius: var(--radius); padding: 48px;
+      width: 100%; max-width: 400px; box-shadow: 0 12px 50px rgba(0,0,0,0.35); text-align: center;
+    }
+
+    .logo-circle {
+      width: 64px; height: 64px; border-radius: 50%; background: var(--cobre);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto 24px; gap: 1px;
+    }
+    .logo-circle span:first-child { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--crema); }
+    .logo-circle span:last-child { font-size: 0.35rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,247,242,0.85); }
+
+    .login-card h1 { font-family: var(--font-display); font-weight: 300; font-style: italic; font-size: 1.9rem; color: var(--crema); margin-bottom: 8px; }
+    .login-card > p { font-size: 0.88rem; color: rgba(250,247,242,0.45); margin-bottom: 32px; }
+
+    .form-group { text-align: left; margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(250,247,242,0.55); margin-bottom: 8px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; font-family: var(--font-body); font-size: 0.92rem; padding: 12px 16px;
+      border: 1.5px solid rgba(250,247,242,0.12); border-radius: 8px; background: var(--bosque-dk);
+      color: var(--crema); outline: none; transition: border-color var(--t);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(250,247,242,0.25); }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--cobre-lt); }
+    .form-group textarea { resize: vertical; }
+    .form-group select option { background: var(--bosque-dk); color: var(--crema); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 12px 24px; border-radius: 999px; border: none; cursor: pointer;
+      transition: all var(--t); gap: 8px;
+    }
+    .btn--primary { background: var(--cobre); color: var(--crema); }
+    .btn--primary:hover { background: var(--cobre-lt); }
+    .btn--danger { background: rgba(192,80,80,0.1); color: #E08A8A; border: 1px solid rgba(192,80,80,0.35); }
+    .btn--danger:hover { background: rgba(192,80,80,0.2); }
+    .btn--outline { background: transparent; color: rgba(250,247,242,0.75); border: 1.5px solid rgba(250,247,242,0.25); }
+    .btn--outline:hover { background: rgba(250,247,242,0.08); border-color: rgba(250,247,242,0.5); color: var(--crema); }
+    .btn--full { width: 100%; }
+    .btn--sm { padding: 7px 16px; font-size: 0.78rem; }
+
+    .login-error { font-size: 0.82rem; color: #E08A8A; margin-top: 12px; min-height: 20px; }
+
+    /* ADMIN */
+    .admin-screen { display: none; }
+
+    .admin-header {
+      background: var(--bosque); border-bottom: 1px solid rgba(250,247,242,0.06);
+      padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-header-left { display: flex; align-items: center; gap: 16px; }
+    .admin-logo {
+      width: 44px; height: 44px; border-radius: 50%; background: var(--cobre);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    }
+    .admin-logo span:first-child { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--crema); }
+    .admin-logo span:last-child { font-size: 0.28rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,247,242,0.85); }
+    .admin-title { font-family: var(--font-display); font-weight: 300; font-style: italic; font-size: 1.35rem; color: var(--crema); }
+
+    /* TABS */
+    .admin-tabs {
+      background: var(--bosque); border-bottom: 1px solid rgba(250,247,242,0.06);
+      display: flex; padding: 0 32px; justify-content: center; overflow-x: auto;
+    }
+    .tab-btn {
+      font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; white-space: nowrap;
+      padding: 16px 24px; border: none; background: none; cursor: pointer;
+      color: rgba(250,247,242,0.5); border-bottom: 2px solid transparent;
+      transition: all var(--t);
+    }
+    @media (max-width: 600px) {
+      .tab-btn { font-size: 0.68rem; padding: 12px 12px; }
+    }
+    .tab-btn.active { color: var(--cobre-lt); border-bottom-color: var(--cobre-lt); }
+    .tab-btn:not(.active):hover { color: rgba(250,247,242,0.7); }
+
+    .admin-main { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .admin-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; gap: 16px; }
+    .admin-top h2 { font-family: var(--font-display); font-weight: 300; font-style: italic; font-size: 1.7rem; color: var(--crema); }
+
+    /* FORM */
+    .evento-form {
+      background: var(--bosque); border-radius: var(--radius); padding: 32px;
+      margin-bottom: 32px; border: 1px solid rgba(250,247,242,0.07); display: none;
+    }
+    .evento-form.open { display: block; }
+    .evento-form h3 { font-family: var(--font-display); font-weight: 300; font-style: italic; font-size: 1.35rem; color: var(--crema); margin-bottom: 24px; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-grid .full { grid-column: 1 / -1; }
+    .form-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
+
+    /* FOTO UPLOAD */
+    .foto-upload-area {
+      border: 2px dashed rgba(176,120,64,0.35); border-radius: var(--radius);
+      padding: 32px; text-align: center; cursor: pointer; transition: all var(--t);
+      background: rgba(176,120,64,0.04);
+    }
+    .foto-upload-area:hover { border-color: var(--cobre-lt); background: rgba(176,120,64,0.08); }
+    .foto-upload-area input[type="file"] { display: none; }
+    .foto-upload-area p { font-size: 0.85rem; color: rgba(250,247,242,0.4); margin-top: 8px; }
+    .foto-preview {
+      width: 100%; max-height: 200px; object-fit: cover;
+      border-radius: 8px; margin-top: 12px; display: none;
+    }
+    .upload-icon { font-size: 2rem; }
+
+    /* LISTA */
+    .eventos-lista { display: flex; flex-direction: column; gap: 12px; }
+
+    .evento-item {
+      background: var(--bosque); border-radius: var(--radius); padding: 20px 24px;
+      border: 1px solid rgba(250,247,242,0.06); display: flex; align-items: center;
+      gap: 20px; transition: border-color var(--t);
+    }
+    .evento-item:hover { border-color: rgba(250,247,242,0.14); }
+
+    .evento-thumb {
+      width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0;
+    }
+    .evento-thumb-placeholder {
+      width: 56px; height: 56px; border-radius: 8px; background: rgba(176,120,64,0.1);
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+    }
+
+    .evento-fecha { display: flex; flex-direction: column; align-items: center; min-width: 48px; }
+    .evento-dia { font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; color: var(--crema); line-height: 1; }
+    .evento-mes { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre-lt); }
+
+    .evento-info { flex: 1; }
+    .evento-info h4 { font-size: 0.95rem; font-weight: 500; color: var(--crema); margin-bottom: 4px; }
+    .evento-info p { font-size: 0.82rem; color: rgba(250,247,242,0.45); }
+
+    .evento-tipo {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--salvia); background: rgba(122,158,126,0.12); padding: 3px 10px; border-radius: 999px;
+    }
+    .evento-acciones { display: flex; gap: 8px; }
+
+    .sin-foto-badge {
+      font-size: 0.65rem; background: rgba(176,120,64,0.12); color: var(--cobre-lt);
+      padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(176,120,64,0.3);
+    }
+
+    .empty-state {
+      text-align: center; padding: 60px 24px; color: rgba(250,247,242,0.35);
+      background: var(--bosque); border-radius: var(--radius);
+      border: 1px dashed rgba(250,247,242,0.1);
+    }
+    .empty-state p { font-size: 0.9rem; margin-top: 8px; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; left: 24px; max-width: 360px; margin-left: auto;
+      background: var(--cobre);
+      color: var(--crema); padding: 14px 24px; border-radius: 999px; font-size: 0.88rem;
+      opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 500; text-align: center;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.toast--error { background: var(--rojo-error); }
+
+    .uploading { opacity: 0.6; pointer-events: none; }
+
+    @media (max-width: 600px) {
+      .admin-header { padding: 12px 16px; }
+      .admin-tabs { padding: 0 16px; }
+      .admin-main { padding: 24px 16px; }
+
+      .admin-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .admin-top h2 { font-size: 1.3rem; }
+
+      .evento-item {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .evento-info { min-width: 0; width: 100%; }
+
+      .evento-acciones {
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .evento-thumb,
+      .evento-thumb-placeholder { width: 44px; height: 44px; }
+
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid .full { grid-column: 1; }
+
+      .evento-form { padding: 20px 16px; }
+      .login-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <div class="logo-circle"><span>Pacoya</span><span>yoga studio</span></div>
+      <h1>Panel de administración</h1>
+      <p>Ingresa tus credenciales para continuar</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@correo.com" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">Entrar</button>
+        <p class="login-error" id="login-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div class="admin-screen" id="admin-screen">
+    <header class="admin-header">
+      <div class="admin-header-left">
+        <div class="admin-logo"><span>Pacoya</span><span>yoga studio</span></div>
+        <span class="admin-title">Panel de administración</span>
+      </div>
+      <button class="btn btn--outline btn--sm" id="logout-btn">Cerrar sesión</button>
+    </header>
+
+    <div class="admin-tabs" role="tablist" aria-label="Secciones del panel">
+      <button class="tab-btn active" data-tab="proximos" role="tab" aria-selected="true" aria-controls="tab-proximos" id="tabbtn-proximos">Eventos</button>
+      <button class="tab-btn" data-tab="memorias" role="tab" aria-selected="false" aria-controls="tab-memorias" id="tabbtn-memorias">Memorias</button>
+      <button class="tab-btn" data-tab="pensamientos" role="tab" aria-selected="false" aria-controls="tab-pensamientos" id="tabbtn-pensamientos">Pensamientos</button>
+      <button class="tab-btn" data-tab="comunidad" role="tab" aria-selected="false" aria-controls="tab-comunidad" id="tabbtn-comunidad">Comunidad</button>
+      <button class="tab-btn" data-tab="clases" role="tab" aria-selected="false" aria-controls="tab-clases" id="tabbtn-clases">En Vivo</button>
+    </div>
+
+    <main class="admin-main">
+
+      <!-- TAB PRÓXIMOS -->
+      <div class="tab-panel active" id="tab-proximos" role="tabpanel" aria-labelledby="tabbtn-proximos">
+        <div class="admin-top">
+          <h2>Próximos Eventos</h2>
+          <button class="btn btn--primary btn--sm" id="toggle-form-btn">+ Nuevo evento</button>
+        </div>
+
+        <div class="evento-form" id="evento-form">
+          <h3 id="form-title">Nuevo evento</h3>
+          <input type="hidden" id="evento-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Título del evento</label>
+              <input type="text" id="f-titulo" placeholder="Ej. Taller de Yoga Oncológico" />
+            </div>
+            <div class="form-group full">
+              <label>Descripción</label>
+              <textarea id="f-descripcion" rows="3" placeholder="Describe el evento..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" id="f-fecha" />
+            </div>
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="text" id="f-hora" placeholder="Ej. 10:00 AM" />
+            </div>
+            <div class="form-group">
+              <label>Lugar</label>
+              <input type="text" id="f-lugar" placeholder="Ej. Estudio Pacoya / En línea" />
+            </div>
+            <div class="form-group">
+              <label>Tipo</label>
+              <select id="f-tipo">
+                <option value="meditacion">Meditación</option>
+                <option value="especial">Taller especial</option>
+                <option value="taller">Taller</option>
+                <option value="retiro">Retiro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-btn">Guardar evento</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-proximos"></div>
+      </div>
+
+      <!-- TAB MEMORIAS -->
+      <div class="tab-panel" id="tab-memorias" role="tabpanel" aria-labelledby="tabbtn-memorias">
+        <div class="admin-top">
+          <h2>Memorias</h2>
+          <p style="font-size:0.85rem;color:rgba(250,247,242,0.45)">Edita los detalles o agrega una foto</p>
+        </div>
+
+        <!-- Formulario editar memoria -->
+        <div class="evento-form" id="memoria-edit-form">
+          <h3 id="memoria-edit-title">Editar memoria</h3>
+          <input type="hidden" id="me-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Título</label>
+              <input type="text" id="me-titulo" />
+            </div>
+            <div class="form-group full">
+              <label>Descripción</label>
+              <textarea id="me-descripcion" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" id="me-fecha" />
+            </div>
+            <div class="form-group">
+              <label>Hora</label>
+              <input type="text" id="me-hora" placeholder="Ej. 10:00 AM" />
+            </div>
+            <div class="form-group">
+              <label>Lugar</label>
+              <input type="text" id="me-lugar" />
+            </div>
+            <div class="form-group">
+              <label>Tipo</label>
+              <select id="me-tipo">
+                <option value="meditacion">Meditación</option>
+                <option value="especial">Taller especial</option>
+                <option value="taller">Taller</option>
+                <option value="retiro">Retiro</option>
+              </select>
+            </div>
+          </div>
+          <!-- Foto -->
+          <div class="form-group" style="margin-top:8px">
+            <label>Foto</label>
+            <div id="me-foto-actual" style="margin-bottom:12px;display:none">
+              <img id="me-foto-preview" src="" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-bottom:8px" />
+              <button type="button" class="btn btn--danger btn--sm" id="borrar-foto-btn">🗑 Borrar foto</button>
+            </div>
+            <div class="foto-upload-area" onclick="document.getElementById('me-foto-input').click()">
+              <input type="file" id="me-foto-input" accept="image/*" />
+              <div class="upload-icon">🖼️</div>
+              <strong id="me-foto-label">Toca para reemplazar la foto</strong>
+              <p>JPG, PNG o WEBP · Máx 5MB</p>
+              <img class="foto-preview" id="me-foto-nueva-preview" src="" alt="Preview" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-memoria-edit-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-memoria-edit-btn">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="evento-form" id="memoria-form">
+          <h3 id="memoria-form-title">Agregar foto</h3>
+          <input type="hidden" id="m-evento-id" />
+          <div class="form-group">
+            <label>Foto del evento</label>
+            <div class="foto-upload-area" id="foto-drop-area" onclick="document.getElementById('foto-input').click()">
+              <input type="file" id="foto-input" accept="image/*" />
+              <div class="upload-icon">🖼️</div>
+              <strong>Toca para elegir una foto</strong>
+              <p>JPG, PNG o WEBP · Máx 5MB</p>
+              <img class="foto-preview" id="foto-preview" src="" alt="Preview" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-memoria-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-memoria-btn">Guardar foto</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-memorias"></div>
+      </div>
+
+      <!-- TAB PENSAMIENTOS -->
+      <div class="tab-panel" id="tab-pensamientos" role="tabpanel" aria-labelledby="tabbtn-pensamientos">
+        <div class="admin-top">
+          <h2>Pensamientos</h2>
+          <button class="btn btn--primary btn--sm" id="toggle-pensamiento-btn">+ Nuevo pensamiento</button>
+        </div>
+
+        <div class="evento-form" id="pensamiento-form">
+          <h3 id="pensamiento-form-title">Nuevo pensamiento</h3>
+          <input type="hidden" id="p-id" />
+          <div class="form-group">
+            <label>Título</label>
+            <input type="text" id="p-titulo" placeholder="Ej. El cuerpo sabe lo que necesita" />
+          </div>
+          <div class="form-group">
+            <label>Pensamiento</label>
+            <textarea id="p-contenido" rows="6" placeholder="Escribe aquí tu reflexión..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="p-tipo">
+              <option value="reflexion">Reflexión</option>
+              <option value="inspiracion">Inspiración</option>
+              <option value="oncologico">Yoga Oncológico</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-pensamiento-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-pensamiento-btn">Guardar</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-pensamientos"></div>
+      </div>
+
+      <!-- TAB COMUNIDAD -->
+      <div class="tab-panel" id="tab-comunidad" role="tabpanel" aria-labelledby="tabbtn-comunidad">
+        <div class="admin-top">
+          <h2>Comunidad</h2>
+          <button class="btn btn--primary btn--sm" id="toggle-comunidad-btn">+ Nuevo comentario</button>
+        </div>
+
+        <div class="evento-form" id="comunidad-form">
+          <h3 id="comunidad-form-title">Nuevo comentario</h3>
+          <input type="hidden" id="co-id" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" id="co-nombre" placeholder="Ej. Sheila M." />
+            </div>
+            <div class="form-group">
+              <label>Clase</label>
+              <input type="text" id="co-clase" placeholder="Ej. Yoga Oncológico" />
+            </div>
+            <div class="form-group">
+              <label>Estrellas</label>
+              <select id="co-estrellas">
+                <option value="5">★★★★★ (5)</option>
+                <option value="4">★★★★☆ (4)</option>
+                <option value="3">★★★☆☆ (3)</option>
+                <option value="2">★★☆☆☆ (2)</option>
+                <option value="1">★☆☆☆☆ (1)</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Comentario</label>
+              <textarea id="co-texto" rows="4" placeholder="Escribe el testimonio..."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--outline btn--sm" id="cancelar-comunidad-btn">Cancelar</button>
+            <button class="btn btn--primary btn--sm" id="guardar-comunidad-btn">Guardar</button>
+          </div>
+        </div>
+
+        <div class="eventos-lista" id="lista-comunidad"></div>
+      </div>
+
+      <!-- TAB CLASES EN VIVO -->
+      <div class="tab-panel" id="tab-clases" role="tabpanel" aria-labelledby="tabbtn-clases">
+        <div class="admin-top">
+          <h2>Clase en Vivo</h2>
+        </div>
+
+        <div style="background:var(--bosque);border-radius:var(--radius);padding:32px;border:1px solid rgba(250,247,242,0.07)">
+          <div class="form-group" style="margin-bottom:24px">
+            <label style="display:flex;align-items:center;gap:12px;cursor:pointer">
+              <span style="font-size:0.95rem;font-weight:500">Clase activa</span>
+              <div style="position:relative;display:inline-block;width:48px;height:26px">
+                <input type="checkbox" id="cl-activo" style="opacity:0;width:0;height:0;position:absolute" />
+                <span id="cl-toggle-track" style="position:absolute;inset:0;background:rgba(250,247,242,0.15);border-radius:999px;cursor:pointer;transition:.3s"></span>
+                <span id="cl-toggle-thumb" style="position:absolute;left:3px;top:3px;width:20px;height:20px;background:var(--crema);border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></span>
+              </div>
+            </label>
+            <p id="cl-estado-txt" style="font-size:0.82rem;color:rgba(250,247,242,0.45);margin-top:6px">La clase está desactivada — los alumnos verán la pantalla de código pero no habrá transmisión.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Título de la clase</label>
+            <input type="text" id="cl-titulo" placeholder="Ej. Clase de yoga oncológico" />
+          </div>
+
+          <div class="form-group">
+            <label>Link de Whereby</label>
+            <input type="text" id="cl-url" placeholder="https://whereby.com/tu-sala" />
+            <p style="font-size:0.78rem;color:rgba(250,247,242,0.45);margin-top:6px">Copia el link de tu sala de Whereby y pégalo aquí. Los alumnos entran directo desde el navegador sin necesitar cuenta.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Código de acceso</label>
+            <input type="text" id="cl-codigo" placeholder="Ej. PACOYA2026" style="text-transform:uppercase;letter-spacing:0.08em" />
+            <p style="font-size:0.78rem;color:rgba(250,247,242,0.45);margin-top:6px">Los alumnos necesitan este código para ver la clase.</p>
+          </div>
+
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px">
+            <button class="btn btn--primary" id="guardar-clase-btn" style="width:100%">Guardar configuración</button>
+            <a id="abrir-meet-btn" href="#" target="_blank" rel="noopener" class="btn btn--outline" style="display:none;width:100%;text-decoration:none;text-align:center">Abrir sala en Whereby</a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://kzqtjzzpyhmzdlczsbnz.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_s3eWk4Z4L31DlyLyYbHbYw_jrpMV7-z';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const hoy = new Date().toISOString().split('T')[0];
+
+    // ── ESCAPE helper (XSS) ──
+    function esc(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+    }
+
+    // ── URL SEGURA — solo permite https:// y http:// para evitar javascript: URIs ──
+    function safeUrl(u) {
+      try {
+        const p = new URL(u);
+        return (p.protocol === 'https:' || p.protocol === 'http:') ? u : '#';
+      } catch { return '#'; }
+    }
+
+    // ── VALIDACIÓN DE ARCHIVO DE IMAGEN ──
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const ALLOWED_EXTS  = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    function esImagenValida(file) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      return ALLOWED_TYPES.includes(file.type) && ALLOWED_EXTS.includes(ext);
+    }
+
+    // ── DOM refs ──
+    const loginScreen   = document.getElementById('login-screen');
+    const adminScreen   = document.getElementById('admin-screen');
+    const loginForm     = document.getElementById('login-form');
+    const loginError    = document.getElementById('login-error');
+    const logoutBtn     = document.getElementById('logout-btn');
+    const toggleBtn     = document.getElementById('toggle-form-btn');
+    const eventoForm    = document.getElementById('evento-form');
+    const cancelarBtn   = document.getElementById('cancelar-btn');
+    const guardarBtn    = document.getElementById('guardar-btn');
+    const listaProximos = document.getElementById('lista-proximos');
+    const listasMemorias = document.getElementById('lista-memorias');
+    const memoriaForm   = document.getElementById('memoria-form');
+    const cancelarMemoriaBtn = document.getElementById('cancelar-memoria-btn');
+    const guardarMemoriaBtn  = document.getElementById('guardar-memoria-btn');
+    const fotoInput     = document.getElementById('foto-input');
+    const fotoPreview   = document.getElementById('foto-preview');
+    const toast         = document.getElementById('toast');
+
+    // ── LOGIN (Supabase Auth) ──
+    // getUser() valida contra el servidor — getSession() solo lee localStorage
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) showAdmin();
+    });
+
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      loginError.textContent = '';
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        loginError.textContent = 'Credenciales incorrectas.';
+      } else {
+        showAdmin();
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      adminScreen.style.display = 'none';
+      loginScreen.style.display = 'flex';
+    });
+
+    function showAdmin() {
+      loginScreen.style.display = 'none';
+      adminScreen.style.display = 'block';
+      cargarProximos();
+      cargarMemorias();
+      cargarPensamientos();
+      cargarComunidad();
+      cargarClase();
+    }
+
+    // ── TABS ──
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── FORM PRÓXIMOS ──
+    toggleBtn.addEventListener('click', () => {
+      limpiarForm();
+      document.getElementById('form-title').textContent = 'Nuevo evento';
+      eventoForm.classList.add('open');
+    });
+
+    cancelarBtn.addEventListener('click', () => { eventoForm.classList.remove('open'); limpiarForm(); });
+
+    guardarBtn.addEventListener('click', async () => {
+      const id     = document.getElementById('evento-id').value;
+      const titulo = document.getElementById('f-titulo').value.trim();
+      const fecha  = document.getElementById('f-fecha').value;
+      if (!titulo || !fecha) { mostrarToast('El título y la fecha son obligatorios.', 'error'); return; }
+
+      const datos = {
+        titulo,
+        descripcion: document.getElementById('f-descripcion').value.trim(),
+        fecha,
+        hora:  document.getElementById('f-hora').value.trim(),
+        lugar: document.getElementById('f-lugar').value.trim(),
+        tipo:  document.getElementById('f-tipo').value,
+      };
+
+      if (id) {
+        await supabase.from('eventos').update(datos).eq('id', id);
+        mostrarToast('✓ Evento actualizado');
+      } else {
+        await supabase.from('eventos').insert(datos);
+        mostrarToast('✓ Evento creado');
+      }
+
+      eventoForm.classList.remove('open');
+      limpiarForm();
+      cargarProximos();
+    });
+
+    // ── CARGAR PRÓXIMOS ──
+    async function cargarProximos() {
+      const { data } = await supabase.from('eventos').select('*')
+        .gte('fecha', hoy).order('fecha', { ascending: true });
+      renderLista(data, listaProximos, false);
+    }
+
+    // ── CARGAR MEMORIAS ──
+    async function cargarMemorias() {
+      const { data } = await supabase.from('eventos').select('*')
+        .lt('fecha', hoy).order('fecha', { ascending: false });
+      renderLista(data, listasMemorias, true);
+    }
+
+    function renderLista(data, container, esMemorias) {
+      container.innerHTML = '';
+      if (!data || data.length === 0) {
+        container.innerHTML = `<div class="empty-state">📅<p>${esMemorias ? 'Aún no hay memorias.' : 'No hay eventos próximos.'}</p></div>`;
+        return;
+      }
+      data.forEach(ev => {
+        const fecha = new Date(ev.fecha + 'T12:00:00');
+        const dia   = fecha.getDate();
+        const mes   = fecha.toLocaleString('es-MX', { month: 'short' });
+        const item  = document.createElement('div');
+        item.className = 'evento-item';
+
+        const thumbHtml = esMemorias
+          ? (ev.foto_url
+              ? `<img class="evento-thumb" src="${esc(ev.foto_url)}" alt="${esc(ev.titulo)}" />`
+              : `<div class="evento-thumb-placeholder">🌿</div>`)
+          : '';
+
+        const evId = parseInt(ev.id, 10);
+        const accionesHtml = esMemorias
+          ? `<div class="evento-acciones">
+               ${!ev.foto_url ? '<span class="sin-foto-badge">Sin foto</span>' : ''}
+               <button class="btn btn--outline btn--sm" onclick="editarMemoria(${evId})">Editar</button>
+               <button class="btn btn--outline btn--sm" onclick="abrirFotoForm(${evId})">
+                 ${ev.foto_url ? 'Cambiar foto' : 'Agregar foto'}
+               </button>
+               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${evId})">Borrar</button>
+             </div>`
+          : `<div class="evento-acciones">
+               <button class="btn btn--outline btn--sm" onclick="editarEvento(${evId})">Editar</button>
+               <button class="btn btn--danger btn--sm" onclick="borrarEvento(${evId})">Borrar</button>
+             </div>`;
+
+        item.innerHTML = `
+          ${thumbHtml}
+          <div class="evento-fecha">
+            <span class="evento-dia">${esc(String(dia))}</span>
+            <span class="evento-mes">${esc(mes)}</span>
+          </div>
+          <div class="evento-info">
+            <h4>${esc(ev.titulo)}</h4>
+            <p>${ev.hora ? esc(ev.hora) + ' · ' : ''}${esc(ev.lugar || '')}</p>
+          </div>
+          <span class="evento-tipo">${esc(ev.tipo)}</span>
+          ${accionesHtml}`;
+        container.appendChild(item);
+      });
+    }
+
+    // ── EDITAR ──
+    window.editarEvento = async id => {
+      const { data } = await supabase.from('eventos').select('*').eq('id', id).single();
+      document.getElementById('evento-id').value     = data.id;
+      document.getElementById('f-titulo').value      = data.titulo;
+      document.getElementById('f-descripcion').value = data.descripcion || '';
+      document.getElementById('f-fecha').value       = data.fecha;
+      document.getElementById('f-hora').value        = data.hora || '';
+      document.getElementById('f-lugar').value       = data.lugar || '';
+      document.getElementById('f-tipo').value        = data.tipo || 'taller';
+      document.getElementById('form-title').textContent = 'Editar evento';
+      eventoForm.classList.add('open');
+      eventoForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // ── BORRAR ──
+    window.borrarEvento = async id => {
+      if (!confirm('¿Segura que quieres borrar este evento?')) return;
+      await supabase.from('eventos').delete().eq('id', id);
+      mostrarToast('Evento eliminado');
+      cargarProximos();
+      cargarMemorias();
+    };
+
+    // ── EDITAR MEMORIA ──
+    const memoriaEditForm       = document.getElementById('memoria-edit-form');
+    const cancelarMemoriaEditBtn = document.getElementById('cancelar-memoria-edit-btn');
+    const guardarMemoriaEditBtn  = document.getElementById('guardar-memoria-edit-btn');
+
+    window.editarMemoria = async id => {
+      const { data } = await supabase.from('eventos').select('*').eq('id', id).single();
+      document.getElementById('me-id').value          = data.id;
+      document.getElementById('me-titulo').value      = data.titulo;
+      document.getElementById('me-descripcion').value = data.descripcion || '';
+      document.getElementById('me-fecha').value       = data.fecha;
+      document.getElementById('me-hora').value        = data.hora || '';
+      document.getElementById('me-lugar').value       = data.lugar || '';
+      document.getElementById('me-tipo').value        = data.tipo || 'taller';
+
+      const fotoActualDiv    = document.getElementById('me-foto-actual');
+      const fotoPreviewImg   = document.getElementById('me-foto-preview');
+      const fotoNuevaPreview = document.getElementById('me-foto-nueva-preview');
+      const fotoInput        = document.getElementById('me-foto-input');
+
+      fotoInput.value = '';
+      fotoNuevaPreview.style.display = 'none';
+      fotoNuevaPreview.src = '';
+
+      if (data.foto_url) {
+        fotoActualDiv.style.display = 'block';
+        fotoPreviewImg.src = data.foto_url;
+      } else {
+        fotoActualDiv.style.display = 'none';
+      }
+
+      memoriaEditForm.classList.add('open');
+      memoriaEditForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Preview foto nueva
+    document.getElementById('me-foto-input').addEventListener('change', () => {
+      const file = document.getElementById('me-foto-input').files[0];
+      if (!file) return;
+      const preview = document.getElementById('me-foto-nueva-preview');
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    });
+
+    // Borrar foto
+    document.getElementById('borrar-foto-btn').addEventListener('click', async () => {
+      const id = document.getElementById('me-id').value;
+      if (!confirm('¿Segura que quieres borrar la foto?')) return;
+      await supabase.from('eventos').update({ foto_url: null }).eq('id', id);
+      document.getElementById('me-foto-actual').style.display = 'none';
+      mostrarToast('Foto borrada');
+      cargarMemorias();
+    });
+
+    cancelarMemoriaEditBtn.addEventListener('click', () => {
+      memoriaEditForm.classList.remove('open');
+    });
+
+    guardarMemoriaEditBtn.addEventListener('click', async () => {
+      const id   = document.getElementById('me-id').value;
+      const file = document.getElementById('me-foto-input').files[0];
+
+      if (file && !esImagenValida(file)) {
+        mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.', 'error');
+        return;
+      }
+
+      guardarMemoriaEditBtn.textContent = 'Guardando...';
+      guardarMemoriaEditBtn.disabled = true;
+
+      const datos = {
+        titulo:      document.getElementById('me-titulo').value.trim(),
+        descripcion: document.getElementById('me-descripcion').value.trim(),
+        fecha:       document.getElementById('me-fecha').value,
+        hora:        document.getElementById('me-hora').value.trim(),
+        lugar:       document.getElementById('me-lugar').value.trim(),
+        tipo:        document.getElementById('me-tipo').value,
+      };
+
+      if (file) {
+        const ext      = file.name.split('.').pop();
+        const fileName = `evento-${id}-${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from('Memorias').upload(fileName, file, { upsert: true });
+        if (!uploadError) {
+          const { data: urlData } = supabase.storage.from('Memorias').getPublicUrl(fileName);
+          datos.foto_url = urlData.publicUrl;
+        }
+      }
+
+      await supabase.from('eventos').update(datos).eq('id', id);
+      mostrarToast('✓ Memoria actualizada');
+      memoriaEditForm.classList.remove('open');
+      guardarMemoriaEditBtn.textContent = 'Guardar cambios';
+      guardarMemoriaEditBtn.disabled = false;
+      cargarMemorias();
+    });
+
+    // ── FOTO FORM ──
+    window.abrirFotoForm = async (id) => {
+      document.getElementById('m-evento-id').value = id;
+      const { data: ev } = await supabase.from('eventos').select('titulo').eq('id', id).single();
+      document.getElementById('memoria-form-title').textContent = `Foto: ${ev?.titulo || ''}`;
+      fotoPreview.style.display = 'none';
+      fotoPreview.src = '';
+      fotoInput.value = '';
+      memoriaForm.classList.add('open');
+      memoriaForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    cancelarMemoriaBtn.addEventListener('click', () => {
+      memoriaForm.classList.remove('open');
+      fotoInput.value = '';
+      fotoPreview.style.display = 'none';
+    });
+
+    fotoInput.addEventListener('change', () => {
+      const file = fotoInput.files[0];
+      if (!file) return;
+      fotoPreview.src = URL.createObjectURL(file);
+      fotoPreview.style.display = 'block';
+    });
+
+    guardarMemoriaBtn.addEventListener('click', async () => {
+      const id   = document.getElementById('m-evento-id').value;
+      const file = fotoInput.files[0];
+      if (!file) { mostrarToast('Elige una foto primero.', 'error'); return; }
+      if (!esImagenValida(file)) { mostrarToast('Solo se permiten imágenes JPG, PNG, WEBP o GIF.', 'error'); return; }
+
+      guardarMemoriaBtn.textContent = 'Subiendo...';
+      guardarMemoriaBtn.classList.add('uploading');
+
+      const ext      = file.name.split('.').pop();
+      const fileName = `evento-${id}-${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('Memorias').upload(fileName, file, { upsert: true });
+
+      if (uploadError) {
+        mostrarToast('Error al subir la foto. Intenta de nuevo.', 'error');
+        guardarMemoriaBtn.textContent = 'Guardar foto';
+        guardarMemoriaBtn.classList.remove('uploading');
+        return;
+      }
+
+      const { data: urlData } = supabase.storage.from('Memorias').getPublicUrl(fileName);
+      await supabase.from('eventos').update({ foto_url: urlData.publicUrl }).eq('id', id);
+
+      mostrarToast('✓ Foto guardada');
+      memoriaForm.classList.remove('open');
+      guardarMemoriaBtn.textContent = 'Guardar foto';
+      guardarMemoriaBtn.classList.remove('uploading');
+      cargarMemorias();
+    });
+
+    // ── PENSAMIENTOS ──
+    const togglePensamientoBtn  = document.getElementById('toggle-pensamiento-btn');
+    const pensamientoForm       = document.getElementById('pensamiento-form');
+    const cancelarPensamientoBtn = document.getElementById('cancelar-pensamiento-btn');
+    const guardarPensamientoBtn  = document.getElementById('guardar-pensamiento-btn');
+    const listaPensamientos      = document.getElementById('lista-pensamientos');
+
+    togglePensamientoBtn.addEventListener('click', () => {
+      limpiarPensamientoForm();
+      document.getElementById('pensamiento-form-title').textContent = 'Nuevo pensamiento';
+      pensamientoForm.classList.add('open');
+    });
+
+    cancelarPensamientoBtn.addEventListener('click', () => {
+      pensamientoForm.classList.remove('open');
+      limpiarPensamientoForm();
+    });
+
+    guardarPensamientoBtn.addEventListener('click', async () => {
+      const id       = document.getElementById('p-id').value;
+      const titulo   = document.getElementById('p-titulo').value.trim();
+      const contenido = document.getElementById('p-contenido').value.trim();
+      if (!titulo || !contenido) { mostrarToast('El título y el pensamiento son obligatorios.', 'error'); return; }
+
+      const datos = {
+        titulo,
+        contenido,
+        tipo: document.getElementById('p-tipo').value,
+      };
+
+      if (id) {
+        await supabase.from('pensamientos').update(datos).eq('id', id);
+        mostrarToast('✓ Pensamiento actualizado');
+      } else {
+        await supabase.from('pensamientos').insert({ ...datos, fecha: hoy });
+        mostrarToast('✓ Pensamiento publicado');
+      }
+
+      pensamientoForm.classList.remove('open');
+      limpiarPensamientoForm();
+      cargarPensamientos();
+    });
+
+    async function cargarPensamientos() {
+      const { data } = await supabase.from('pensamientos').select('*')
+        .eq('activo', true).order('fecha', { ascending: false });
+
+      listaPensamientos.innerHTML = '';
+      if (!data || data.length === 0) {
+        listaPensamientos.innerHTML = `<div class="empty-state">✍️<p>Aún no hay pensamientos publicados.</p></div>`;
+        return;
+      }
+
+      const TIPOS_P = { reflexion: 'Reflexión', inspiracion: 'Inspiración', oncologico: 'Yoga Oncológico' };
+
+      data.forEach(p => {
+        const fecha = new Date(p.fecha + 'T12:00:00');
+        const dia   = fecha.getDate();
+        const mes   = fecha.toLocaleString('es-MX', { month: 'short' });
+        const item  = document.createElement('div');
+        item.className = 'evento-item';
+        const pId      = parseInt(p.id, 10);
+        const tipoText = esc(TIPOS_P[p.tipo] || p.tipo);
+        const preview  = esc(p.contenido.substring(0, 80)) + (p.contenido.length > 80 ? '...' : '');
+        item.innerHTML = `
+          <div class="evento-fecha">
+            <span class="evento-dia">${esc(String(dia))}</span>
+            <span class="evento-mes">${esc(mes)}</span>
+          </div>
+          <div class="evento-info">
+            <h4>${esc(p.titulo)}</h4>
+            <p>${tipoText} · ${preview}</p>
+          </div>
+          <div class="evento-acciones">
+            <button class="btn btn--outline btn--sm" onclick="editarPensamiento(${pId})">Editar</button>
+            <button class="btn btn--danger btn--sm" onclick="borrarPensamiento(${pId})">Borrar</button>
+          </div>`;
+        listaPensamientos.appendChild(item);
+      });
+    }
+
+    window.editarPensamiento = async id => {
+      const { data } = await supabase.from('pensamientos').select('*').eq('id', id).single();
+      document.getElementById('p-id').value       = data.id;
+      document.getElementById('p-titulo').value   = data.titulo;
+      document.getElementById('p-contenido').value = data.contenido;
+      document.getElementById('p-tipo').value     = data.tipo;
+      document.getElementById('pensamiento-form-title').textContent = 'Editar pensamiento';
+      pensamientoForm.classList.add('open');
+      pensamientoForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.borrarPensamiento = async id => {
+      if (!confirm('¿Segura que quieres borrar este pensamiento?')) return;
+      await supabase.from('pensamientos').delete().eq('id', id);
+      mostrarToast('Pensamiento eliminado');
+      cargarPensamientos();
+    };
+
+    function limpiarPensamientoForm() {
+      ['p-id', 'p-titulo', 'p-contenido'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('p-tipo').value = 'reflexion';
+    }
+
+    // ── COMUNIDAD ──
+    const toggleComunidadBtn   = document.getElementById('toggle-comunidad-btn');
+    const comunidadForm        = document.getElementById('comunidad-form');
+    const cancelarComunidadBtn = document.getElementById('cancelar-comunidad-btn');
+    const guardarComunidadBtn  = document.getElementById('guardar-comunidad-btn');
+    const listaComunidad       = document.getElementById('lista-comunidad');
+
+    toggleComunidadBtn.addEventListener('click', () => {
+      limpiarComunidadForm();
+      document.getElementById('comunidad-form-title').textContent = 'Nuevo comentario';
+      comunidadForm.classList.add('open');
+    });
+
+    cancelarComunidadBtn.addEventListener('click', () => {
+      comunidadForm.classList.remove('open');
+      limpiarComunidadForm();
+    });
+
+    guardarComunidadBtn.addEventListener('click', async () => {
+      const id     = document.getElementById('co-id').value;
+      const nombre = document.getElementById('co-nombre').value.trim();
+      const texto  = document.getElementById('co-texto').value.trim();
+      if (!nombre || !texto) { mostrarToast('El nombre y el comentario son obligatorios.', 'error'); return; }
+
+      const datos = {
+        nombre,
+        clase: document.getElementById('co-clase').value.trim(),
+        texto,
+        estrellas: parseInt(document.getElementById('co-estrellas').value, 10),
+      };
+
+      if (id) {
+        await supabase.from('comunidad').update(datos).eq('id', id);
+        mostrarToast('✓ Comentario actualizado');
+      } else {
+        await supabase.from('comunidad').insert({ ...datos, fecha: hoy, activo: true });
+        mostrarToast('✓ Comentario publicado');
+      }
+
+      comunidadForm.classList.remove('open');
+      limpiarComunidadForm();
+      cargarComunidad();
+    });
+
+    async function cargarComunidad() {
+      const { data } = await supabase.from('comunidad').select('*')
+        .eq('activo', true).order('fecha', { ascending: false });
+
+      listaComunidad.innerHTML = '';
+      if (!data || data.length === 0) {
+        listaComunidad.innerHTML = `<div class="empty-state">💬<p>Aún no hay comentarios de la comunidad.</p></div>`;
+        return;
+      }
+
+      data.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'evento-item';
+        const cId      = parseInt(c.id, 10);
+        const stars    = '★'.repeat(c.estrellas || 0) + '☆'.repeat(5 - (c.estrellas || 0));
+        const preview  = esc(c.texto.substring(0, 80)) + (c.texto.length > 80 ? '...' : '');
+        item.innerHTML = `
+          <div class="evento-info">
+            <h4>${esc(c.nombre)}${c.clase ? ` · ${esc(c.clase)}` : ''}</h4>
+            <p>${stars} · ${preview}</p>
+          </div>
+          <div class="evento-acciones">
+            <button class="btn btn--outline btn--sm" onclick="editarComunidad(${cId})">Editar</button>
+            <button class="btn btn--danger btn--sm" onclick="borrarComunidad(${cId})">Borrar</button>
+          </div>`;
+        listaComunidad.appendChild(item);
+      });
+    }
+
+    window.editarComunidad = async id => {
+      const { data } = await supabase.from('comunidad').select('*').eq('id', id).single();
+      document.getElementById('co-id').value        = data.id;
+      document.getElementById('co-nombre').value    = data.nombre;
+      document.getElementById('co-clase').value     = data.clase || '';
+      document.getElementById('co-texto').value     = data.texto;
+      document.getElementById('co-estrellas').value = data.estrellas || 5;
+      document.getElementById('comunidad-form-title').textContent = 'Editar comentario';
+      comunidadForm.classList.add('open');
+      comunidadForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.borrarComunidad = async id => {
+      if (!confirm('¿Segura que quieres borrar este comentario?')) return;
+      await supabase.from('comunidad').delete().eq('id', id);
+      mostrarToast('Comentario eliminado');
+      cargarComunidad();
+    };
+
+    function limpiarComunidadForm() {
+      ['co-id', 'co-nombre', 'co-clase', 'co-texto'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('co-estrellas').value = '5';
+    }
+
+    // ── UTILS ──
+    function limpiarForm() {
+      ['evento-id','f-titulo','f-descripcion','f-fecha','f-hora','f-lugar'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('f-tipo').value = 'meditacion';
+    }
+
+    let toastTimer = null;
+    function mostrarToast(msg, tipo) {
+      toast.textContent = msg;
+      toast.classList.toggle('toast--error', tipo === 'error');
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ── CLASES EN VIVO ──
+    const clActivo    = document.getElementById('cl-activo');
+    const clTrack     = document.getElementById('cl-toggle-track');
+    const clThumb     = document.getElementById('cl-toggle-thumb');
+    const clEstadoTxt = document.getElementById('cl-estado-txt');
+
+    function actualizarToggle(activo) {
+      clTrack.style.background = activo ? 'var(--salvia)' : 'rgba(250,247,242,0.15)';
+      clThumb.style.left       = activo ? '25px' : '3px';
+      clEstadoTxt.textContent  = activo
+        ? 'La clase está activa — los alumnos pueden entrar con su código.'
+        : 'La clase está desactivada — los alumnos verán la pantalla de código pero no habrá transmisión.';
+    }
+
+    clActivo.addEventListener('change', () => actualizarToggle(clActivo.checked));
+
+    async function cargarClase() {
+      const { data } = await supabase.from('clases_en_vivo').select('*').eq('id', 1).single();
+      if (!data) return;
+      document.getElementById('cl-titulo').value  = data.titulo  || '';
+      document.getElementById('cl-url').value     = data.stream_url || '';
+      document.getElementById('cl-codigo').value  = data.codigo  || '';
+      clActivo.checked = data.activo;
+      actualizarToggle(data.activo);
+      const abrirBtn = document.getElementById('abrir-meet-btn');
+      if (data.stream_url) {
+        abrirBtn.href = safeUrl(data.stream_url);
+        abrirBtn.style.display = 'inline-flex';
+      }
+    }
+
+    document.getElementById('guardar-clase-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('guardar-clase-btn');
+      btn.textContent = 'Guardando...';
+      btn.disabled = true;
+
+      const url = document.getElementById('cl-url').value.trim();
+      if (url && safeUrl(url) === '#') {
+        mostrarToast('El URL debe empezar con https://', 'error');
+        btn.textContent = 'Guardar configuración';
+        btn.disabled = false;
+        return;
+      }
+
+      await supabase.from('clases_en_vivo').update({
+        titulo:      document.getElementById('cl-titulo').value.trim(),
+        stream_url: url,
+        codigo:      document.getElementById('cl-codigo').value.trim().toUpperCase(),
+        activo:      clActivo.checked,
+      }).eq('id', 1);
+
+      mostrarToast('✓ Clase actualizada');
+      btn.textContent = 'Guardar configuración';
+      btn.disabled = false;
+      const abrirBtn = document.getElementById('abrir-meet-btn');
+      const urlGuardada = document.getElementById('cl-url').value.trim();
+      if (urlGuardada) {
+        abrirBtn.href = safeUrl(urlGuardada);
+        abrirBtn.style.display = 'inline-flex';
+      }
+    });
+
+    // Cargar al mostrar el tab de clases
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      if (btn.dataset.tab === 'clases') {
+        btn.addEventListener('click', cargarClase);
+      }
+    });
+  </script>
+</body>
+</html>
