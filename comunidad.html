@@ -29,7 +29,7 @@
   --t: 0.25s var(--ease);
   --px:     20px;
   --sec-py: 52px;
-  --bnav-h: 62px;
+  --bnav-h: 62px; --nav-h: 52px;
 }
 
 /* ─── RESET ──────────────────────────────── */
@@ -716,7 +716,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    DESKTOP  ≥ 1024px
 ═══════════════════════════════════════════ */
 @media (min-width: 1024px) {
-  :root { --px: 72px; --sec-py: 120px; }
+  :root { --px: 72px; --sec-py: 120px; --nav-h: 62px; }
   body { padding-bottom: 0; font-size: 1rem; }
 
   .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); background: transparent; border-bottom-color: transparent; }
