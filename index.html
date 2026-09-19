@@ -1260,7 +1260,7 @@ window.addEventListener('load', () => {
   setTimeout(() => { f.style.opacity='0'; f.style.pointerEvents='none'; }, 80);
 });
 
-/* BARRA DE PROGRESO */
+/* if (location.hash) { requestAnimationFrame(() => { const el = document.querySelector(location.hash); if (el) el.scrollIntoView({ block: 'start' }); }); } /* BARRA DE PROGRESO */ */
 const prog = document.getElementById('prog');
 function updateProg() {
   const max = document.documentElement.scrollHeight - window.innerHeight;
