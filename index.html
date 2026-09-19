@@ -383,7 +383,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
 .rd6 { transition-delay: 0.58s; }
 
 /* ─── SHARED SECTION ─────────────────────── */
-.sec { padding: var(--sec-py) var(--px); }
+.sec { padding: var(--sec-py) var(--px); }  .contacto.sec {   padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 72px); }
 .eyebrow {
   font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
   margin-bottom: 12px; display: block;
@@ -684,7 +684,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
   background: var(--cobre); color: var(--crema); padding: 12px 28px; border-radius: 999px;
   transition: background var(--t); -webkit-tap-highlight-color: transparent;
 }
-.btn-form:active { background: var(--cobre-lt); }
+#contact-form .btn-form {   margin-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }  .btn-form:active { background: var(--cobre-lt); }
 
 /* ─── FOOTER ─────────────────────────────── */
 .footer {
@@ -796,7 +796,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
   .nav.over-light .nav__links .nav-pill:hover { background: rgba(28,21,16,0.04); }
   .nav__ham { display: none; }
   .nav__mobile { display: none !important; }
-  .bnav { display: none; } html { scroll-padding-bottom: 0; } #contacto { scroll-margin-bottom: 0; } .contacto { padding-bottom: var(--sec-py); }
+  .bnav { display: none; } .contacto.sec { padding-bottom: var(--sec-py); } #contact-form .btn-form { margin-bottom: 0; } html { scroll-padding-bottom: 0; } #contacto { scroll-margin-bottom: 0; } .contacto { padding-bottom: var(--sec-py); }
 
   /* Hero: full-width tipográfico — sin foto */
   .hero__text {
@@ -1531,15 +1531,7 @@ aForm?.addEventListener('submit', async e => {
     document.getElementById('live-titulo').textContent = result.titulo || 'Clase en Vivo';
     document.getElementById('live-link').href = safeUrl(result.stream_url);
     lGate.style.display='none'; lPlay.classList.add('vis');
-  } else if (!result || !result.activo) {
-    aErr.textContent = 'No hay ninguna clase activa en este momento.';
-    aCode.style.borderColor = '#e07070';
-    setTimeout(() => { aCode.style.borderColor = ''; }, 2000);
-  } else {
-    aErr.textContent = 'Código incorrecto. Verifica e intenta de nuevo.';
-    aCode.style.borderColor = '#e07070';
-    setTimeout(() => { aCode.style.borderColor = ''; }, 2000);
-  }
+  } else { aErr.textContent = 'No pudimos validar el código. Revisa que sea correcto o que haya una clase activa.'; aCode.style.borderColor = '#e07070'; aCode.focus(); setTimeout(() => { aCode.style.borderColor = ''; }, 2000); }
 });
 document.getElementById('exit-live')?.addEventListener('click', () => {
   lPlay.classList.remove('vis'); lGate.style.display='';
