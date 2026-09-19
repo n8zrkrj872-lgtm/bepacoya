@@ -29,7 +29,7 @@
   --t: 0.25s var(--ease);
   --px:     20px;
   --sec-py: 52px;
-  --bnav-h: 62px; --nav-h: 52px;
+  --bnav-h: 62px;
 }
 
 /* ─── RESET ──────────────────────────────── */
@@ -716,7 +716,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    DESKTOP  ≥ 1024px
 ═══════════════════════════════════════════ */
 @media (min-width: 1024px) {
-  :root { --px: 72px; --sec-py: 120px; --nav-h: 62px; }
+  :root { --px: 72px; --sec-py: 120px; }
   body { padding-bottom: 0; font-size: 1rem; }
 
   .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); background: transparent; border-bottom-color: transparent; }
@@ -842,7 +842,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <li><a href="memorias.html">Memorias</a></li>
       <li><a href="respira.html" id="link-respira-p">Respira</a></li>
       <li><a href="comunidad.html">Comunidad</a></li>
-      <li><a href="index.html#contacto">Contáctanos</a></li> <li><a href="index.html#clases" class="nav-pill">Clases en Vivo</a></li>
+      <li><a href="index.html#clases" class="nav-pill">Clases en Vivo</a></li>
     </ul>
   </nav>
 </header>
@@ -856,8 +856,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <a href="memorias.html">Memorias</a>
   <a href="respira.html">Respira</a>
   <a href="comunidad.html">Comunidad</a>
-  <a href="index.html#contacto">Contáctanos</a> <a href="index.html#clases">Clases en Vivo</a>
-  
+  <a href="index.html#clases">Clases en Vivo</a>
+  <a href="index.html#contacto">Contáctanos</a>
   <span class="nav__mobile__tag">"Vivir es urgente."</span>
 </nav>
 

@@ -66,7 +66,7 @@
   --t: 0.25s var(--ease);
   --px:     20px;
   --sec-py: 52px;
-  --bnav-h: 62px; --nav-h: 52px; --ink-muted-on-cream: #5C534C; --ink-label-on-cream: #4A433C; --cream-muted-on-forest: #D9D4CC; --cream-label-on-forest: #E8E4DC;
+  --bnav-h: 62px; --ink-muted-on-cream: #5C534C; --ink-label-on-cream: #4A433C; --cream-muted-on-forest: #D9D4CC; --cream-label-on-forest: #E8E4DC;
 }
 
 /* ─── RESET ──────────────────────────────── */
@@ -190,7 +190,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* ─── BOTTOM NAV ─────────────────────────── */
-html { scroll-padding-top: calc(var(--nav-h) + 12px); scroll-padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
+html { scroll-padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
   #contacto { scroll-margin-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
   .contacto { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 16px); }
   
@@ -384,7 +384,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
 .rd6 { transition-delay: 0.58s; }
 
 /* ─── SHARED SECTION ─────────────────────── */
-.sec { padding: var(--sec-py) var(--px); } .sec, #inicio, #nosotros, #servicios, #eventos, #blog, #testimonios, #clases, #contacto { scroll-margin-top: calc(var(--nav-h) + 12px); }  .contacto.sec { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 120px); }
+.sec { padding: var(--sec-py) var(--px); }  .contacto.sec { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 120px); }
 .eyebrow {
   font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
   margin-bottom: 12px; display: block;
@@ -781,7 +781,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
    DESKTOP  ≥ 1024px
 ═══════════════════════════════════════════ */
 @media (min-width: 1024px) {
-  :root { --px: 72px; --sec-py: 120px; --nav-h: 62px; }
+  :root { --px: 72px; --sec-py: 120px; }
   body { padding-bottom: 0; font-size: 1rem; }
 
   .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); background: transparent; border-bottom-color: transparent; }
@@ -885,8 +885,8 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#eventos">Eventos</a></li>
-      <li><a href="pensamientos.html">Pensamientos</a></li>
-      <li><a href="memorias.html">Memorias</a></li> <li><a href="comunidad.html">Comunidad</a></li> <li><a href="respira.html" id="link-respira-p">Respira</a></li>
+      <li><a href="#blog">Pensamientos</a></li>
+      <li><a href="respira.html" id="link-respira-p">Respira</a></li>
       <li><a href="#contacto">Contáctanos</a></li> <li><a href="#clases" class="nav-pill">Clases en Vivo</a></li>
     </ul>
   </nav>
@@ -897,10 +897,10 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
   <a href="#nosotros">Nosotros</a>
   <a href="#servicios">Servicios</a>
   <a href="#eventos">Eventos</a>
-  <a href="pensamientos.html">Pensamientos</a>
-  <a href="memorias.html">Memorias</a> <a href="comunidad.html">Comunidad</a> <a href="respira.html">Respira</a>
-  <a href="#contacto">Contáctanos</a> <a href="#clases">Clases en Vivo</a>
-  
+  <a href="#blog">Pensamientos</a>
+  <a href="respira.html">Respira</a>
+  <a href="#clases">Clases en Vivo</a>
+  <a href="#contacto">Contáctanos</a>
   <span class="nav__mobile__tag">"Vivir es urgente."</span>
 </nav>
 
@@ -1260,7 +1260,7 @@ window.addEventListener('load', () => {
   setTimeout(() => { f.style.opacity='0'; f.style.pointerEvents='none'; }, 80);
 });
 
-/* if (location.hash) { requestAnimationFrame(() => { const el = document.querySelector(location.hash); if (el) el.scrollIntoView({ block: 'start' }); }); } /* BARRA DE PROGRESO */ */
+/* BARRA DE PROGRESO */
 const prog = document.getElementById('prog');
 function updateProg() {
   const max = document.documentElement.scrollHeight - window.innerHeight;
