@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Memorias — Pacoya Yoga</title>
-<meta name="description" content="Momentos especiales que hemos vivido juntos en Pacoya Yoga."/>
+<title>Llevar — Pacoya Yoga</title>
+<meta name="description" content="Llevar — Pacoya Yoga."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
@@ -845,10 +845,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <li><a href="index.html#servicios">Servicios</a></li>
       <li><a href="index.html#eventos">Eventos</a></li>
       <li><a href="pensamientos.html">Pensamientos</a></li>
-      <li><a href="memorias.html" class="active">Memorias</a></li>
+      <li><a href="memorias.html">Memorias</a></li>
       <li><a href="respira.html" id="link-respira-p">Respira</a></li>
       <li><a href="comunidad.html">Comunidad</a></li>
-      <li><a href="llevar.html">Llevar</a></li>
+      <li><a href="llevar.html" class="active">Llevar</a></li>
       <li><a href="index.html#clases" class="nav-pill">Clases en Vivo</a></li>
     </ul>
   </nav>
@@ -860,27 +860,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <a href="index.html#servicios">Servicios</a>
   <a href="index.html#eventos">Eventos</a>
   <a href="pensamientos.html">Pensamientos</a>
-  <a href="memorias.html" class="active">Memorias</a>
+  <a href="memorias.html">Memorias</a>
   <a href="respira.html">Respira</a>
   <a href="comunidad.html">Comunidad</a>
-  <a href="llevar.html">Llevar</a>
+  <a href="llevar.html" class="active">Llevar</a>
   <a href="index.html#clases">Clases en Vivo</a>
   <a href="index.html#contacto">Contáctanos</a>
   <span class="nav__mobile__tag">"Vivir es urgente."</span>
 </nav>
 
-<!-- ── MEMORIAS ──────────────────────────────── -->
-<section class="mem-hero sec">
-  <span class="eyebrow ey-cobre reveal">Pacoya Yoga</span>
-  <h1 class="sh2 sh2-crema reveal rd1">Memorias<br><em>de nuestra comunidad</em></h1>
-  <p class="mem-hero__sub reveal rd2">Momentos especiales que hemos vivido juntos con presencia, gratitud y comunidad.</p>
-</section>
-
-<section class="mem-lista sec">
-  <div class="mem-grid" id="mem-grid">
-    <p class="mem-empty">Cargando memorias...</p>
-  </div>
-</section>
+<!-- ── CONTENIDO ───────────────────────────────── -->
+<main aria-label="Contenido pendiente"></main>
 
 <footer class="footer">
   <div class="footer__grid">
@@ -1071,40 +1061,6 @@ window.addEventListener('scroll', onScroll, { passive: true });
 updateProg();
 
 
-/* MEMORIAS — listado completo */
-const TIPOS = {
-  meditacion: 'Meditación',
-  especial:   'Taller especial',
-  taller:     'Taller',
-  retiro:     'Retiro',
-};
-
-async function cargarMemorias() {
-  const grid = document.getElementById('mem-grid');
-  const hoy = new Date().toISOString().split('T')[0];
-  const { data, error } = await sb.from('eventos').select('*')
-    .lt('fecha', hoy)
-    .not('foto_url', 'is', null)
-    .order('fecha', { ascending: false });
-  if (error || !data?.length) { grid.innerHTML = '<p class="mem-empty">Pronto compartiremos memorias de nuestros eventos.</p>'; return; }
-  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  grid.innerHTML = data.map((ev, i) => {
-    const fd = new Date(ev.fecha + 'T12:00:00');
-    const fs = `${fd.getDate()} de ${meses[fd.getMonth()]}, ${fd.getFullYear()}`;
-    const tipo = TIPOS[ev.tipo] || ev.tipo;
-    return `<article class="mem-card reveal rd${i % 6}">
-      <div class="mem-card__img">
-        <img src="${esc(ev.foto_url)}" alt="${esc(ev.titulo)}" loading="lazy"/>
-        ${tipo ? `<span class="mem-card__tag">${esc(tipo)}</span>` : ''}
-      </div>
-      <span class="mem-card__date">${esc(fs)}</span>
-      <h3>${esc(ev.titulo)}</h3>
-      ${ev.descripcion ? `<p>${esc(ev.descripcion)}</p>` : ''}
-    </article>`;
-  }).join('');
-  grid.querySelectorAll('.reveal').forEach(e => revealObs.observe(e));
-}
-cargarMemorias();
 </script>
 </body>
 </html>
