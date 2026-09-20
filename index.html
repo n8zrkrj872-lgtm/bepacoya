@@ -886,7 +886,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#eventos">Eventos</a></li>
       <li><a href="#blog">Pensamientos</a></li> <li><a href="memorias.html">Memorias</a></li> <li><a href="comunidad.html">Comunidad</a></li>
-      <li><a href="llevar.html">Para llevar</a></li>
+      <li><a href="llevar.html">Llevar</a></li>
       <li><a href="respira.html" id="link-respira-p">Respira</a></li>
       <li><a href="#contacto">Contáctanos</a></li> <li><a href="#clases" class="nav-pill">Clases en Vivo</a></li>
     </ul>
@@ -899,7 +899,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
   <a href="#servicios">Servicios</a>
   <a href="#eventos">Eventos</a>
   <a href="#blog">Pensamientos</a> <a href="memorias.html">Memorias</a> <a href="comunidad.html">Comunidad</a>
-  <a href="llevar.html">Para llevar</a> <a href="respira.html">Respira</a>
+  <a href="llevar.html">Llevar</a> <a href="respira.html">Respira</a>
   <a href="#clases">Clases en Vivo</a>
   <a href="#contacto">Contáctanos</a>
   <span class="nav__mobile__tag">"Vivir es urgente."</span>
@@ -1221,13 +1221,13 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }.hero__
     </svg>
     <span>Memorias</span>
   </a>
-  <a href="#contacto" class="bnav__item" data-section="contacto" aria-label="Contacto">
-    <!-- Sobre: rectángulo + V -->
+  <a href="llevar.html" class="bnav__item" aria-label="Para llevar">
+    <!-- Bolsa: cuerpo + asas (stroke, match other bnav icons) -->
     <svg viewBox="0 0 24 24">
-      <rect x="2" y="5" width="20" height="15" rx="2"/>
-      <path d="M2 5l10 9 10-9"/>
+      <path d="M7 8h10l1.2 12.5a1.5 1.5 0 01-1.5 1.5H7.3a1.5 1.5 0 01-1.5-1.5L7 8z"/>
+      <path d="M9 8V7.2A3 3 0 0112 4.5 3 3 0 0115 7.2V8"/>
     </svg>
-    <span>Contacto</span>
+    <span>Para llevar</span>
   </a>
 </nav>
 
@@ -1344,7 +1344,7 @@ document.getElementById('link-respira-p')?.addEventListener('click', e => {
 
 /* BOTTOM NAV — activo por scroll */
 const bnavItems = document.querySelectorAll('.bnav__item');
-const bnavOrder = ['inicio','eventos','clases','contacto'];
+const bnavOrder = ['inicio','eventos','clases'];
 function updateBnav() {
   let active = 'inicio';
   const mid = window.innerHeight * 0.45;
