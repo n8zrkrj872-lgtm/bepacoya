@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Llevar — Pacoya Yoga</title>
-<meta name="description" content="Llevar — Pacoya Yoga."/>
+<title>Para llevar — Llevar Pacoya Yoga Mexicali</title>
+<meta name="description" content="Para llevar: piezas con la intención de Pacoya para acompañarte fuera del estudio. Llevar Pacoya Yoga Mexicali."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://bepacoya.com/llevar.html"/>
+<meta property="og:title" content="Para llevar — Llevar Pacoya Yoga Mexicali"/>
+<meta property="og:description" content="Un pedacito de Pacoya, contigo. Conoce las piezas para llevar la intención del estudio a otros momentos."/>
+<meta property="og:image" content="https://bepacoya.com/images/llevar/camisetas.jpg"/>
+<meta property="og:locale" content="es_MX"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Para llevar — Llevar Pacoya Yoga Mexicali"/>
+<meta name="twitter:description" content="Un pedacito de Pacoya, contigo."/>
+<meta name="twitter:image" content="https://bepacoya.com/images/llevar/camisetas.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
@@ -824,6 +834,114 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .mem-card h3 { font-family: var(--f-d); font-weight: 300; font-style: italic; font-size: 1.25rem; color: var(--tinta); margin: 6px 0 8px; line-height: 1.3; }
 .mem-card p { font-size: 0.85rem; color: rgba(28,21,16,0.5); line-height: 1.7; }
 .mem-empty { grid-column: 1 / -1; text-align: center; padding: 60px 0; color: rgba(28,21,16,0.35); font-size: 0.85rem; }
+
+
+/* ─── LLEVAR · editorial page (scoped) ─── */
+.lv-page {
+  --lv-cream: #FAF7F2;
+  --lv-sand: #F0E8D8;
+  --lv-forest: #243223;
+  --lv-forest-deep: #182117;
+  --lv-ink: #1C1510;
+  --lv-copper: #B07840;
+  --lv-copper-light: #C9965C;
+  background: var(--lv-cream);
+  color: var(--lv-ink);
+}
+.lv-page *, .lv-page *::before, .lv-page *::after { box-sizing: border-box; }
+.lv-hero {
+  min-height: min(820px, 100svh);
+  display: flex;
+  align-items: flex-end;
+  padding: 132px var(--px) 88px;
+  background: var(--lv-forest);
+  color: var(--lv-cream);
+  position: relative;
+  overflow: hidden;
+}
+.lv-hero::after {
+  content: '';
+  position: absolute;
+  width: min(58vw, 720px); height: min(58vw, 720px);
+  right: -16%; top: -18%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,150,92,.22), transparent 67%);
+  pointer-events: none;
+}
+.lv-hero__inner { width: min(100%, 1080px); margin: 0 auto; position: relative; z-index: 1; }
+.lv-kicker, .lv-section__eyebrow, .lv-closing__eyebrow {
+  display: block; color: var(--lv-copper-light); font-size: .65rem; font-weight: 500;
+  letter-spacing: .22em; line-height: 1.4; text-transform: uppercase;
+}
+.lv-kicker { margin-bottom: 22px; }
+.lv-hero h1 {
+  max-width: 900px; margin: 0; font-family: var(--f-d); font-size: clamp(3.8rem, 10vw, 8.5rem);
+  font-style: italic; font-weight: 300; letter-spacing: -.035em; line-height: .9;
+}
+.lv-hero__copy { max-width: 590px; margin-top: 38px; color: rgba(250,247,242,.72); font-size: .98rem; line-height: 1.8; }
+.lv-hero__copy p + p { margin-top: 14px; }
+.lv-concept {
+  max-width: 520px; margin: 34px 0 0; padding-left: 18px; border-left: 1px solid var(--lv-copper);
+  color: var(--lv-cream); font-family: var(--f-d); font-size: clamp(1.55rem, 3vw, 2.3rem); font-style: italic; line-height: 1.12;
+}
+.lv-hero__link, .lv-cta {
+  display: inline-flex; align-items: center; gap: 10px; transition: color .25s ease, border-color .25s ease, background .25s ease, transform .25s ease;
+}
+.lv-hero__link { margin-top: 40px; padding-bottom: 5px; border-bottom: 1px solid rgba(250,247,242,.36); color: rgba(250,247,242,.8); font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; }
+.lv-hero__link:hover { color: var(--lv-cream); border-color: var(--lv-copper-light); }
+.lv-collection { background: var(--lv-cream); }
+.lv-section {
+  width: min(100% - 40px, 1180px); margin: 0 auto; padding: 84px 0;
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(42px, 8vw, 120px); align-items: center;
+}
+.lv-section + .lv-section { border-top: 1px solid rgba(28,21,16,.1); }
+.lv-section--reverse .lv-media { order: 2; }
+.lv-section--reverse .lv-copy { order: 1; }
+.lv-media { overflow: hidden; background: var(--lv-sand); }
+.lv-media img { width: 100%; height: auto; aspect-ratio: 1374 / 1145; object-fit: cover; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+.lv-section:hover .lv-media img { transform: scale(1.025); }
+.lv-copy { max-width: 470px; }
+.lv-section__eyebrow { color: var(--lv-copper); margin-bottom: 15px; }
+.lv-copy h2 { margin: 0 0 20px; color: var(--lv-forest); font-family: var(--f-d); font-size: clamp(2.55rem, 5vw, 4.3rem); font-weight: 300; letter-spacing: -.025em; line-height: .98; }
+.lv-copy p { color: rgba(28,21,16,.68); font-size: .98rem; line-height: 1.8; }
+.lv-copy p + p { margin-top: 14px; }
+.lv-cta { margin-top: 28px; padding-bottom: 5px; border-bottom: 1px solid rgba(176,120,64,.48); color: var(--lv-copper); font-size: .74rem; font-weight: 500; letter-spacing: .08em; }
+.lv-cta span { font-size: 1rem; line-height: 0; }
+.lv-cta:hover { color: var(--lv-forest); border-color: var(--lv-forest); transform: translateX(2px); }
+.lv-closing { padding: 106px var(--px) 122px; background: var(--lv-sand); text-align: center; }
+.lv-closing__inner { max-width: 700px; margin: 0 auto; }
+.lv-closing__eyebrow { color: var(--lv-copper); margin-bottom: 20px; }
+.lv-closing h2 { margin: 0; color: var(--lv-forest); font-family: var(--f-d); font-size: clamp(2.8rem, 7vw, 5.6rem); font-style: italic; font-weight: 300; letter-spacing: -.03em; line-height: .95; }
+.lv-closing p { max-width: 510px; margin: 24px auto 0; color: rgba(28,21,16,.65); font-size: .95rem; line-height: 1.8; }
+.lv-closing__actions { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 34px; }
+.lv-button { min-height: 48px; padding: 13px 24px; border: 1px solid var(--lv-copper); border-radius: 999px; font-size: .72rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.lv-button--primary { background: var(--lv-copper); color: var(--lv-cream); }
+.lv-button--primary:hover { background: var(--lv-forest); border-color: var(--lv-forest); }
+.lv-button--ghost { color: var(--lv-forest); border-color: rgba(36,50,35,.36); }
+.lv-button--ghost:hover { background: var(--lv-forest); border-color: var(--lv-forest); color: var(--lv-cream); }
+@media (max-width: 700px) {
+  .lv-hero { min-height: auto; padding: 132px var(--px) 82px; }
+  .lv-hero h1 { font-size: clamp(3.45rem, 16vw, 5.8rem); }
+  .lv-hero__copy { margin-top: 30px; font-size: .94rem; }
+  .lv-concept { margin-top: 28px; }
+  .lv-section, .lv-section--reverse { width: 100%; display: flex; flex-direction: column; gap: 34px; padding: 64px var(--px) 70px; align-items: stretch; }
+  .lv-section--reverse .lv-media, .lv-section--reverse .lv-copy { order: initial; }
+  .lv-media { width: 100%; }
+  .lv-copy { max-width: none; }
+  .lv-copy h2 { font-size: clamp(2.7rem, 14vw, 4.1rem); }
+  .lv-closing { padding: 82px var(--px) calc(104px + env(safe-area-inset-bottom, 0px)); }
+  .lv-closing__actions { flex-direction: column; align-items: stretch; }
+  .lv-button { justify-content: center; text-align: center; }
+}
+@media (min-width: 1024px) {
+  .lv-hero { padding-left: clamp(72px, 9vw, 140px); padding-right: clamp(72px, 9vw, 140px); }
+  .lv-section { padding-top: 128px; padding-bottom: 128px; }
+  .lv-section:nth-child(odd) .lv-copy { padding-right: 6%; }
+  .lv-section--reverse:nth-child(even) .lv-copy { padding-left: 6%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lv-media img, .lv-cta, .lv-hero__link, .lv-button { transition: none; }
+}
+
 </style>
 </head>
 <body>
@@ -848,7 +966,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <li><a href="memorias.html">Memorias</a></li>
       <li><a href="respira.html" id="link-respira-p">Respira</a></li>
       <li><a href="comunidad.html">Comunidad</a></li>
-      <li><a href="llevar.html" class="active">Llevar</a></li>
+      <li><a href="llevar.html" class="active">Para llevar</a></li>
       <li><a href="index.html#clases" class="nav-pill">Clases en Vivo</a></li>
     </ul>
   </nav>
@@ -863,14 +981,103 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <a href="memorias.html">Memorias</a>
   <a href="respira.html">Respira</a>
   <a href="comunidad.html">Comunidad</a>
-  <a href="llevar.html" class="active">Llevar</a>
+  <a href="llevar.html" class="active">Para llevar</a>
   <a href="index.html#clases">Clases en Vivo</a>
   <a href="index.html#contacto">Contáctanos</a>
   <span class="nav__mobile__tag">"Vivir es urgente."</span>
 </nav>
 
 <!-- ── CONTENIDO ───────────────────────────────── -->
-<main aria-label="Contenido pendiente"></main>
+<main class="lv-page" aria-labelledby="lv-title">
+  <section class="lv-hero" id="llevar">
+    <div class="lv-hero__inner">
+      <span class="lv-kicker">LLEVAR / Para llevar</span>
+      <h1 id="lv-title">Un pedacito de Pacoya, contigo.</h1>
+      <div class="lv-hero__copy">
+        <p>Hay cosas que se sienten antes de explicarse. Cada pieza nace con una sensación y una intención: acompañarte, recordarte que puedes volver a ti, incluso fuera del estudio.</p>
+        <p>Son piezas para llevar el espíritu de Pacoya a otros espacios, a otros días y a esos momentos que también merecen presencia.</p>
+        <p>Primero el ser, luego el parecer.</p>
+      </div>
+      <p class="lv-concept">Pacoya no termina cuando sales del estudio.</p>
+      <a class="lv-hero__link" href="#lv-collection">Ver las piezas <span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+
+  <section class="lv-collection" id="lv-collection" aria-label="Piezas para llevar">
+      <article class="lv-section">
+        <div class="lv-media">
+          <img src="images/llevar/camisetas.jpg" alt="Camisetas Pacoya" width="1374" height="1145" fetchpriority="high" decoding="async"/>
+        </div>
+        <div class="lv-copy">
+          <span class="lv-section__eyebrow">Vestir Pacoya</span>
+          <h2>Camisetas</h2>
+          <p>Hay prendas que se vuelven una forma suave de volver a ti. Las camisetas Pacoya nacen para acompañar tu práctica y tus días con la misma calma, presencia e intención del estudio.</p>
+          <p>Llévala cerca del cuerpo, como un recordatorio de que la práctica también sucede en movimiento, en la calle y en lo cotidiano.</p>
+          <a class="lv-cta" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Me%20interesa%20preguntar%20por%20Camisetas.%20%C2%BFQu%C3%A9%20hay%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer">Preguntar por camisetas <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="lv-section lv-section--reverse">
+        <div class="lv-media">
+          <img src="images/llevar/tote.jpg" alt="Tote bags Pacoya" width="1374" height="1145" loading="lazy" decoding="async"/>
+        </div>
+        <div class="lv-copy">
+          <span class="lv-section__eyebrow">Llevar Pacoya</span>
+          <h2>Tote bags</h2>
+          <p>Una tote puede guardar mucho más que lo que llevas dentro. Es una pieza para moverte con Pacoya a cuestas: tus libros, tu tapete, tus pendientes y ese espacio que eliges reservarte.</p>
+          <p>Ligera y cotidiana, hecha para acompañar el camino sin hacer ruido.</p>
+          <a class="lv-cta" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Me%20interesa%20preguntar%20por%20Tote%20bags.%20%C2%BFQu%C3%A9%20hay%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer">Preguntar por tote bags <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="lv-section">
+        <div class="lv-media">
+          <img src="images/llevar/gorras.jpg" alt="Gorras & viseras Pacoya" width="1400" height="933" loading="lazy" decoding="async"/>
+        </div>
+        <div class="lv-copy">
+          <span class="lv-section__eyebrow">Bajo el sol</span>
+          <h2>Gorras & viseras</h2>
+          <p>Para los días luminosos, una sombra también puede ser una forma de cuidado. Gorras y viseras Pacoya para salir, caminar y habitar el sol con ligereza.</p>
+          <p>Piezas para estar afuera, respirar profundo y llevar contigo una intención sencilla: volver al presente.</p>
+          <a class="lv-cta" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Me%20interesa%20preguntar%20por%20Gorras%20%26%20viseras.%20%C2%BFQu%C3%A9%20hay%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer">Preguntar por gorras & viseras <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="lv-section lv-section--reverse">
+        <div class="lv-media">
+          <img src="images/llevar/tazas.jpg" alt="Tazas Pacoya Pacoya" width="1374" height="1145" loading="lazy" decoding="async"/>
+        </div>
+        <div class="lv-copy">
+          <span class="lv-section__eyebrow">Hacer una pausa</span>
+          <h2>Tazas Pacoya</h2>
+          <p>Hay pausas que caben entre las manos. Las tazas Pacoya convierten un café, un té o un momento de silencio en una pequeña práctica de presencia.</p>
+          <p>Para recordar que no todo tiene que suceder deprisa; a veces basta con detenerse y sentir el calor.</p>
+          <a class="lv-cta" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Me%20interesa%20preguntar%20por%20Tazas%20Pacoya.%20%C2%BFQu%C3%A9%20hay%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer">Preguntar por tazas pacoya <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="lv-section">
+        <div class="lv-media">
+          <img src="images/llevar/rituales.jpg" alt="Sahumerios & Palo Santo Pacoya" width="1374" height="1145" loading="lazy" decoding="async"/>
+        </div>
+        <div class="lv-copy">
+          <span class="lv-section__eyebrow">Crear un momento</span>
+          <h2>Sahumerios & Palo Santo</h2>
+          <p>El ritual no necesita ser complicado. Un aroma, una respiración y unos minutos pueden cambiar la forma en que vuelves a un espacio.</p>
+          <p>Sahumerios y Palo Santo para preparar tu rincón, cerrar el día o abrir un momento solo para ti.</p>
+          <a class="lv-cta" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Me%20interesa%20preguntar%20por%20Sahumerios%20%26%20Palo%20Santo.%20%C2%BFQu%C3%A9%20hay%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer">Preguntar por sahumerios & palo santo <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+  </section>
+
+  <section class="lv-closing">
+    <div class="lv-closing__inner">
+      <span class="lv-closing__eyebrow">Para llevar, para compartir</span>
+      <h2>¿Te gustó algo?</h2>
+      <p>Las piezas están disponibles en Pacoya, sujetas a existencias. Escríbenos y con gusto te contamos qué hay disponible en el estudio.</p>
+      <div class="lv-closing__actions">
+        <a class="lv-button lv-button--primary" href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Quiero%20preguntar%20por%20algo%20de%20Llevar.%20%C2%BFQu%C3%A9%20tienen%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer">Preguntar por algo de Llevar</a>
+        <a class="lv-button lv-button--ghost" href="index.html#contacto">Visítanos en Pacoya</a>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer class="footer">
   <div class="footer__grid">
@@ -957,7 +1164,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </nav>
 
 <!-- ── WHATSAPP ──────────────────────────────── -->
-<a href="https://wa.me/526861875393" target="_blank" rel="noopener" class="wa" aria-label="WhatsApp">
+<a href="https://wa.me/526861875393?text=Hola%20Pacoya%2C%20vi%20Llevar%20en%20la%20web.%20Quiero%20preguntar%20por%20algo%20de%20Llevar.%20%C2%BFQu%C3%A9%20tienen%20disponible%20en%20el%20estudio%3F" target="_blank" rel="noopener noreferrer" class="wa" aria-label="Preguntar por algo de Llevar en WhatsApp">
   <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
