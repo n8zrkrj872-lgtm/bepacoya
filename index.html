@@ -68,6 +68,7 @@
   --t: 0.25s var(--ease);
   --px:     20px;
   --sec-py: 52px;
+  --nav-h: 52px;
   --bnav-h: 62px; --ink-muted-on-cream: #5C534C; --ink-label-on-cream: #4A433C; --cream-muted-on-forest: #D9D4CC; --cream-label-on-forest: #E8E4DC;
 }
 
@@ -110,9 +111,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-bottom: 1px solid rgba(250,247,242,0.06);
 }
 .nav.over-light {
-  background: rgba(250,247,242,0.93);
+  background: rgba(250,247,242,0.97);
   border-bottom-color: rgba(28,21,16,0.07);
-  backdrop-filter: blur(12px);
+  /* Mobile: solid cream — backdrop-filter on scroll causes flicker */
+  backdrop-filter: none;
+}
+@media (min-width: 1024px) {
+  .nav.over-light { background: rgba(250,247,242,0.93); backdrop-filter: blur(12px); }
 }
 .nav__mark {
   font-family: var(--f-d); font-size: 1.1rem; font-weight: 300;
@@ -148,6 +153,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav__mobile.open {
   opacity: 1; visibility: visible; pointer-events: auto;
 }
+/* Instant close when following in-page hash — avoids menu fade fighting smooth scroll */
+.nav__mobile.no-anim,
+.nav__mobile.no-anim a { transition: none !important; }
 .nav__mobile a {
   font-family: var(--f-d); font-size: clamp(1.6rem,8vw,3rem);
   font-weight: 300; font-style: italic;
@@ -192,7 +200,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* ─── BOTTOM NAV ─────────────────────────── */
-html { scroll-padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
+html { scroll-padding-top: calc(var(--nav-h) + 12px); scroll-padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
   #contacto { scroll-margin-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 24px); }
   .contacto { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 16px); }
   
@@ -216,7 +224,7 @@ html { scroll-padding-bottom: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0
 .bnav__item svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; transition: transform var(--t); }
 .bnav__item--active { color: var(--cobre-lt); }
 .bnav__item--active svg { transform: translateY(-1px); }
-.bnav__item:active { color: var(--cobre-lt); opacity: 0.75; }
+.bnav__item:active { color: var(--cobre-lt); } /* no opacity flash on tap */
 
 /* ─── HERO FOTO (atardecer) ───────────────── */
 .hero {
@@ -376,7 +384,9 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }
 .rd6 { transition-delay: 0.58s; }
 
 /* ─── SHARED SECTION ─────────────────────── */
-.sec { padding: var(--sec-py) var(--px); }  .contacto.sec { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 120px); }
+.sec { padding: var(--sec-py) var(--px); }
+.sec, #inicio, #nosotros, #servicios, #eventos, #blog, #testimonios, #clases, #contacto { scroll-margin-top: calc(var(--nav-h) + 12px); }
+.contacto.sec { padding-bottom: calc(var(--sec-py) + var(--bnav-h) + env(safe-area-inset-bottom, 0px) + 120px); }
 .eyebrow {
   font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
   margin-bottom: 12px; display: block;
@@ -708,8 +718,16 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }
 .ft-mantra { font-family: var(--f-d); font-style: italic; font-weight: 300; color: rgba(176,120,64,0.5); }
 
 /* ─── PAGE FADE ──────────────────────────── */
-/* Fix #11: will-change para fade overlay */
-#pf { position: fixed; inset: 0; background: var(--bosque-dk); z-index: 9999; transition: opacity 1.3s ease; will-change: opacity; pointer-events: all; }
+/* Short fade; drop will-change after done to avoid mobile compositor flicker */
+#pf {
+  position: fixed; inset: 0; background: var(--bosque-dk); z-index: 9999;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+  pointer-events: all; visibility: visible;
+}
+#pf.is-done { visibility: hidden; pointer-events: none; }
+@media (max-width: 1023px) {
+  #pf { transition-duration: 0.28s; }
+}
 
 /* Fix #6: focus-visible para accesibilidad de teclado */
 :focus-visible {
@@ -738,6 +756,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }
   /* Fix #10: en reduced-motion la línea ya tiene width fijo, solo resetear transform */
   .hero__rule { transform: scaleX(1); opacity: 1; }
   .hero__media img { animation: none; }
+  #pf { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; transition: none !important; }
 }
 
 /* ═══════════════════════════════════════════
@@ -762,7 +781,7 @@ h1.hero__display { font-size: inherit; font-weight: inherit; margin: 0; }
    DESKTOP  ≥ 1024px
 ═══════════════════════════════════════════ */
 @media (min-width: 1024px) {
-  :root { --px: 72px; --sec-py: 120px; }
+  :root { --px: 72px; --sec-py: 120px; --nav-h: 62px; }
   body { padding-bottom: 0; font-size: 1rem; }
 
   .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); background: transparent; border-bottom-color: transparent; }
@@ -1235,11 +1254,19 @@ function safeUrl(u) {
   catch { return '#'; }
 }
 
-/* FADE IN */
-window.addEventListener('load', () => {
+/* FADE IN — short; then remove from a11y/compositor tree */
+function hidePf() {
   const f = document.getElementById('pf');
-  setTimeout(() => { f.style.opacity='0'; f.style.pointerEvents='none'; }, 80);
-});
+  if (!f || f.classList.contains('is-done')) return;
+  f.style.opacity = '0';
+  f.style.pointerEvents = 'none';
+  const finish = () => { f.classList.add('is-done'); };
+  f.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, 500);
+}
+window.addEventListener('load', () => { setTimeout(hidePf, 40); });
+/* bfcache restore: never re-flash the overlay */
+window.addEventListener('pageshow', (e) => { if (e.persisted) hidePf(); });
 
 /* BARRA DE PROGRESO */
 const prog = document.getElementById('prog');
@@ -1256,6 +1283,25 @@ const revealObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* Hash / mid-page boot: show already-in-view reveals instantly (no opacity flash) */
+(function bootReveals() {
+  if (!location.hash && window.scrollY < 8) return;
+  const mark = () => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < innerHeight * 0.95 && r.bottom > 0) {
+        el.style.transition = 'none';
+        el.classList.add('visible');
+        revealObs.unobserve(el);
+        requestAnimationFrame(() => { el.style.transition = ''; });
+      }
+    });
+  };
+  mark();
+  requestAnimationFrame(mark);
+  window.addEventListener('load', () => { mark(); setTimeout(mark, 50); }, { once: true });
+})();
 
 /* NAVBAR */
 const nav = document.getElementById('nav');
@@ -1312,20 +1358,43 @@ mob.addEventListener('keydown', e => {
   }
 });
 
-mobLinks.forEach(a => a.addEventListener('click', closeMenu));
+mobLinks.forEach(a => a.addEventListener('click', () => {
+  const href = a.getAttribute('href') || '';
+  if (href.startsWith('#')) {
+    mob.classList.add('no-anim');
+    closeMenu();
+    requestAnimationFrame(() => mob.classList.remove('no-anim'));
+  } else {
+    closeMenu();
+  }
+}));
 
 /* RESPIRA FADE */
 document.getElementById('link-respira-p')?.addEventListener('click', e => {
   e.preventDefault();
   const f = document.getElementById('pf');
-  f.style.pointerEvents='all'; f.style.opacity='1';
-  setTimeout(() => { window.location.href='respira.html'; }, 850);
+  f.classList.remove('is-done');
+  f.style.visibility = 'visible';
+  f.style.pointerEvents = 'all';
+  f.style.opacity = '1';
+  const wait = window.matchMedia('(max-width: 1023px)').matches ? 280 : 500;
+  setTimeout(() => { window.location.href = 'respira.html'; }, wait);
 });
 
-/* BOTTOM NAV — activo por scroll */
+/* BOTTOM NAV — activo por scroll (lock during hash smooth-scroll) */
 const bnavItems = document.querySelectorAll('.bnav__item');
 const bnavOrder = ['inicio','eventos','clases'];
+let bnavLockUntil = 0;
+bnavItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const sec = item.dataset.section;
+    if (!sec) return; /* external pages (memorias/llevar) */
+    bnavLockUntil = Date.now() + 900;
+    bnavItems.forEach(i => i.classList.toggle('bnav__item--active', i.dataset.section === sec));
+  });
+});
 function updateBnav() {
+  if (Date.now() < bnavLockUntil) return;
   let active = 'inicio';
   const mid = window.innerHeight * 0.45;
   for (const id of bnavOrder) {

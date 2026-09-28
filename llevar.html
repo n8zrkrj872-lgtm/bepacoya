@@ -39,6 +39,7 @@
   --t: 0.25s var(--ease);
   --px:     20px;
   --sec-py: 52px;
+  --nav-h: 52px;
   --bnav-h: 62px;
 }
 
@@ -46,6 +47,8 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 /* Fix #7: scroll-behavior solo sin prefers-reduced-motion */
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+html { scroll-padding-top: calc(var(--nav-h) + 12px); }
+#lv-collection, #lv-hero, .sec { scroll-margin-top: calc(var(--nav-h) + 12px); }
 body {
   font-family: var(--f-b);
   font-size: 1.0625rem; line-height: 1.75;
@@ -81,9 +84,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-bottom: 1px solid rgba(250,247,242,0.06);
 }
 .nav.over-light {
-  background: rgba(250,247,242,0.93);
+  background: rgba(250,247,242,0.97);
   border-bottom-color: rgba(28,21,16,0.07);
-  backdrop-filter: blur(12px);
+  backdrop-filter: none;
+}
+@media (min-width: 1024px) {
+  .nav.over-light { background: rgba(250,247,242,0.93); backdrop-filter: blur(12px); }
 }
 .nav__mark {
   font-family: var(--f-d); font-size: 1.1rem; font-weight: 300;
@@ -119,6 +125,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav__mobile.open {
   opacity: 1; visibility: visible; pointer-events: auto;
 }
+.nav__mobile.no-anim,
+.nav__mobile.no-anim a { transition: none !important; }
 .nav__mobile a {
   font-family: var(--f-d); font-size: clamp(1.6rem,8vw,3rem);
   font-weight: 300; font-style: italic;
@@ -183,7 +191,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .bnav__item svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; transition: transform var(--t); }
 .bnav__item--active { color: var(--cobre-lt); }
 .bnav__item--active svg { transform: translateY(-1px); }
-.bnav__item:active { color: var(--cobre-lt); opacity: 0.75; }
+.bnav__item:active { color: var(--cobre-lt); }
 
 /* ─── HERO TIPOGRÁFICO (sin foto) ──────────── */
 .hero {
@@ -672,8 +680,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .wa:active { transform: scale(0.94); }
 
 /* ─── PAGE FADE ──────────────────────────── */
-/* Fix #11: will-change para fade overlay */
-#pf { position: fixed; inset: 0; background: var(--bosque-dk); z-index: 9999; transition: opacity 1.3s ease; will-change: opacity; pointer-events: all; }
+#pf {
+  position: fixed; inset: 0; background: var(--bosque-dk); z-index: 9999;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+  pointer-events: all; visibility: visible;
+}
+#pf.is-done { visibility: hidden; pointer-events: none; }
+@media (max-width: 1023px) {
+  #pf { transition-duration: 0.28s; }
+}
 
 /* Fix #6: focus-visible para accesibilidad de teclado */
 :focus-visible {
@@ -702,6 +717,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   /* Fix #10: en reduced-motion la línea ya tiene width fijo, solo resetear transform */
   .hero__rule { transform: scaleX(1); opacity: 1; }
   .hero__light, .hero__watermark { animation: none; }
+  #pf { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; transition: none !important; }
 }
 
 /* ═══════════════════════════════════════════
@@ -726,7 +742,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    DESKTOP  ≥ 1024px
 ═══════════════════════════════════════════ */
 @media (min-width: 1024px) {
-  :root { --px: 72px; --sec-py: 120px; }
+  :root { --px: 72px; --sec-py: 120px; --nav-h: 62px; }
   body { padding-bottom: 0; font-size: 1rem; }
 
   .nav { height: 62px; padding: 0 clamp(28px,5vw,72px); background: transparent; border-bottom-color: transparent; }
@@ -1183,11 +1199,18 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
 }
 
-/* FADE IN */
-window.addEventListener('load', () => {
+/* FADE IN — short; then remove from compositor */
+function hidePf() {
   const f = document.getElementById('pf');
-  setTimeout(() => { f.style.opacity='0'; f.style.pointerEvents='none'; }, 80);
-});
+  if (!f || f.classList.contains('is-done')) return;
+  f.style.opacity = '0';
+  f.style.pointerEvents = 'none';
+  const finish = () => { f.classList.add('is-done'); };
+  f.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, 500);
+}
+window.addEventListener('load', () => { setTimeout(hidePf, 40); });
+window.addEventListener('pageshow', (e) => { if (e.persisted) hidePf(); });
 
 /* BARRA DE PROGRESO */
 const prog = document.getElementById('prog');
@@ -1242,14 +1265,27 @@ mob.addEventListener('keydown', e => {
   }
 });
 
-mobLinks.forEach(a => a.addEventListener('click', closeMenu));
+mobLinks.forEach(a => a.addEventListener('click', () => {
+  const href = a.getAttribute('href') || '';
+  if (href.startsWith('#') || href.includes('#')) {
+    mob.classList.add('no-anim');
+    closeMenu();
+    requestAnimationFrame(() => mob.classList.remove('no-anim'));
+  } else {
+    closeMenu();
+  }
+}));
 
 /* RESPIRA FADE */
 document.getElementById('link-respira-p')?.addEventListener('click', e => {
   e.preventDefault();
   const f = document.getElementById('pf');
-  f.style.pointerEvents='all'; f.style.opacity='1';
-  setTimeout(() => { window.location.href='respira.html'; }, 850);
+  f.classList.remove('is-done');
+  f.style.visibility = 'visible';
+  f.style.pointerEvents = 'all';
+  f.style.opacity = '1';
+  const wait = window.matchMedia('(max-width: 1023px)').matches ? 280 : 500;
+  setTimeout(() => { window.location.href = 'respira.html'; }, wait);
 });
 
 /* WHATSAPP — ocultar al llegar al footer */
